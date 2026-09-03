@@ -369,6 +369,7 @@
 @media (max-width:900px){
   /* 窄畫面狀態列只留筆數，條件靠展開「查詢」檢視 */
   #pt-finder .pt-pills{display:none;}
+  #pt-finder .pt-limit{display:none;}
   #pt-finder .pt-tags{min-height:34px;gap:6px;}
   #pt-finder .pt-cthumb img{object-position:42% center;}
 }
@@ -410,7 +411,7 @@
           <span class="pt-lab">以認證、功能查詢</span>
           <div class="pt-dd" id="pt-dd-feature">
             <button type="button" class="pt-dd-btn is-empty" aria-expanded="false" aria-haspopup="listbox">
-              <span class="pt-dd-txt">全部認證與功能</span>
+              <span class="pt-dd-txt">選擇認證與功能</span>
               <span class="pt-dd-n" hidden></span>
               <svg class="pt-dd-caret" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             </button>
@@ -675,12 +676,12 @@ DD.panel.addEventListener("click",function(e){
 function closeDD(){ DD.panel.hidden=true; DD.btn.setAttribute("aria-expanded","false"); }
 document.addEventListener("click",closeDD);
 
-elP.innerHTML='<option value="">請選擇鞋款</option>'+PRODUCTS.map(function(p){
+elP.innerHTML='<option value="">選擇鞋款</option>'+PRODUCTS.map(function(p){
   return '<option value="'+p.id+'">'+esc(p.name+"　"+p.id)+'</option>';}).join("");
 
 /* 名稱由新到舊排，欄寬放不下時把最舊的擠掉，計數不受影響 */
 function fitDDText(names){
-  if(!names.length){ DD.txt.textContent="全部認證與功能"; return; }
+  if(!names.length){ DD.txt.textContent="選擇認證與功能"; return; }
   var n=names.length;
   DD.txt.textContent=names.join("、");
   if(!DD.txt.clientWidth) return;
