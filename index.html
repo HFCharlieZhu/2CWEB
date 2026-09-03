@@ -6,10 +6,9 @@
 <title>PATRONI 安全鞋規格查詢</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700&display=swap">
 </head>
-<body style="margin:0;background:#ffffff">
+<body style="margin:0;background:#ffffff;overflow:hidden">
 
 <style>
-/* 樣式全部鎖在 #pt-finder 底下 */
 #pt-finder{
   --pt-brand:#f8b500;
   --pt-ink:#111111;
@@ -17,7 +16,6 @@
   --pt-muted:#9fa0a0;
   --pt-line:#b5b5b6;
   --pt-hair:#d8d6d0;
-  --pt-ground:#ffffff;
   --pt-paper:#ffffff;
   --pt-tint:#f5f5f5;
   --pt-r-card:14px;
@@ -27,33 +25,27 @@
   all:initial;
   display:block; box-sizing:border-box;
   font-family:var(--pt-sans);
-  font-size:15px; line-height:1.8; letter-spacing:.03em;
-  color:var(--pt-ink); background:var(--pt-ground);
+  font-size:16px; line-height:1.8; letter-spacing:.03em;
+  color:var(--pt-ink); background:var(--pt-paper);
   -webkit-font-smoothing:antialiased;
-  padding:clamp(20px,4vw,40px) clamp(16px,4vw,36px);
+  padding:clamp(14px,2.5vw,24px) clamp(14px,3vw,28px);
+  overflow:hidden;
 }
 #pt-finder *,#pt-finder *::before,#pt-finder *::after{box-sizing:border-box;}
 #pt-finder .pt-wrap{max-width:1120px;margin:0 auto;}
 
-/* ---------- 標題 ---------- */
-#pt-finder .pt-head{margin:0 0 22px;}
-#pt-finder .pt-head h2{font-size:clamp(22px,3.4vw,30px);font-weight:700;line-height:1.3;letter-spacing:-.01em;margin:0 0 6px;}
-#pt-finder .pt-head p{margin:0;color:var(--pt-body);font-size:14px;}
-
-/* ---------- 查詢面板 ---------- */
 #pt-finder .pt-panel{
-  background:var(--pt-paper);border:1.2px solid var(--pt-line);
-  border-radius:var(--pt-r-box);padding:clamp(16px,3vw,22px);margin-bottom:20px;
+  border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);
+  padding:clamp(13px,2vw,18px);margin-bottom:12px;
 }
-#pt-finder .pt-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+#pt-finder.is-collapsed .pt-panel{display:none;}
+#pt-finder .pt-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;}
 #pt-finder .pt-field>label,#pt-finder .pt-field>span.pt-lab{
-  display:block;font-size:12px;font-weight:700;letter-spacing:.13em;
-  color:var(--pt-muted);margin-bottom:8px;
+  display:block;font-size:11.5px;font-weight:700;letter-spacing:.13em;
+  color:var(--pt-muted);margin-bottom:6px;
 }
-
-/* 三個欄位外觀一致：品項是原生 select，功能／證書是可多選的下拉 */
 #pt-finder select,#pt-finder .pt-dd-btn{
-  width:100%;font-family:var(--pt-sans);font-size:14px;line-height:1.6;
+  width:100%;font-family:var(--pt-sans);font-size:14.5px;line-height:1.5;
   color:var(--pt-ink);background:var(--pt-paper);
   border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);
   padding:9px 11px;letter-spacing:.02em;
@@ -63,28 +55,28 @@
 #pt-finder .pt-dd-btn:hover,#pt-finder .pt-dd-btn[aria-expanded="true"]{border-color:var(--pt-ink);}
 
 #pt-finder .pt-dd{position:relative;}
-#pt-finder .pt-dd-btn{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  text-align:left;cursor:pointer;
+#pt-finder .pt-dd-btn{display:flex;align-items:center;gap:8px;text-align:left;cursor:pointer;}
+#pt-finder .pt-dd-txt{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl;text-align:left;}
+#pt-finder .pt-dd-txt span{direction:ltr;unicode-bidi:embed;}
+#pt-finder .pt-dd-btn.is-empty .pt-dd-txt{color:var(--pt-body);direction:ltr;}
+#pt-finder .pt-dd-n{
+  flex:0 0 auto;font-size:11.5px;font-weight:700;line-height:1;
+  background:var(--pt-brand);color:var(--pt-ink);border-radius:999px;padding:4px 8px;
 }
-#pt-finder .pt-dd-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-#pt-finder .pt-dd-btn.is-empty .pt-dd-txt{color:var(--pt-body);}
+#pt-finder .pt-dd-n[hidden]{display:none;}
 #pt-finder .pt-dd-caret{flex:0 0 auto;width:11px;height:7px;transition:transform .2s ease;}
 #pt-finder .pt-dd-btn[aria-expanded="true"] .pt-dd-caret{transform:rotate(180deg);}
 #pt-finder .pt-dd-panel{
-  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
+  position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:40;
   background:var(--pt-paper);border:1.2px solid var(--pt-ink);border-radius:var(--pt-r-box);
-  max-height:290px;overflow-y:auto;padding:5px;
-  box-shadow:0 10px 26px rgba(0,0,0,.13);
+  max-height:min(320px,54vh);overflow-y:auto;padding:4px;
+  box-shadow:0 10px 26px rgba(0,0,0,.15);
 }
 #pt-finder .pt-dd-panel[hidden]{display:none;}
-#pt-finder .pt-dd-opt{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 10px;border-radius:5px;cursor:pointer;font-size:14px;line-height:1.5;
-}
+#pt-finder .pt-dd-opt{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:5px;cursor:pointer;font-size:14px;line-height:1.4;}
 #pt-finder .pt-dd-opt:hover{background:var(--pt-tint);}
-#pt-finder .pt-dd-opt[aria-selected="true"]{background:var(--pt-brand);font-weight:700;}
-#pt-finder .pt-dd-opt[aria-selected="true"]:hover{background:var(--pt-brand);}
+#pt-finder .pt-dd-opt[aria-selected="true"],
+#pt-finder .pt-dd-opt[aria-selected="true"]:hover{background:var(--pt-brand);font-weight:700;}
 #pt-finder .pt-dd-opt[aria-disabled="true"]{color:var(--pt-hair);cursor:not-allowed;}
 #pt-finder .pt-dd-opt[aria-disabled="true"]:hover{background:transparent;}
 #pt-finder .pt-dd-box{
@@ -98,223 +90,243 @@
 #pt-finder .pt-dd-code{margin-left:auto;font-size:11px;color:var(--pt-muted);letter-spacing:.04em;}
 #pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-code{color:var(--pt-ink);}
 
-#pt-finder .pt-tip{font-size:11.5px;color:var(--pt-muted);margin:6px 0 0;letter-spacing:.02em;line-height:1.6;}
-
 #pt-finder .pt-foot{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  margin-top:16px;padding-top:14px;border-top:1.2px solid var(--pt-hair);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-top:13px;padding-top:11px;border-top:1.2px solid var(--pt-hair);
 }
-#pt-finder .pt-logic{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+#pt-finder .pt-logic{display:flex;align-items:center;gap:15px;flex-wrap:wrap;}
 #pt-finder .pt-radio{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;cursor:pointer;}
 #pt-finder .pt-radio input{margin:0;accent-color:var(--pt-brand);width:16px;height:16px;}
-#pt-finder .pt-acts{display:flex;align-items:center;gap:12px;}
-#pt-finder .pt-dirty{
-  font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--pt-ink);
-  background:var(--pt-brand);border-radius:999px;padding:4px 12px;white-space:nowrap;
-}
-#pt-finder .pt-dirty[hidden]{display:none;}
+#pt-finder .pt-acts{display:flex;align-items:center;gap:9px;}
+
 #pt-finder .pt-btn{
   font-family:var(--pt-sans);font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1;
-  border-radius:999px;padding:11px 26px;cursor:pointer;
+  border-radius:999px;padding:10px 22px;cursor:pointer;white-space:nowrap;
   border:1.2px solid var(--pt-brand);background:var(--pt-brand);color:var(--pt-ink);
-  transition:transform .25s ease,background-color .25s ease,color .25s ease,filter .25s ease;
+  transition:background-color .2s ease,color .2s ease,filter .2s ease;
 }
-#pt-finder .pt-btn:hover{filter:brightness(.94);transform:scale(1.04);}
+#pt-finder .pt-btn:hover{filter:brightness(.94);}
 #pt-finder .pt-btn--ghost{border-color:var(--pt-ink);background:transparent;color:var(--pt-ink);}
 #pt-finder .pt-btn--ghost:hover,
 #pt-finder .pt-btn--ghost.is-active{background:var(--pt-ink);color:var(--pt-paper);filter:none;}
-#pt-finder .pt-btn[disabled]{opacity:.3;cursor:not-allowed;transform:none;filter:none;}
+#pt-finder .pt-btn[disabled]{opacity:.3;cursor:not-allowed;filter:none;}
+#pt-finder .pt-btn--sm{padding:8px 15px;font-size:12.5px;}
 
-/* ---------- 結果列 ---------- */
-#pt-finder .pt-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
-#pt-finder .pt-count{font-size:13px;color:var(--pt-body);letter-spacing:.04em;}
-#pt-finder .pt-count b{font-size:20px;font-weight:700;color:var(--pt-ink);letter-spacing:0;}
-#pt-finder .pt-crit{font-size:12px;color:var(--pt-muted);letter-spacing:.02em;}
+#pt-finder .pt-bar{display:flex;align-items:center;gap:10px;margin-bottom:11px;min-height:36px;}
+#pt-finder .pt-toggle{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--pt-sans);font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1;
+  border:1.2px solid var(--pt-line);background:var(--pt-paper);color:var(--pt-ink);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:border-color .2s ease;
+}
+#pt-finder .pt-toggle:hover{border-color:var(--pt-ink);}
+#pt-finder .pt-toggle svg{width:11px;height:7px;transition:transform .2s ease;}
+#pt-finder:not(.is-collapsed) .pt-toggle svg{transform:rotate(180deg);}
+#pt-finder .pt-count{flex:0 0 auto;font-size:13px;color:var(--pt-body);letter-spacing:.04em;white-space:nowrap;}
+#pt-finder .pt-count b{font-size:18px;font-weight:700;color:var(--pt-ink);letter-spacing:0;}
+#pt-finder .pt-pills{
+  flex:1 1 auto;min-width:0;display:flex;gap:5px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+}
+#pt-finder .pt-pill{
+  display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;
+  font-size:12px;line-height:1;padding:6px 7px 6px 11px;border-radius:999px;
+  background:var(--pt-brand);color:var(--pt-ink);font-weight:700;
+}
+#pt-finder .pt-pill.pt-plain{background:var(--pt-tint);color:var(--pt-body);font-weight:400;padding:6px 11px;}
+#pt-finder .pt-pill button{
+  border:0;background:none;cursor:pointer;color:inherit;font-family:var(--pt-sans);
+  font-size:13.5px;line-height:1;padding:0 2px;
+}
+#pt-finder .pt-barbtns{flex:0 0 auto;margin-left:auto;}
 
-/* ---------- 卡片 ---------- */
-#pt-finder .pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+#pt-finder #pt-results{overflow:hidden;}
+
+#pt-finder .pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(206px,1fr));gap:12px;}
 #pt-finder .pt-card{
-  position:relative;background:var(--pt-paper);
+  display:flex;flex-direction:column;position:relative;
   border:1.2px solid var(--pt-line);border-radius:var(--pt-r-card);
-  overflow:hidden;display:flex;flex-direction:column;
-  transition:border-color .25s ease,box-shadow .25s ease;
+  overflow:hidden;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease;
 }
-#pt-finder .pt-card:hover{border-color:var(--pt-ink);box-shadow:0 4px 14px rgba(0,0,0,.07);}
-#pt-finder .pt-thumb{
-  position:relative;background:var(--pt-tint);aspect-ratio:4/3;max-height:210px;
-  border:0;padding:0;width:100%;display:block;cursor:pointer;
+#pt-finder .pt-card:hover{border-color:var(--pt-ink);box-shadow:0 3px 12px rgba(0,0,0,.06);}
+#pt-finder .pt-cthumb{background:var(--pt-tint);flex:1 1 auto;min-height:118px;max-height:230px;}
+#pt-finder .pt-cthumb img{width:100%;height:100%;object-fit:contain;display:block;}
+#pt-finder .pt-cchk{
+  position:absolute;top:8px;left:8px;z-index:2;display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.93);border:1.2px solid var(--pt-line);
+  border-radius:999px;padding:4px 9px;font-size:11px;font-weight:700;letter-spacing:.04em;cursor:pointer;
 }
-#pt-finder .pt-thumb img{width:100%;height:100%;object-fit:contain;display:block;}
-#pt-finder .pt-cmp{
-  position:absolute;top:10px;left:10px;z-index:2;
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.92);border:1.2px solid var(--pt-line);
-  border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700;
-  letter-spacing:.04em;cursor:pointer;
+#pt-finder .pt-cchk input{margin:0;accent-color:var(--pt-brand);width:14px;height:14px;cursor:pointer;}
+#pt-finder .pt-cbody{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1;}
+#pt-finder .pt-card .pt-btn{margin-top:auto;width:100%;padding:9px 10px;}
+
+#pt-finder .pt-list{display:flex;flex-direction:column;gap:8px;}
+#pt-finder .pt-row{
+  display:flex;align-items:center;gap:11px;height:82px;padding-right:11px;
+  border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);
+  overflow:hidden;cursor:pointer;transition:border-color .15s ease,background-color .15s ease;
 }
-#pt-finder .pt-cmp input{margin:0;accent-color:var(--pt-brand);width:14px;height:14px;}
-#pt-finder .pt-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1;}
-#pt-finder .pt-model{font-size:11px;font-weight:700;letter-spacing:.13em;color:var(--pt-muted);}
-#pt-finder .pt-name{font-size:16px;font-weight:700;line-height:1.4;margin:0;letter-spacing:.02em;}
-#pt-finder .pt-blk{display:flex;flex-direction:column;gap:5px;}
-#pt-finder .pt-blk-t{font-size:10.5px;font-weight:700;letter-spacing:.13em;color:var(--pt-muted);}
-#pt-finder .pt-tags{display:flex;flex-wrap:wrap;gap:4px;}
+#pt-finder .pt-row:hover{border-color:var(--pt-ink);background:#fcfbf9;}
+#pt-finder .pt-rowchk{flex:0 0 auto;display:flex;align-items:center;padding-left:11px;cursor:pointer;}
+#pt-finder .pt-rowchk input{margin:0;accent-color:var(--pt-brand);width:17px;height:17px;cursor:pointer;}
+#pt-finder .pt-rowimg{flex:0 0 auto;width:104px;height:100%;background:var(--pt-tint);}
+#pt-finder .pt-rowimg img{width:100%;height:100%;object-fit:contain;display:block;}
+#pt-finder .pt-rowmain{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px;}
+
+#pt-finder .pt-model{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--pt-muted);white-space:nowrap;}
+#pt-finder .pt-name{font-size:15.5px;font-weight:700;line-height:1.35;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#pt-finder .pt-rowtop{display:flex;align-items:baseline;gap:9px;min-width:0;}
+#pt-finder .pt-tags{
+  display:flex;gap:5px;flex-wrap:nowrap;overflow:hidden;min-width:0;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+}
 #pt-finder .pt-tag{
-  font-size:11.5px;line-height:1.5;padding:3px 9px;border-radius:999px;
+  flex:0 0 auto;font-size:11.5px;line-height:1.4;padding:3px 9px;border-radius:999px;
   background:var(--pt-tint);border:1px solid var(--pt-hair);color:var(--pt-body);
   letter-spacing:.02em;white-space:nowrap;
 }
+#pt-finder .pt-tag.pt-cert{background:var(--pt-paper);border-color:var(--pt-line);color:var(--pt-ink);font-weight:700;}
 #pt-finder .pt-tag.pt-hit{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);font-weight:700;}
-#pt-finder .pt-tag.pt-rest{background:transparent;border-style:dashed;color:var(--pt-muted);}
-#pt-finder .pt-card .pt-btn{margin-top:auto;width:100%;padding:11px 12px;}
 
-/* ---------- 分頁 ---------- */
-#pt-finder .pt-pager{
-  display:flex;align-items:center;justify-content:center;gap:14px;
-  margin-top:18px;min-height:40px;
-}
+#pt-finder .pt-pager{display:flex;align-items:center;justify-content:center;gap:12px;height:46px;}
 #pt-finder .pt-pg{
-  font-family:var(--pt-sans);font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1;
+  font-family:var(--pt-sans);font-size:12.5px;font-weight:700;letter-spacing:.04em;line-height:1;
   border:1.2px solid var(--pt-ink);background:transparent;color:var(--pt-ink);
-  border-radius:999px;padding:10px 20px;cursor:pointer;transition:.2s;
+  border-radius:999px;padding:9px 17px;cursor:pointer;
 }
 #pt-finder .pt-pg:hover:not([disabled]){background:var(--pt-ink);color:var(--pt-paper);}
-#pt-finder .pt-pg[disabled]{opacity:.28;cursor:not-allowed;}
-#pt-finder .pt-pgnum{font-size:13px;color:var(--pt-body);letter-spacing:.06em;min-width:8em;text-align:center;}
+#pt-finder .pt-pg[disabled]{opacity:.25;cursor:not-allowed;}
+#pt-finder .pt-pgnum{font-size:12.5px;color:var(--pt-body);letter-spacing:.06em;min-width:6.5em;text-align:center;}
 #pt-finder .pt-pgnum b{color:var(--pt-ink);}
+#pt-finder .pt-pager.is-off{visibility:hidden;}
 
 #pt-finder .pt-empty{
-  background:var(--pt-paper);border:1.2px dashed var(--pt-line);border-radius:var(--pt-r-box);
-  padding:48px 24px;text-align:center;color:var(--pt-body);font-size:14px;
+  border:1.2px dashed var(--pt-line);border-radius:var(--pt-r-box);
+  padding:36px 20px;text-align:center;color:var(--pt-body);font-size:14px;
 }
 
-/* ---------- 表格（比較與單品明細共用） ---------- */
-#pt-finder .pt-tablewrap{overflow-x:auto;border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);background:var(--pt-paper);}
-#pt-finder table{width:100%;border-collapse:collapse;font-size:13.5px;}
-#pt-finder .pt-tablewrap table{min-width:560px;}
-#pt-finder th,#pt-finder td{border-bottom:1px solid var(--pt-hair);padding:11px 14px;text-align:center;}
-#pt-finder tbody tr:last-child td,#pt-finder tbody tr:last-child th{border-bottom:0;}
-#pt-finder th:first-child,#pt-finder td:first-child{
-  text-align:left;position:sticky;left:0;background:var(--pt-paper);
-  font-weight:500;color:var(--pt-body);white-space:nowrap;
+#pt-finder .pt-dhead{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+#pt-finder .pt-dimg{flex:0 0 auto;width:116px;height:87px;background:var(--pt-tint);border-radius:var(--pt-r-box);overflow:hidden;}
+#pt-finder .pt-dimg img{width:100%;height:100%;object-fit:contain;display:block;}
+#pt-finder .pt-dmeta{flex:1 1 auto;min-width:0;}
+#pt-finder .pt-dmeta h3{font-size:18px;font-weight:700;line-height:1.3;margin:2px 0 1px;letter-spacing:.02em;}
+#pt-finder .pt-dmeta .pt-sub{font-size:12.5px;color:var(--pt-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+#pt-finder .pt-tabs{display:flex;gap:6px;border-bottom:1.2px solid var(--pt-hair);margin-bottom:10px;}
+#pt-finder .pt-tab{
+  font-family:var(--pt-sans);font-size:13px;font-weight:700;letter-spacing:.04em;
+  border:0;background:none;color:var(--pt-muted);cursor:pointer;
+  padding:9px 13px;border-bottom:2.5px solid transparent;margin-bottom:-1.2px;
 }
-#pt-finder thead th{background:var(--pt-tint);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pt-ink);}
-#pt-finder thead th:first-child{background:var(--pt-tint);}
-#pt-finder thead th span{display:block;font-weight:400;font-size:11px;color:var(--pt-body);letter-spacing:.02em;margin-top:2px;}
-#pt-finder tbody tr.pt-sec td{
-  background:var(--pt-tint)!important;font-size:10.5px;font-weight:700;
-  letter-spacing:.13em;color:var(--pt-muted);text-align:left;
-}
+#pt-finder .pt-tab:hover{color:var(--pt-ink);}
+#pt-finder .pt-tab[aria-selected="true"]{color:var(--pt-ink);border-bottom-color:var(--pt-brand);}
+
+#pt-finder table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13.5px;}
+#pt-finder th,#pt-finder td{border-bottom:1px solid var(--pt-hair);padding:0 10px;height:36px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#pt-finder thead th{background:var(--pt-tint);font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--pt-ink);height:40px;}
+#pt-finder th:first-child,#pt-finder td:first-child{text-align:left;color:var(--pt-body);font-weight:500;}
+#pt-finder .pt-spec td:last-child{text-align:left;color:var(--pt-ink);white-space:normal;}
+#pt-finder .pt-spec th{width:6.4em;font-size:12.5px;}
 #pt-finder .pt-dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--pt-brand);}
 #pt-finder .pt-none{color:var(--pt-hair);}
-#pt-finder .pt-code{font-size:11px;color:var(--pt-muted);letter-spacing:.02em;}
 
-/* ---------- 單品明細（原地展開，不是浮層） ---------- */
-#pt-finder .pt-detail{
-  border:1.2px solid var(--pt-line);border-radius:var(--pt-r-card);
-  background:var(--pt-paper);padding:clamp(18px,3vw,28px);
-  display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
-  gap:clamp(20px,3vw,36px);align-items:start;
-}
-#pt-finder .pt-detail-media{background:var(--pt-tint);border-radius:var(--pt-r-box);overflow:hidden;aspect-ratio:1/1;}
-#pt-finder .pt-detail-media img{width:100%;height:100%;object-fit:contain;display:block;}
-#pt-finder .pt-detail-title{margin-bottom:22px;}
-#pt-finder .pt-detail-title h3{font-size:clamp(20px,3vw,25px);font-weight:700;line-height:1.35;margin:2px 0 0;letter-spacing:.02em;}
-#pt-finder .pt-detail-title .pt-sub{font-size:13px;color:var(--pt-body);}
-#pt-finder .pt-dsec{margin-bottom:26px;}
-#pt-finder .pt-dsec:last-child{margin-bottom:0;}
-#pt-finder .pt-dsec-t{
-  font-size:11px;font-weight:700;letter-spacing:.13em;color:var(--pt-muted);
-  margin:0 0 12px;padding-bottom:8px;border-bottom:1.2px solid var(--pt-hair);
-}
-#pt-finder .pt-spec th,#pt-finder .pt-spec td{
-  border-bottom:1px solid var(--pt-hair);padding:8px 0;text-align:left;position:static;background:none;
-}
-#pt-finder .pt-spec th{width:6.5em;font-weight:500;color:var(--pt-muted);font-size:12.5px;letter-spacing:.04em;}
-#pt-finder .pt-spec td{color:var(--pt-ink);}
-#pt-finder .pt-flist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px 14px;}
-#pt-finder .pt-flist li{display:flex;gap:9px;align-items:baseline;font-size:13.5px;}
-#pt-finder .pt-flist .pt-fc{
-  flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-  padding:2px 7px;border-radius:4px;background:var(--pt-tint);
+#pt-finder .pt-flist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:0 14px;}
+#pt-finder .pt-flist li{display:flex;gap:8px;align-items:center;height:34px;font-size:13px;white-space:nowrap;}
+#pt-finder .pt-fc{
+  flex:0 0 auto;font-size:10px;font-weight:700;letter-spacing:.05em;
+  padding:2px 6px;border-radius:4px;background:var(--pt-tint);
   border:1px solid var(--pt-hair);color:var(--pt-muted);
 }
 #pt-finder .pt-flist li.pt-hit .pt-fc{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);}
-#pt-finder .pt-flist li.pt-hit span:last-child{font-weight:700;}
-#pt-finder .pt-certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
-#pt-finder .pt-certcard{border:1.2px solid var(--pt-hair);border-radius:var(--pt-r-box);overflow:hidden;background:var(--pt-paper);}
-#pt-finder .pt-certcard.pt-hit{border-color:var(--pt-brand);}
-#pt-finder .pt-certcard a{display:block;text-decoration:none;color:inherit;}
-#pt-finder .pt-certcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--pt-tint);}
-#pt-finder .pt-certmeta{padding:10px 12px 12px;}
-#pt-finder .pt-certmeta b{display:block;font-size:13.5px;font-weight:700;line-height:1.4;letter-spacing:.02em;}
-#pt-finder .pt-certmeta span{display:block;font-size:11.5px;color:var(--pt-muted);letter-spacing:.02em;line-height:1.6;margin-top:3px;}
-#pt-finder .pt-shop{display:inline-block;margin-top:20px;text-decoration:none;}
+#pt-finder .pt-flist li.pt-hit>span:last-child{font-weight:700;}
+
+#pt-finder .pt-clist{display:flex;flex-direction:column;gap:8px;}
+#pt-finder .pt-crow{
+  display:flex;align-items:center;gap:12px;height:64px;width:100%;
+  border:1.2px solid var(--pt-hair);border-radius:var(--pt-r-box);overflow:hidden;
+  background:none;padding:0;cursor:zoom-in;text-align:left;font-family:var(--pt-sans);
+}
+#pt-finder .pt-crow:hover{border-color:var(--pt-ink);}
+#pt-finder .pt-crow.pt-hit{border-color:var(--pt-brand);}
+#pt-finder .pt-crow img{flex:0 0 auto;width:82px;height:100%;object-fit:cover;background:var(--pt-tint);}
+#pt-finder .pt-cmeta{min-width:0;}
+#pt-finder .pt-cmeta b{display:block;font-size:13.5px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--pt-ink);}
+#pt-finder .pt-cmeta span{display:block;font-size:11.5px;color:var(--pt-muted);}
+
+#pt-finder .pt-lb{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,4vw,40px);background:rgba(17,17,17,.9);
+}
+#pt-finder .pt-lb[hidden]{display:none;}
+#pt-finder .pt-lb img{max-width:100%;max-height:100%;object-fit:contain;background:var(--pt-paper);border-radius:var(--pt-r-box);}
+#pt-finder .pt-lbx{
+  position:absolute;top:14px;right:16px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:0;color:var(--pt-ink);
+  font-family:var(--pt-sans);font-size:20px;line-height:1;cursor:pointer;
+}
 
 @media (max-width:900px){
-  #pt-finder .pt-fields{grid-template-columns:1fr;}
-  #pt-finder .pt-detail{grid-template-columns:1fr;}
-  #pt-finder .pt-detail-media{max-width:220px;}
-}
-@media (max-width:700px){
-  /* 手機把說明字收掉，面板矮一點，嵌 iframe 時整體高度才穩 */
-  #pt-finder .pt-tip{display:none;}
-  #pt-finder .pt-fields{gap:10px;}
+  #pt-finder .pt-fields{grid-template-columns:1fr;gap:9px;}
 }
 @media (max-width:600px){
-  #pt-finder .pt-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+  #pt-finder{padding:12px;}
+  #pt-finder .pt-row{height:74px;gap:9px;padding-right:9px;}
+  #pt-finder .pt-rowimg{width:82px;}
+  #pt-finder .pt-rowchk{padding-left:9px;}
+  #pt-finder .pt-name{font-size:14.5px;}
+  #pt-finder .pt-dimg{width:86px;height:66px;}
+  #pt-finder .pt-dmeta h3{font-size:16px;}
   #pt-finder .pt-acts{width:100%;}
   #pt-finder .pt-acts .pt-btn{flex:1 1 0;}
+  #pt-finder .pt-flist{grid-template-columns:1fr 1fr;gap:0 8px;}
+  #pt-finder .pt-flist li{font-size:12px;gap:6px;height:32px;}
+  #pt-finder th,#pt-finder td{padding:0 6px;font-size:11.5px;height:34px;}
+  #pt-finder .pt-spec th{width:5.2em;font-size:11px;}
+  #pt-finder .pt-crow{height:56px;gap:9px;}
+  #pt-finder .pt-crow img{width:68px;}
 }
 </style>
 
 <div id="pt-finder">
   <div class="pt-wrap">
-    <div class="pt-head">
-      <h2>安全鞋規格查詢</h2>
-      <p>三個欄位可以任意組合，選好之後按「查詢」。</p>
-    </div>
-
     <form class="pt-panel" id="pt-form">
       <div class="pt-fields">
         <div class="pt-field">
           <label for="pt-sel-product">品項</label>
           <select id="pt-sel-product"></select>
-          <p class="pt-tip">選了品項後，功能與證書只會留下這雙鞋有的項目。</p>
         </div>
-
         <div class="pt-field">
           <span class="pt-lab">功能</span>
           <div class="pt-dd" id="pt-dd-feature">
             <button type="button" class="pt-dd-btn is-empty" aria-expanded="false" aria-haspopup="listbox">
               <span class="pt-dd-txt">全部功能</span>
+              <span class="pt-dd-n" hidden></span>
               <svg class="pt-dd-caret" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             </button>
             <div class="pt-dd-panel" role="listbox" aria-multiselectable="true" hidden></div>
           </div>
-          <p class="pt-tip">可以選多個，再點一次取消。</p>
         </div>
-
         <div class="pt-field">
           <span class="pt-lab">證書</span>
           <div class="pt-dd" id="pt-dd-cert">
             <button type="button" class="pt-dd-btn is-empty" aria-expanded="false" aria-haspopup="listbox">
               <span class="pt-dd-txt">全部證書</span>
+              <span class="pt-dd-n" hidden></span>
               <svg class="pt-dd-caret" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             </button>
             <div class="pt-dd-panel" role="listbox" aria-multiselectable="true" hidden></div>
           </div>
-          <p class="pt-tip">可以選多個，再點一次取消。</p>
         </div>
       </div>
 
       <div class="pt-foot">
         <div class="pt-logic">
-          <label class="pt-radio"><input type="radio" name="pt-mode" value="AND" checked>全部都要有</label>
-          <label class="pt-radio"><input type="radio" name="pt-mode" value="OR">有其中一項就好</label>
+          <label class="pt-radio"><input type="radio" name="pt-mode" value="AND" checked>全部符合</label>
+          <label class="pt-radio"><input type="radio" name="pt-mode" value="OR">任一符合</label>
         </div>
         <div class="pt-acts">
-          <span class="pt-dirty" id="pt-dirty" hidden>條件已變更</span>
           <button type="button" class="pt-btn pt-btn--ghost" id="pt-reset">重設</button>
           <button type="submit" class="pt-btn" id="pt-submit">查詢</button>
         </div>
@@ -322,14 +334,23 @@
     </form>
 
     <div class="pt-bar">
-      <div class="pt-count" id="pt-headline"></div>
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-        <span class="pt-crit" id="pt-crit"></span>
-        <button type="button" class="pt-btn pt-btn--ghost" id="pt-viewbtn" disabled>比較 (0)</button>
-      </div>
+      <button type="button" class="pt-toggle" id="pt-toggle">
+        <svg viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span id="pt-togglelabel">查詢條件</span>
+      </button>
+      <span class="pt-count" id="pt-headline"></span>
+      <span class="pt-pills" id="pt-pills"></span>
+      <span class="pt-barbtns">
+        <button type="button" class="pt-btn pt-btn--ghost pt-btn--sm" id="pt-viewbtn" disabled>比較</button>
+      </span>
     </div>
 
     <div id="pt-results"></div>
+  </div>
+
+  <div class="pt-lb" id="pt-lb" hidden>
+    <button type="button" class="pt-lbx" id="pt-lbx" aria-label="關閉">&times;</button>
+    <img id="pt-lbimg" alt="">
   </div>
 </div>
 
@@ -337,9 +358,7 @@
 (function(){
 "use strict";
 
-/* =============================================================
-   ①  資 料 區 ── 之後只要改這一段
-   ============================================================= */
+/* ============ 資料區：維護商品時只需要改這一段 ============ */
 
 var IMG_PRODUCT = "https://img.shoplineapp.com/media/image_clips/6a99080cc56f76a2c55d592e/original.png?1788413963=&owner_id=6572a1b95ad192005192397e";
 var IMG_CERT_1  = "https://img.shoplineapp.com/media/image_clips/6a9907c921976070eec2dc49/original.jpg?1788413896=&owner_id=6572a1b95ad192005192397e";
@@ -452,9 +471,7 @@ var PRODUCTS = [
    certs:["cns","ce","lgtest","cns12707","aatcc","csa"]}
 ];
 
-/* =============================================================
-   ②  程式邏輯
-   ============================================================= */
+/* ============ 資料區結束 ============ */
 
 var F={},C={},P={};
 FEATURES.forEach(function(x){F[x.id]=x;});
@@ -462,36 +479,35 @@ CERTS.forEach(function(x){C[x.id]=x;});
 PRODUCTS.forEach(function(x){P[x.id]=x;});
 
 var SPEC_ROWS=[["grade","安全等級"],["upper","鞋面材質"],["sole","大　　底"],["shaft","筒　　高"],["weight","重　　量"],["width","楦　　寬"],["size","鞋碼範圍"]];
+var PAGER_H=46, GAP=12;
 
-var applied={product:"",features:[],certs:[],mode:"AND"};  /* 已送出的條件 */
-var pick={feature:[],cert:[]};                              /* 面板上還沒送出的勾選 */
-var compare=[], view="cards", detailId="", page=1;
-
-/* 每頁筆數隨螢幕調整，讓整體高度在各裝置都差不多，嵌 iframe 時不會超出 */
-function pageSize(){
-  /* 讓每一頁都剛好兩列卡片，換頁時高度不會跳動 */
-  return (window.innerWidth||1024) < 900 ? 4 : 6;
-}
+var applied={product:"",features:[],certs:[],mode:"AND"};
+var pick={feature:[],cert:[]};
+var compare=[], view="cards", detailId="", page=1, dTab="spec", cTab="spec", collapsed=false;
 
 var $=function(id){return document.getElementById(id);};
-var elForm=$("pt-form"), elP=$("pt-sel-product");
-var elHead=$("pt-headline"), elCrit=$("pt-crit"), elRes=$("pt-results"), elView=$("pt-viewbtn");
-var elDirty=$("pt-dirty");
+var root=$("pt-finder"), elForm=$("pt-form"), elP=$("pt-sel-product");
+var elHead=$("pt-headline"), elPills=$("pt-pills"), elRes=$("pt-results");
+var elView=$("pt-viewbtn"), elToggle=$("pt-toggle"), elToggleLb=$("pt-togglelabel");
+var elLb=$("pt-lb"), elLbImg=$("pt-lbimg");
 var DD={
   feature:{root:$("pt-dd-feature"), list:FEATURES, empty:"全部功能"},
   cert:   {root:$("pt-dd-cert"),    list:CERTS,    empty:"全部證書"}
 };
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
-function track(n,p){ if(window.gtag){ window.gtag("event",n,p||{}); } }
+function W(){ return window.innerWidth||1024; }
+function narrow(){ return W()<600; }
+function useCards(){ return W()>=900; }
+function maxCompare(){ return W()<600?2:(W()<900?3:4); }
 
-/* ---- 多選下拉 ---- */
 var CHECK='<svg viewBox="0 0 10 8" fill="none" aria-hidden="true"><path d="M1 4l2.8 2.8L9 1.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 Object.keys(DD).forEach(function(kind){
   var d=DD[kind];
   d.btn=d.root.querySelector(".pt-dd-btn");
   d.txt=d.root.querySelector(".pt-dd-txt");
+  d.num=d.root.querySelector(".pt-dd-n");
   d.panel=d.root.querySelector(".pt-dd-panel");
   d.panel.innerHTML=d.list.map(function(x){
     return '<div class="pt-dd-opt" role="option" data-v="'+x.id+'" aria-selected="false">'+
@@ -501,16 +517,15 @@ Object.keys(DD).forEach(function(kind){
 
   d.btn.addEventListener("click",function(e){
     e.stopPropagation();
-    var open=d.panel.hidden;
+    var willOpen=d.panel.hidden;
     closeAllDD();
-    if(open){ d.panel.hidden=false; d.btn.setAttribute("aria-expanded","true"); }
+    if(willOpen){ d.panel.hidden=false; d.btn.setAttribute("aria-expanded","true"); }
   });
   d.panel.addEventListener("click",function(e){
     e.stopPropagation();
     var o=e.target.closest(".pt-dd-opt");
     if(!o||o.getAttribute("aria-disabled")==="true") return;
-    var v=o.getAttribute("data-v");
-    var i=pick[kind].indexOf(v);
+    var v=o.getAttribute("data-v"), i=pick[kind].indexOf(v);
     if(i>=0) pick[kind].splice(i,1); else pick[kind].push(v);
     syncFields();
   });
@@ -522,15 +537,11 @@ function closeAllDD(){
   });
 }
 document.addEventListener("click",closeAllDD);
-document.addEventListener("keydown",function(e){
-  if(e.key==="Escape"){ closeAllDD(); if(view!=="cards"){ backToCards(); } }
-});
 
-/* ---- 品項選單 ---- */
 elP.innerHTML='<option value="">全部品項</option>'+PRODUCTS.map(function(p){
   return '<option value="'+p.id+'">'+esc(p.id+"　"+p.name)+'</option>';}).join("");
 
-/* ---- 表單狀態 ---- */
+/* 選單按鈕：計數獨立顯示不會被截掉，名稱由新到舊排，擠不下的自動被蓋掉 */
 function syncFields(){
   var pid=elP.value, prod=pid?P[pid]:null;
 
@@ -541,39 +552,32 @@ function syncFields(){
 
     Array.prototype.forEach.call(d.panel.children,function(o){
       var v=o.getAttribute("data-v");
-      var off = own && own.indexOf(v)<0;
-      o.setAttribute("aria-disabled", off?"true":"false");
-      o.setAttribute("aria-selected", pick[kind].indexOf(v)>=0?"true":"false");
+      o.setAttribute("aria-disabled", own && own.indexOf(v)<0 ? "true":"false");
+      o.setAttribute("aria-selected", pick[kind].indexOf(v)>=0 ? "true":"false");
     });
 
-    var names=pick[kind].map(function(v){
+    var names=pick[kind].slice().reverse().map(function(v){
       var x=(kind==="feature"?F:C)[v]; return x?x.name:v; });
-    d.txt.textContent = names.length ? (names.join("、")+"（"+names.length+"）") : d.empty;
+    d.txt.innerHTML = names.length ? '<span>'+esc(names.join("、"))+'</span>' : esc(d.empty);
+    d.num.textContent = names.length||"";
+    d.num.hidden = !names.length;
     d.btn.classList.toggle("is-empty",!names.length);
   });
-
-  var r=elForm.querySelector('input[name="pt-mode"]:checked');
-  var srt=function(a){return a.slice().sort().join(",");};
-  elDirty.hidden = pid===applied.product
-    && srt(pick.feature)===srt(applied.features)
-    && srt(pick.cert)===srt(applied.certs)
-    && (r?r.value:"AND")===applied.mode;
 }
 
-/* ---- 篩選 ---- */
 function matches(p){
   if(applied.product && p.id!==applied.product) return false;
   if(applied.features.length){
-    var ok=applied.mode==="AND"
+    var okF=applied.mode==="AND"
       ? applied.features.every(function(f){return p.features.indexOf(f)>=0;})
       : applied.features.some(function(f){return p.features.indexOf(f)>=0;});
-    if(!ok) return false;
+    if(!okF) return false;
   }
   if(applied.certs.length){
-    var ok2=applied.mode==="AND"
+    var okC=applied.mode==="AND"
       ? applied.certs.every(function(c){return p.certs.indexOf(c)>=0;})
       : applied.certs.some(function(c){return p.certs.indexOf(c)>=0;});
-    if(!ok2) return false;
+    if(!okC) return false;
   }
   return true;
 }
@@ -581,149 +585,237 @@ function results(){ return PRODUCTS.filter(matches); }
 function isHitF(id){ return applied.features.indexOf(id)>=0; }
 function isHitC(id){ return applied.certs.indexOf(id)>=0; }
 
-/* ---- 結果區 ---- */
-function critText(){
-  var bits=[];
-  if(applied.product) bits.push(esc(applied.product));
-  applied.features.forEach(function(id){ if(F[id]) bits.push(esc(F[id].name)); });
-  applied.certs.forEach(function(id){ if(C[id]) bits.push(esc(C[id].name)); });
-  if(!bits.length) return "顯示全部品項";
-  return bits.join(applied.mode==="AND"?"　＋　":"　或　");
+function conds(){
+  var out=[];
+  if(applied.product) out.push(['p','',applied.product]);
+  applied.features.forEach(function(id){ if(F[id]) out.push(['f',id,F[id].name]); });
+  applied.certs.forEach(function(id){ if(C[id]) out.push(['c',id,C[id].name]); });
+  return out;
 }
 
 function syncBar(){
-  var n=results().length;
+  var list=results();
+  elToggleLb.textContent = collapsed ? "查詢條件" : "收起條件";
+
   if(view==="detail"){
-    var p=P[detailId];
-    elHead.innerHTML='品項明細　<b style="font-size:15px">'+esc(p?p.id:"")+'</b>';
-    elCrit.textContent="";
-    elView.innerHTML="&times;&nbsp; 返回列表";
-    elView.disabled=false; elView.classList.add("is-active");
-  } else if(view==="table"){
-    elHead.innerHTML='比較 <b>'+compare.length+'</b> 個品項';
-    elCrit.textContent="";
-    elView.innerHTML="&times;&nbsp; 關閉比較";
-    elView.disabled=false; elView.classList.add("is-active");
+    elHead.textContent="品項明細";
+    elPills.innerHTML='<span class="pt-pill pt-plain">'+esc(detailId)+'</span>';
+    elView.textContent="返回列表"; elView.disabled=false; elView.classList.add("is-active");
+  } else if(view==="compare"){
+    elHead.innerHTML='比較 <b>'+compare.length+'</b> 項';
+    elPills.innerHTML=compare.map(function(id){
+      return '<span class="pt-pill pt-plain">'+esc(id)+'</span>';}).join("");
+    elView.textContent="關閉比較"; elView.disabled=false; elView.classList.add("is-active");
   } else {
-    elHead.innerHTML='符合條件 <b>'+n+'</b> 項';
-    elCrit.innerHTML=critText();
-    elView.textContent="比較 ("+compare.length+")";
-    elView.disabled=compare.length<2; elView.classList.remove("is-active");
+    elHead.innerHTML='符合 <b>'+list.length+'</b> 項';
+    var cs=conds();
+    elPills.innerHTML = cs.length
+      ? cs.map(function(x){
+          return '<span class="pt-pill">'+esc(x[2])+'<button type="button" data-rm="'+x[0]+'" data-id="'+x[1]+'" aria-label="移除">&times;</button></span>';
+        }).join("")
+      : '<span class="pt-pill pt-plain">未設條件</span>';
+    elView.classList.remove("is-active");
+    elView.textContent = compare.length>=2 ? "比較 ("+compare.length+")" : "比較";
+    elView.disabled = compare.length<2;
   }
+}
+
+function availH(){
+  var top=elRes.getBoundingClientRect().top-root.getBoundingClientRect().top;
+  var pad=parseFloat(getComputedStyle(root).paddingBottom)||16;
+  return Math.max(0,(window.innerHeight||600)-top-pad);
+}
+
+function pagerHTML(page,pages){
+  return '<div class="pt-pager'+(pages>1?"":" is-off")+'">'+
+    '<button type="button" class="pt-pg" data-pg="prev"'+(page<=1?" disabled":"")+'>上一頁</button>'+
+    '<span class="pt-pgnum">第 <b>'+page+'</b> / '+pages+' 頁</span>'+
+    '<button type="button" class="pt-pg" data-pg="next"'+(page>=pages?" disabled":"")+'>下一頁</button></div>';
 }
 
 function render(){
   syncBar();
-  if(view==="detail"){ renderDetail(); return; }
-  if(view==="table"){ renderTable(); return; }
-  renderCards();
+  elRes.style.display="";
+  var H=availH();
+  if(H<96){ elRes.style.display="none"; return; }
+  elRes.style.height=H+"px";
+  if(view==="detail") renderDetail(H);
+  else if(view==="compare") renderCompare(H);
+  else renderCards(H);
 }
-function backToCards(){ view="cards"; detailId=""; render(); }
 
-function renderCards(){
+function certTagsHTML(p,cap){
+  return p.certs.slice().sort(function(a,b){return (isHitC(b)?1:0)-(isHitC(a)?1:0);})
+    .slice(0,cap).map(function(id){
+      return '<span class="pt-tag pt-cert'+(isHitC(id)?" pt-hit":"")+'">'+esc(C[id].name)+'</span>';}).join("");
+}
+function featTagsHTML(p,cap){
+  return p.features.slice().sort(function(a,b){return (isHitF(b)?1:0)-(isHitF(a)?1:0);})
+    .slice(0,cap).map(function(id){
+      return '<span class="pt-tag'+(isHitF(id)?" pt-hit":"")+'">'+esc(F[id].name)+'</span>';}).join("");
+}
+function tagsHTML(p,certCap,featCap){
+  return certTagsHTML(p,certCap)+featTagsHTML(p,featCap);
+}
+
+function cardHTML(p){
+  return '<article class="pt-card" data-open="'+p.id+'">'+
+    '<label class="pt-cchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+' aria-label="加入比較">比較</label>'+
+    '<div class="pt-cthumb"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
+    '<div class="pt-cbody">'+
+      '<span class="pt-model">'+esc(p.id)+'</span>'+
+      '<h4 class="pt-name">'+esc(p.name)+'</h4>'+
+      '<div class="pt-tags">'+certTagsHTML(p,3)+'</div>'+
+      '<div class="pt-tags">'+featTagsHTML(p,5)+'</div>'+
+      '<button type="button" class="pt-btn" data-open="'+p.id+'">展開</button>'+
+    '</div></article>';
+}
+
+function rowHTML(p){
+  return '<article class="pt-row" data-open="'+p.id+'">'+
+    '<label class="pt-rowchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+' aria-label="加入比較"></label>'+
+    '<div class="pt-rowimg"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
+    '<div class="pt-rowmain">'+
+      '<div class="pt-rowtop"><h4 class="pt-name">'+esc(p.name)+'</h4><span class="pt-model">'+esc(p.id)+'</span></div>'+
+      '<div class="pt-tags">'+tagsHTML(p,narrow()?1:2,narrow()?2:4)+'</div>'+
+    '</div></article>';
+}
+
+function renderCards(H){
   var list=results();
   if(!list.length){
-    elRes.innerHTML='<div class="pt-empty">沒有同時符合這些條件的品項。<br>可以少選幾項，或改成「有其中一項就好」再查一次。</div>';
+    elRes.innerHTML='<div class="pt-empty">無符合條件的品項，請減少條件或改為「任一符合」。</div>';
     return;
   }
-  var per=pageSize(), pages=Math.max(1,Math.ceil(list.length/per));
-  if(page>pages) page=pages;
-  if(page<1) page=1;
-  var from=(page-1)*per, shown=list.slice(from,from+per);
+  var space=H-PAGER_H, per=0, cards=false, cardRows=1;
 
-  var pager = pages>1
-    ? '<div class="pt-pager">'+
-        '<button type="button" class="pt-pg" data-pg="prev"'+(page<=1?' disabled':'')+'>← 上一頁</button>'+
-        '<span class="pt-pgnum">第 <b>'+page+'</b> / '+pages+' 頁</span>'+
-        '<button type="button" class="pt-pg" data-pg="next"'+(page>=pages?' disabled':'')+'>下一頁 →</button>'+
-      '</div>'
-    : '<div class="pt-pager"></div>';
+  if(useCards()){
+    /* 先畫一張量高度，再回推一頁排得下幾列；空間不足一張就退回橫列 */
+    elRes.innerHTML='<div class="pt-grid">'+cardHTML(list[0])+'</div>';
+    var grid=elRes.firstChild, one=grid.firstElementChild;
+    if(one.offsetHeight<=space){
+      var cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;
+      cardRows=Math.max(1,Math.floor((space+GAP)/(one.offsetHeight+GAP)));
+      per=cols*cardRows;
+      cards=true;
+    }
+  }
+  if(!cards){
+    var rowH=(narrow()?74:82)+8;
+    if(space<rowH-8){ elRes.style.display="none"; return; }
+    per=Math.max(1,Math.floor(space/rowH));
+  }
 
-  elRes.innerHTML='<div class="pt-grid">'+shown.map(function(p){
-    /* 卡片上功能最多列 6 個，命中的排前面確保看得到；完整清單在明細頁 */
-    var CAP=6;
-    var fs=p.features.slice().sort(function(a,b){ return (isHitF(b)?1:0)-(isHitF(a)?1:0); });
-    var certTags=p.certs.map(function(id){
-      return '<span class="pt-tag'+(isHitC(id)?' pt-hit':'')+'">'+esc(C[id].name)+'</span>';}).join("");
-    var featTags=fs.slice(0,CAP).map(function(id){
-      return '<span class="pt-tag'+(isHitF(id)?' pt-hit':'')+'">'+esc(F[id].name)+'</span>';}).join("")
-      + (fs.length>CAP ? '<span class="pt-tag pt-rest">＋'+(fs.length-CAP)+'</span>' : '');
-    return '<article class="pt-card">'+
-      '<label class="pt-cmp"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?' checked':'')+'>比較</label>'+
-      '<button type="button" class="pt-thumb" data-open="'+p.id+'" aria-label="'+esc(p.name)+' 規格與證書">'+
-        '<img src="'+esc(p.img)+'" alt="'+esc(p.id+" "+p.name)+'" loading="lazy">'+
-      '</button>'+
-      '<div class="pt-body">'+
-        '<div class="pt-model">'+esc(p.id)+'</div>'+
-        '<h4 class="pt-name">'+esc(p.name)+'</h4>'+
-        '<div class="pt-blk"><span class="pt-blk-t">證書</span><div class="pt-tags">'+certTags+'</div></div>'+
-        '<div class="pt-blk"><span class="pt-blk-t">功能</span><div class="pt-tags">'+featTags+'</div></div>'+
-        '<button type="button" class="pt-btn" data-open="'+p.id+'">規格與證書</button>'+
-      '</div></article>';
-  }).join("")+'</div>'+pager;
+  var pages=Math.max(1,Math.ceil(list.length/per));
+  page=Math.min(Math.max(1,page),pages);
+  var shown=list.slice((page-1)*per,(page-1)*per+per);
+
+  if(cards){
+    elRes.innerHTML='<div class="pt-grid">'+shown.map(cardHTML).join("")+'</div>'+pagerHTML(page,pages);
+    /* 撐滿可用高度，圖片吃掉多出來的空間，不留下大片空白 */
+    var g=elRes.firstChild;
+    g.style.height=space+"px";
+    g.style.gridTemplateRows="repeat("+cardRows+",1fr)";
+  } else {
+    elRes.innerHTML='<div class="pt-list">'+shown.map(rowHTML).join("")+'</div>'+pagerHTML(page,pages);
+  }
 }
 
-function renderDetail(){
-  var p=P[detailId]; if(!p){ backToCards(); return; }
+function renderDetail(H){
+  var p=P[detailId];
+  if(!p){ view="cards"; renderCards(H); return; }
 
-  var spec='<table class="pt-spec"><tbody>'+SPEC_ROWS.map(function(r){
-    return '<tr><th>'+esc(r[1])+'</th><td>'+esc(p.spec[r[0]]||"—")+'</td></tr>';}).join("")+'</tbody></table>';
-
-  var feats='<ul class="pt-flist">'+p.features.map(function(fid){
-    var f=F[fid]; if(!f) return "";
-    return '<li class="'+(isHitF(fid)?'pt-hit':'')+'"><span class="pt-fc">'+esc(f.code||"·")+'</span><span>'+esc(f.name)+'</span></li>';
-  }).join("")+'</ul>';
-
-  var certs='<div class="pt-certs">'+p.certs.map(function(cid){
-    var c=C[cid]; if(!c) return "";
-    return '<div class="pt-certcard'+(isHitC(cid)?' pt-hit':'')+'">'+
-      '<a href="'+esc(c.img)+'" target="_blank" rel="noopener" title="開新分頁看大圖">'+
-        '<img src="'+esc(c.img)+'" alt="'+esc(c.name)+'" loading="lazy">'+
-        '<div class="pt-certmeta"><b>'+esc(c.name)+'</b><span>'+esc(c.note)+'</span></div>'+
-      '</a></div>';
-  }).join("")+'</div>';
-
-  elRes.innerHTML='<div class="pt-detail">'+
-    '<div class="pt-detail-media"><img src="'+esc(p.img)+'" alt="'+esc(p.id+" "+p.name)+'"></div>'+
-    '<div>'+
-      '<div class="pt-detail-title"><div class="pt-model">'+esc(p.id)+'</div>'+
+  elRes.innerHTML='<div class="pt-dhead">'+
+      '<div class="pt-dimg"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'"></div>'+
+      '<div class="pt-dmeta"><span class="pt-model">'+esc(p.id)+'</span>'+
         '<h3>'+esc(p.name)+'</h3><div class="pt-sub">'+esc(p.series)+'</div></div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">規格</p>'+spec+'</div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">功能（'+p.features.length+'）</p>'+feats+'</div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">證書（'+p.certs.length+'）　<span style="letter-spacing:.02em;font-weight:400">點證書可開新分頁看大圖</span></p>'+certs+'</div>'+
-      (p.url?'<a class="pt-btn pt-shop" href="'+esc(p.url)+'" target="_blank" rel="noopener">前往商品頁</a>':'')+
-    '</div></div>';
+      (p.url?'<a class="pt-btn pt-btn--sm pt-btn--ghost" href="'+esc(p.url)+'" target="_blank" rel="noopener">商品頁</a>':"")+
+    '</div>'+
+    '<div class="pt-tabs" role="tablist">'+
+      '<button type="button" class="pt-tab" data-dtab="spec" role="tab" aria-selected="'+(dTab==="spec")+'">規格</button>'+
+      '<button type="button" class="pt-tab" data-dtab="feat" role="tab" aria-selected="'+(dTab==="feat")+'">功能 '+p.features.length+'</button>'+
+      '<button type="button" class="pt-tab" data-dtab="cert" role="tab" aria-selected="'+(dTab==="cert")+'">證書 '+p.certs.length+'</button>'+
+    '</div><div id="pt-tabbody"></div>';
+
+  var body=$("pt-tabbody");
+  var avail=H-(body.getBoundingClientRect().top-elRes.getBoundingClientRect().top)-PAGER_H;
+
+  if(dTab==="spec"){
+    var perS=Math.max(1,Math.floor(avail/36));
+    var pagesS=Math.max(1,Math.ceil(SPEC_ROWS.length/perS));
+    page=Math.min(Math.max(1,page),pagesS);
+    body.innerHTML='<table class="pt-spec"><tbody>'+
+      SPEC_ROWS.slice((page-1)*perS,(page-1)*perS+perS).map(function(r){
+        return '<tr><th>'+esc(r[1])+'</th><td>'+esc(p.spec[r[0]]||"—")+'</td></tr>';}).join("")+
+      '</tbody></table>'+pagerHTML(page,pagesS);
+    return;
+  }
+
+  if(dTab==="feat"){
+    var lineH=narrow()?32:34;
+    var cols=narrow()?2:Math.max(1,Math.floor(elRes.clientWidth/182));
+    var perF=Math.max(cols,cols*Math.floor(avail/lineH));
+    var pagesF=Math.max(1,Math.ceil(p.features.length/perF));
+    page=Math.min(Math.max(1,page),pagesF);
+    body.innerHTML='<ul class="pt-flist">'+
+      p.features.slice((page-1)*perF,(page-1)*perF+perF).map(function(fid){
+        var f=F[fid]; if(!f) return "";
+        return '<li class="'+(isHitF(fid)?"pt-hit":"")+'"><span class="pt-fc">'+esc(f.code||"·")+'</span><span>'+esc(f.name)+'</span></li>';
+      }).join("")+'</ul>'+pagerHTML(page,pagesF);
+    return;
+  }
+
+  var rowH=(narrow()?56:64)+8;
+  var perC=Math.max(1,Math.floor(avail/rowH));
+  var pagesC=Math.max(1,Math.ceil(p.certs.length/perC));
+  page=Math.min(Math.max(1,page),pagesC);
+  body.innerHTML='<div class="pt-clist">'+
+    p.certs.slice((page-1)*perC,(page-1)*perC+perC).map(function(cid){
+      var c=C[cid]; if(!c) return "";
+      return '<button type="button" class="pt-crow'+(isHitC(cid)?" pt-hit":"")+'" data-cert="'+c.id+'">'+
+        '<img src="'+esc(c.img)+'" alt="" loading="lazy">'+
+        '<span class="pt-cmeta"><b>'+esc(c.name)+'</b><span>'+esc(c.note)+'</span></span></button>';
+    }).join("")+'</div>'+pagerHTML(page,pagesC);
 }
 
-function renderTable(){
+function renderCompare(H){
   var ps=compare.map(function(id){return P[id];}).filter(Boolean);
-  var usedF=FEATURES.filter(function(f){return ps.some(function(p){return p.features.indexOf(f.id)>=0;});});
-  var usedC=CERTS.filter(function(c){return ps.some(function(p){return p.certs.indexOf(c.id)>=0;});});
+  elRes.innerHTML='<div class="pt-tabs" role="tablist">'+
+      '<button type="button" class="pt-tab" data-ctab="spec" role="tab" aria-selected="'+(cTab==="spec")+'">規格</button>'+
+      '<button type="button" class="pt-tab" data-ctab="cert" role="tab" aria-selected="'+(cTab==="cert")+'">證書</button>'+
+      '<button type="button" class="pt-tab" data-ctab="feat" role="tab" aria-selected="'+(cTab==="feat")+'">功能</button>'+
+    '</div><div id="pt-tabbody"></div>';
+
+  var body=$("pt-tabbody");
+  var avail=H-(body.getBoundingClientRect().top-elRes.getBoundingClientRect().top)-PAGER_H;
+  var cellH=narrow()?34:36, headH=narrow()?38:40;
+  var perRow=Math.max(2,Math.floor((avail-headH)/cellH));
   var dot=function(y){return y?'<span class="pt-dot"></span>':'<span class="pt-none">—</span>';};
+  var head='<thead><tr><th>項目</th>'+ps.map(function(p){
+    return '<th>'+esc(p.id)+'</th>';}).join("")+'</tr></thead>';
 
-  var h='<div class="pt-tablewrap"><table><thead><tr><th>項目</th>'+
-    ps.map(function(p){return '<th>'+esc(p.id)+'<span>'+esc(p.name)+'</span></th>';}).join("")+'</tr></thead><tbody>';
-
-  h+='<tr class="pt-sec"><td colspan="'+(ps.length+1)+'">規格</td></tr>';
-  h+=SPEC_ROWS.map(function(r){
-    return '<tr><td>'+esc(r[1])+'</td>'+ps.map(function(p){
-      return '<td>'+esc(p.spec[r[0]]||"—")+'</td>';}).join("")+'</tr>';}).join("");
-
-  h+='<tr class="pt-sec"><td colspan="'+(ps.length+1)+'">證書</td></tr>';
-  h+=usedC.map(function(c){
-    return '<tr><td>'+esc(c.name)+'</td>'+ps.map(function(p){
-      return '<td>'+dot(p.certs.indexOf(c.id)>=0)+'</td>';}).join("")+'</tr>';}).join("");
-
-  h+='<tr class="pt-sec"><td colspan="'+(ps.length+1)+'">功能</td></tr>';
-  h+=usedF.map(function(f){
-    return '<tr><td>'+esc(f.name)+(f.code?' <span class="pt-code">'+esc(f.code)+'</span>':'')+'</td>'+
-      ps.map(function(p){return '<td>'+dot(p.features.indexOf(f.id)>=0)+'</td>';}).join("")+'</tr>';}).join("");
-
-  h+='</tbody></table></div>';
-  elRes.innerHTML=h;
+  var rows;
+  if(cTab==="spec"){
+    rows=SPEC_ROWS.map(function(r){
+      return '<tr><td>'+esc(r[1])+'</td>'+ps.map(function(p){
+        return '<td title="'+esc(p.spec[r[0]]||"")+'">'+esc(p.spec[r[0]]||"—")+'</td>';}).join("")+'</tr>';});
+  } else if(cTab==="cert"){
+    rows=CERTS.filter(function(c){return ps.some(function(p){return p.certs.indexOf(c.id)>=0;});})
+      .map(function(c){
+        return '<tr><td>'+esc(c.name)+'</td>'+ps.map(function(p){
+          return '<td>'+dot(p.certs.indexOf(c.id)>=0)+'</td>';}).join("")+'</tr>';});
+  } else {
+    rows=FEATURES.filter(function(f){return ps.some(function(p){return p.features.indexOf(f.id)>=0;});})
+      .map(function(f){
+        return '<tr><td>'+esc(f.name)+'</td>'+ps.map(function(p){
+          return '<td>'+dot(p.features.indexOf(f.id)>=0)+'</td>';}).join("")+'</tr>';});
+  }
+  var pages=Math.max(1,Math.ceil(rows.length/perRow));
+  page=Math.min(Math.max(1,page),pages);
+  body.innerHTML='<table>'+head+'<tbody>'+
+    rows.slice((page-1)*perRow,(page-1)*perRow+perRow).join("")+'</tbody></table>'+pagerHTML(page,pages);
 }
 
-/* ---- 網址狀態 ---- */
 function writeHash(){
   var parts=[];
   if(applied.product) parts.push("p="+applied.product);
@@ -731,7 +823,7 @@ function writeHash(){
   if(applied.certs.length) parts.push("c="+applied.certs.join(","));
   if(applied.mode!=="AND") parts.push("m=or");
   var h=parts.length?"#pt:"+parts.join("&"):"";
-  if(h!==location.hash && (h||location.hash.indexOf("#pt:")===0)){
+  if(h!==location.hash&&(h||location.hash.indexOf("#pt:")===0)){
     history.replaceState(null,"",location.pathname+location.search+h);
   }
 }
@@ -749,9 +841,10 @@ function readHash(){
   pick.feature=applied.features.slice();
   pick.cert=applied.certs.slice();
   var r=elForm.querySelector('input[name="pt-mode"][value="'+applied.mode+'"]'); if(r) r.checked=true;
+  if(applied.product||applied.features.length||applied.certs.length) setCollapsed(true);
 }
+function setCollapsed(v){ collapsed=v; root.classList.toggle("is-collapsed",v); }
 
-/* ---- 事件 ---- */
 elForm.addEventListener("change",syncFields);
 
 elForm.addEventListener("submit",function(e){
@@ -762,9 +855,12 @@ elForm.addEventListener("submit",function(e){
   applied.certs=pick.cert.slice();
   var r=elForm.querySelector('input[name="pt-mode"]:checked');
   applied.mode=r?r.value:"AND";
-  view="cards"; detailId=""; page=1;
-  render(); writeHash(); syncFields();
-  track("filter_query",{product:applied.product||"all",features:applied.features.join("|"),certs:applied.certs.join("|"),mode:applied.mode});
+  page=1;
+  /* 指定了品項就直接看那一雙的明細 */
+  if(applied.product){ view="detail"; detailId=applied.product; dTab="spec"; }
+  else { view="cards"; detailId=""; }
+  setCollapsed(true);
+  render(); writeHash();
 });
 
 $("pt-reset").addEventListener("click",function(){
@@ -772,46 +868,56 @@ $("pt-reset").addEventListener("click",function(){
   var r=elForm.querySelector('input[name="pt-mode"][value="AND"]'); if(r) r.checked=true;
   applied={product:"",features:[],certs:[],mode:"AND"};
   view="cards"; detailId=""; page=1;
-  render(); writeHash(); syncFields();
+  setCollapsed(false);
+  syncFields(); render(); writeHash();
 });
 
-/* 視窗寬度變了、每頁筆數跟著變，重畫一次 */
-var lastPer=pageSize(), rzT=null;
-window.addEventListener("resize",function(){
-  clearTimeout(rzT);
-  rzT=setTimeout(function(){
-    var per=pageSize();
-    if(per!==lastPer){ lastPer=per; page=1; if(view==="cards") render(); }
-  },180);
-});
+elToggle.addEventListener("click",function(){ setCollapsed(!collapsed); render(); });
 
 elView.addEventListener("click",function(){
-  if(view==="cards"){ view="table"; track("compare_open",{count:compare.length}); }
-  else { view="cards"; detailId=""; }
+  if(view==="cards"){ view="compare"; cTab="spec"; page=1; }
+  else { view="cards"; detailId=""; page=1; }
   render();
+});
+
+elPills.addEventListener("click",function(e){
+  var b=e.target.closest("[data-rm]");
+  if(!b) return;
+  var kind=b.getAttribute("data-rm"), id=b.getAttribute("data-id");
+  if(kind==="p"){ applied.product=""; elP.value=""; }
+  if(kind==="f"){ applied.features=applied.features.filter(function(x){return x!==id;}); }
+  if(kind==="c"){ applied.certs=applied.certs.filter(function(x){return x!==id;}); }
+  pick.feature=applied.features.slice(); pick.cert=applied.certs.slice();
+  page=1; view="cards"; detailId="";
+  syncFields(); render(); writeHash();
 });
 
 elRes.addEventListener("click",function(e){
   var pg=e.target.closest("[data-pg]");
-  if(pg && !pg.disabled){
-    page += (pg.getAttribute("data-pg")==="next" ? 1 : -1);
-    render();
-    return;
-  }
+  if(pg&&!pg.disabled){ page+= pg.getAttribute("data-pg")==="next"?1:-1; render(); return; }
+
+  var dt=e.target.closest("[data-dtab]");
+  if(dt){ dTab=dt.getAttribute("data-dtab"); page=1; render(); return; }
+
+  var ct=e.target.closest("[data-ctab]");
+  if(ct){ cTab=ct.getAttribute("data-ctab"); page=1; render(); return; }
+
+  var cert=e.target.closest("[data-cert]");
+  if(cert){ var c=C[cert.getAttribute("data-cert")]; if(c){ elLbImg.src=c.img; elLbImg.alt=c.name; elLb.hidden=false; } return; }
+
+  if(e.target.closest(".pt-cchk")||e.target.closest(".pt-rowchk")||e.target.closest("a")) return;
   var t=e.target.closest("[data-open]");
   if(!t) return;
-  detailId=t.getAttribute("data-open");
-  view="detail";
+  detailId=t.getAttribute("data-open"); view="detail"; dTab="spec"; page=1;
   render();
-  var p=P[detailId];
-  if(p) track("product_detail_view",{item_id:p.id,item_name:p.name});
 });
+
 elRes.addEventListener("change",function(e){
   var cb=e.target;
   if(!cb.hasAttribute||!cb.hasAttribute("data-cmp")) return;
   var id=cb.getAttribute("data-cmp");
   if(cb.checked){
-    if(compare.length>=4){ cb.checked=false; return; }
+    if(compare.length>=maxCompare()){ cb.checked=false; return; }
     compare.push(id);
   } else {
     compare=compare.filter(function(x){return x!==id;});
@@ -819,9 +925,28 @@ elRes.addEventListener("change",function(e){
   syncBar();
 });
 
+elLb.addEventListener("click",function(){ elLb.hidden=true; });
+
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Escape") return;
+  if(!elLb.hidden){ elLb.hidden=true; return; }
+  closeAllDD();
+  if(view!=="cards"){ view="cards"; detailId=""; page=1; render(); }
+});
+
+var rzT=null;
+window.addEventListener("resize",function(){
+  clearTimeout(rzT);
+  rzT=setTimeout(function(){
+    if(compare.length>maxCompare()) compare=compare.slice(0,maxCompare());
+    render();
+  },150);
+});
+
 readHash();
 syncFields();
 render();
+window.addEventListener("load",render);
 })();
 </script>
 
