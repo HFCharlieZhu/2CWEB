@@ -213,17 +213,19 @@
 /* ---------- 橫列（手機） ---------- */
 #pt-finder .pt-list{display:flex;flex-direction:column;gap:8px;}
 #pt-finder .pt-row{
-  display:flex;align-items:stretch;flex:0 0 auto;height:126px;
+  position:relative;display:flex;align-items:stretch;flex:0 0 auto;height:126px;
   border:var(--pt-bw) solid var(--pt-line);border-radius:var(--pt-r);
   overflow:hidden;cursor:pointer;transition:border-color var(--pt-ease);
 }
 #pt-finder .pt-row:active{border-color:var(--pt-brand);}
 #pt-finder .pt-rowchk{
-  flex:0 0 auto;display:flex;align-items:center;padding:0 9px;
-  background:var(--pt-media);cursor:pointer;
+  position:absolute;top:8px;left:8px;z-index:2;
+  display:flex;align-items:center;padding:5px 7px;
+  background:rgba(255,255,255,.94);border:1px solid var(--pt-line);
+  border-radius:999px;cursor:pointer;
 }
-#pt-finder .pt-rowchk input{margin:0;accent-color:var(--pt-brand);width:17px;height:17px;cursor:pointer;}
-#pt-finder .pt-rowimg{flex:0 0 auto;width:104px;background:var(--pt-media);overflow:hidden;}
+#pt-finder .pt-rowchk input{margin:0;accent-color:var(--pt-brand);width:16px;height:16px;cursor:pointer;}
+#pt-finder .pt-rowimg{flex:0 0 auto;width:116px;background:var(--pt-media);overflow:hidden;}
 #pt-finder .pt-rowimg img{width:100%;height:100%;object-fit:contain;display:block;transform:scale(1.2);}
 #pt-finder .pt-rowmain{
   flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;
@@ -368,18 +370,17 @@
   /* 窄畫面狀態列只留筆數，條件靠展開「查詢」檢視 */
   #pt-finder .pt-pills{display:none;}
   #pt-finder .pt-tags{min-height:34px;gap:6px;}
-  #pt-finder .pt-cthumb img,#pt-finder .pt-rowimg img{object-position:42% center;}
-  #pt-finder .pt-rowimg img{object-position:34% center;}
+  #pt-finder .pt-cthumb img{object-position:42% center;}
 }
 @media (max-width:600px){
   #pt-finder{padding:12px 0;}
-  #pt-finder .pt-rowchk{padding:0 4px;}
-  #pt-finder .pt-rowmain{padding:9px 12px 9px 8px;}
+  
+  #pt-finder .pt-rowmain{padding:9px 12px;}
   #pt-finder .pt-panel{padding:14px;}
   #pt-finder .pt-grid{padding:6px 12px 12px 6px;}
   #pt-finder .pt-name{font-size:15px;}
   #pt-finder .pt-tag{font-size:12px;padding:5px 13px;}
-  #pt-finder .pt-rowimg{width:96px;}
+  #pt-finder .pt-rowimg{width:108px;}
   #pt-finder .pt-dimg{width:132px;}
   #pt-finder .pt-dmeta h3{font-size:16.5px;}
   #pt-finder .pt-acts{width:100%;}
@@ -798,12 +799,13 @@ function cardHTML(p){
 }
 function rowHTML(p){
   return '<article class="pt-row'+dimClass(p.id)+'" data-open="'+p.id+'">'+
-    '<label class="pt-rowchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較"></label>'+
     '<div class="pt-rowimg"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
     '<div class="pt-rowmain">'+
       '<h4 class="pt-name">'+esc(p.name)+' <span class="pt-model">'+esc(p.id)+'</span></h4>'+
       tagStrip(p)+
-    '</div></article>';
+    '</div>'+
+    '<label class="pt-rowchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較"></label>'+
+  '</article>';
 }
 
 function renderCards(H){
