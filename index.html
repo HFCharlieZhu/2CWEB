@@ -44,10 +44,18 @@
   -webkit-overflow-scrolling:touch;
 }
 #pt-finder .pt-scrollx::-webkit-scrollbar{display:none;}
-#pt-finder .pt-scrollx.is-ovf{
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
-  cursor:grab;
+#pt-finder .pt-scrollx.is-ovf{cursor:grab;}
+#pt-finder .pt-scrollx.is-fr:not(.is-fl){
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent 100%);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent 100%);
+}
+#pt-finder .pt-scrollx.is-fl:not(.is-fr){
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16px);
+  mask-image:linear-gradient(90deg,transparent 0,#000 16px);
+}
+#pt-finder .pt-scrollx.is-fl.is-fr{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 16px),transparent 100%);
 }
 #pt-finder .pt-scrollx.is-drag{cursor:grabbing;}
 
@@ -195,7 +203,7 @@
   border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700;letter-spacing:.36px;cursor:pointer;
 }
 #pt-finder .pt-cchk input{margin:0;accent-color:var(--pt-brand);width:14px;height:14px;cursor:pointer;}
-#pt-finder .pt-cbody{flex:1 1 auto;padding:12px 15px 15px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+#pt-finder .pt-cbody{flex:0 0 auto;padding:12px 15px 15px;display:flex;flex-direction:column;gap:8px;min-width:0;}
 #pt-finder .pt-card .pt-btn{width:100%;margin-top:auto;padding:9px 12px;position:relative;z-index:1;font-size:14px;}
 
 #pt-finder .pt-card.is-dim::after{content:"";position:absolute;inset:0;z-index:3;background:rgba(255,255,255,.66);}
@@ -205,7 +213,7 @@
 /* ---------- 橫列（手機） ---------- */
 #pt-finder .pt-list{display:flex;flex-direction:column;gap:8px;}
 #pt-finder .pt-row{
-  display:flex;align-items:stretch;flex:0 0 auto;height:112px;
+  display:flex;align-items:stretch;flex:0 0 auto;height:126px;
   border:var(--pt-bw) solid var(--pt-line);border-radius:var(--pt-r);
   overflow:hidden;cursor:pointer;transition:border-color var(--pt-ease);
 }
@@ -219,7 +227,7 @@
 #pt-finder .pt-rowimg img{width:100%;height:100%;object-fit:contain;display:block;transform:scale(1.2);}
 #pt-finder .pt-rowmain{
   flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center;
-  gap:7px;padding:10px 12px;
+  gap:6px;padding:9px 12px;
 }
 #pt-finder .pt-row.is-dim{position:relative;}
 #pt-finder .pt-row.is-dim::after{content:"";position:absolute;inset:0;z-index:3;background:rgba(255,255,255,.66);}
@@ -230,7 +238,7 @@
 }
 
 #pt-finder .pt-model{font-size:12px;font-weight:700;letter-spacing:.36px;color:var(--pt-body);}
-#pt-finder .pt-tags{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;min-width:0;padding:2px 0;}
+#pt-finder .pt-tags{display:flex;align-items:center;gap:7px;flex-wrap:nowrap;min-width:0;min-height:38px;padding:0;}
 #pt-finder .pt-tag{
   flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:700;line-height:1.35;letter-spacing:.52px;
@@ -320,7 +328,7 @@
   position:absolute;top:14px;right:16px;width:58px;height:58px;border-radius:50%;
   background:var(--pt-tint);border:1px solid var(--pt-line);color:var(--pt-ink);
   font-family:var(--pt-sans);font-size:30px;line-height:1;cursor:pointer;
-  transition:background-color var(--pt-ease),color var(--pt-ease),border-color var(--pt-ease);
+  transition:background-color var(--pt-ease),color var(--pt-ease),border-color var(--pt-ease),transform var(--pt-ease);
 }
 
 /* 只有真的有滑鼠的裝置才套 hover，手機點下去不會殘留 */
@@ -343,7 +351,7 @@
   #pt-finder .pt-btn[disabled]:hover{transform:none;}
   #pt-finder .pt-pg:hover:not([disabled]){background:var(--pt-ink);color:var(--pt-paper);}
   #pt-finder .pt-tab:hover{color:var(--pt-ink);}
-  #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);}
+  #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);transform:scale(1.08);}
 }
 
 @media (max-width:900px){
@@ -356,12 +364,18 @@
     min-height:2.8em;
   }
 }
+@media (max-width:900px){
+  #pt-finder .pt-tags{min-height:34px;gap:6px;}
+  #pt-finder .pt-cthumb img,#pt-finder .pt-rowimg img{object-position:42% center;}
+}
 @media (max-width:600px){
   #pt-finder{padding:12px 0;}
+  #pt-finder .pt-rowchk{padding:0 6px;}
+  #pt-finder .pt-rowmain{padding:9px 12px 9px 10px;}
   #pt-finder .pt-panel{padding:14px;}
   #pt-finder .pt-grid{padding:6px 12px 12px 6px;}
   #pt-finder .pt-name{font-size:15px;}
-  #pt-finder .pt-tag{font-size:12px;padding:5px 12px;}
+  #pt-finder .pt-tag{font-size:12px;padding:5px 13px;}
   #pt-finder .pt-rowimg{width:96px;}
   #pt-finder .pt-dimg{width:132px;}
   #pt-finder .pt-dmeta h3{font-size:16.5px;}
@@ -568,7 +582,7 @@ var OPTMAP={};
 OPTGROUPS.forEach(function(g){g.items.forEach(function(o){OPTMAP[o.key]=o;});});
 
 var SPEC_ROWS=[["grade","安全等級"],["upper","鞋面材質"],["sole","大　　底"],["shaft","筒　　高"],["weight","重　　量"],["width","楦　　寬"],["size","鞋碼範圍"]];
-var PAGER_H=46, SHOP_H=50, GAP=14, ROW_GAP=8;
+var PAGER_H=46, SHOP_H=50, GAP=14, ROW_GAP=8, CARDS_PER_PAGE=8;
 
 var applied={product:"",sel:[],mode:"AND"};
 var pick={sel:[]};
@@ -616,8 +630,14 @@ function bindScrollX(el){
   el.addEventListener("pointerup",up);
   el.addEventListener("pointercancel",up);
   el.addEventListener("pointerleave",up);
+  el.addEventListener("scroll",function(){ markOvf(el); },{passive:true});
 }
-function markOvf(el){ el.classList.toggle("is-ovf", el.scrollWidth-el.clientWidth>2); }
+function markOvf(el){
+  var max=el.scrollWidth-el.clientWidth, ovf=max>2;
+  el.classList.toggle("is-ovf",ovf);
+  el.classList.toggle("is-fl", ovf && el.scrollLeft>2);
+  el.classList.toggle("is-fr", ovf && el.scrollLeft<max-2);
+}
 function justDragged(node){
   var el=node&&node.closest?node.closest(".pt-scrollx"):null;
   return !!(el && el.dataset.until && Date.now()<+el.dataset.until);
@@ -786,7 +806,7 @@ function rowHTML(p){
 function renderCards(H){
   var list=results();
   if(!list.length){
-    elRes.innerHTML='<div class="pt-empty">無符合條件的品項，請減少條件或改為「任一符合」。</div>';
+    elRes.innerHTML='<div class="pt-empty">查無符合條件的品項</div>';
     return;
   }
   var space=H-PAGER_H, per=0, cards=false;
@@ -797,13 +817,13 @@ function renderCards(H){
     var pad=18; /* 網格上下內距，留給放大與陰影 */
     if(one.offsetHeight+pad<=space){
       var cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;
-      per=cols*Math.max(1,Math.floor((space-pad+GAP)/(one.offsetHeight+GAP)));
+      per=Math.min(CARDS_PER_PAGE, cols*Math.max(1,Math.floor((space-pad+GAP)/(one.offsetHeight+GAP))));
       cards=true;
     }
   }
   if(!cards){
-    var rowH=112+ROW_GAP;
-    if(space<112){ elRes.style.display="none"; return; }
+    var rowH=126+ROW_GAP;
+    if(space<126){ elRes.style.display="none"; return; }
     per=Math.max(1,Math.floor((space+ROW_GAP)/rowH));
   }
 
@@ -813,11 +833,6 @@ function renderCards(H){
 
   if(cards){
     elRes.innerHTML='<div class="pt-grid">'+shown.map(cardHTML).join("")+'</div>'+pagerHTML(page,pages);
-    var g=elRes.firstChild;
-    var ncols=getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length||1;
-    var nrows=Math.max(1,Math.ceil(shown.length/ncols));
-    g.style.height=space+"px";
-    g.style.gridTemplateRows="repeat("+nrows+",1fr)";
   } else {
     elRes.innerHTML='<div class="pt-list">'+shown.map(rowHTML).join("")+'</div>'+pagerHTML(page,pages);
   }
