@@ -9,7 +9,6 @@
 <body style="margin:0;background:#ffffff;overflow:hidden">
 
 <style>
-/* 設計參數對齊 patroni.com.tw/pages/blog 的卡片系統 */
 #pt-finder{
   --pt-brand:#f8b500;
   --pt-brand-d:#d39a00;
@@ -59,7 +58,6 @@
 }
 #pt-finder .pt-scrollx.is-drag{cursor:grabbing;}
 
-/* ---------- 查詢面板 ---------- */
 #pt-finder .pt-panel{
   border:var(--pt-bw) solid var(--pt-line);border-radius:var(--pt-r);
   padding:16px;margin-bottom:10px;
@@ -67,7 +65,15 @@
 #pt-finder.is-collapsed .pt-panel{display:none;}
 #pt-finder .pt-fields{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:end;}
 #pt-finder .pt-field{min-width:0;transition:opacity var(--pt-ease);}
-#pt-finder .pt-field.is-off{opacity:.35;pointer-events:none;}
+#pt-finder .pt-field.is-off>label,#pt-finder .pt-field.is-off>span.pt-lab,
+#pt-finder .pt-field.is-off>select,#pt-finder .pt-field.is-off .pt-dd-btn{opacity:.4;}
+#pt-finder .pt-field.is-off select:focus,
+#pt-finder .pt-field.is-off .pt-dd-btn[aria-expanded="true"]{border-color:var(--pt-line);}
+#pt-finder .pt-field.is-off .pt-dd-panel{border-color:var(--pt-line);}
+#pt-finder .pt-field.is-off .pt-dd-opt{color:var(--pt-muted);}
+#pt-finder .pt-field.is-off .pt-dd-grp{color:var(--pt-hair);}
+#pt-finder .pt-field.is-off .pt-dd-box{border-color:var(--pt-hair);}
+#pt-finder .pt-field.is-off .pt-dd-code{color:var(--pt-hair);}
 #pt-finder .pt-field>label,#pt-finder .pt-field>span.pt-lab{
   display:block;font-size:12px;font-weight:700;letter-spacing:.36px;
   color:var(--pt-body);margin-bottom:7px;
@@ -141,7 +147,6 @@
 }
 #pt-finder .pt-acts{display:flex;align-items:center;gap:10px;}
 
-/* 按鈕：比照部落格分類膠囊 999px / 8px 20px / 16px 700 / 字距 .64px */
 #pt-finder .pt-btn{
   font-family:var(--pt-sans);font-size:16px;font-weight:700;letter-spacing:.64px;line-height:1.35;
   border-radius:999px;padding:8px 20px;cursor:pointer;white-space:nowrap;
@@ -153,7 +158,6 @@
 #pt-finder .pt-btn[disabled]{opacity:.3;cursor:not-allowed;}
 #pt-finder .pt-btn--sm{padding:7px 16px;font-size:13px;letter-spacing:.52px;}
 
-/* ---------- 狀態列 ---------- */
 #pt-finder .pt-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-height:38px;}
 #pt-finder .pt-toggle{
   flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
@@ -169,10 +173,10 @@
 #pt-finder .pt-pill{
   display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
   font-size:12.5px;font-weight:700;line-height:1;letter-spacing:.52px;
-  padding:7px 9px 7px 13px;border-radius:999px;
-  background:var(--pt-brand);color:var(--pt-ink);
+  padding:6px 8px 6px 12px;border-radius:999px;
+  background:transparent;border:1px solid var(--pt-brand);color:var(--pt-ink);
 }
-#pt-finder .pt-pill.pt-plain{background:var(--pt-tint);color:var(--pt-body);font-weight:400;padding:7px 13px;}
+#pt-finder .pt-pill.pt-plain{background:var(--pt-tint);border-color:var(--pt-hair);color:var(--pt-body);font-weight:400;padding:6px 12px;}
 #pt-finder .pt-pill button{
   border:0;background:none;cursor:pointer;color:inherit;font-family:var(--pt-sans);
   font-size:14px;line-height:1;padding:0 2px;
@@ -183,10 +187,11 @@
 
 #pt-finder #pt-results{overflow:hidden;}
 
-/* ---------- 卡片 ---------- */
+#pt-finder .pt-probe{pointer-events:none;}
+#pt-finder .pt-probe{pointer-events:none;}
 #pt-finder .pt-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
-  gap:14px;align-content:start;grid-auto-rows:1fr;padding:6px 12px 12px 6px;
+  gap:14px;align-content:start;grid-auto-rows:1fr;padding:6px 0 12px;
 }
 #pt-finder .pt-card{
   display:flex;flex-direction:column;position:relative;background:var(--pt-paper);
@@ -203,14 +208,13 @@
   border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:700;letter-spacing:.36px;cursor:pointer;
 }
 #pt-finder .pt-cchk input{margin:0;accent-color:var(--pt-brand);width:14px;height:14px;cursor:pointer;}
-#pt-finder .pt-cbody{flex:0 0 auto;padding:12px 15px 15px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+#pt-finder .pt-cbody{flex:0 0 auto;padding:12px 15px 14px;display:flex;flex-direction:column;gap:7px;min-width:0;}
 #pt-finder .pt-card .pt-btn{width:100%;margin-top:auto;padding:9px 12px;position:relative;z-index:1;font-size:14px;}
 
 #pt-finder .pt-card.is-dim::after{content:"";position:absolute;inset:0;z-index:3;background:rgba(255,255,255,.66);}
 #pt-finder .pt-card.is-dim .pt-btn{z-index:4;opacity:.45;}
 #pt-finder .pt-card.is-dim .pt-btn:hover{opacity:1;}
 
-/* ---------- 橫列（手機） ---------- */
 #pt-finder .pt-list{display:flex;flex-direction:column;gap:8px;}
 #pt-finder .pt-row{
   position:relative;display:flex;align-items:stretch;flex:0 0 auto;height:126px;
@@ -248,8 +252,7 @@
   background:var(--pt-tint);border:1px solid var(--pt-line);color:var(--pt-body);
   white-space:nowrap;user-select:none;
 }
-#pt-finder .pt-tag.pt-cert{background:var(--pt-paper);color:var(--pt-ink);}
-#pt-finder .pt-tag.pt-hit{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);}
+#pt-finder .pt-tag.pt-hit{background:transparent;border-color:var(--pt-brand);color:var(--pt-ink);}
 
 #pt-finder .pt-pager{display:flex;align-items:center;justify-content:center;gap:14px;height:46px;}
 #pt-finder .pt-pg{
@@ -268,7 +271,6 @@
   padding:36px 20px;text-align:center;color:var(--pt-body);font-size:14px;
 }
 
-/* ---------- 明細 ---------- */
 #pt-finder .pt-dhead{display:flex;align-items:center;gap:16px;margin-bottom:12px;}
 #pt-finder .pt-dimg{flex:0 0 auto;width:204px;aspect-ratio:1020/600;background:var(--pt-media);border-radius:var(--pt-r);overflow:hidden;}
 #pt-finder .pt-dimg img{width:100%;height:100%;object-fit:contain;display:block;transform:scale(1.2);}
@@ -319,7 +321,6 @@
 #pt-finder .pt-cmeta b{display:block;font-size:14px;font-weight:700;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--pt-ink);}
 #pt-finder .pt-cmeta span{display:block;font-size:12px;color:var(--pt-body);letter-spacing:.36px;}
 
-/* ---------- 認證燈箱：白底、靠上、圖縮 40% ---------- */
 #pt-finder .pt-lb{
   position:fixed;inset:0;z-index:200;display:flex;align-items:flex-start;justify-content:center;
   background:var(--pt-paper);padding:64px 16px 16px;
@@ -333,7 +334,6 @@
   transition:background-color var(--pt-ease),color var(--pt-ease),border-color var(--pt-ease),transform var(--pt-ease);
 }
 
-/* 只有真的有滑鼠的裝置才套 hover，手機點下去不會殘留 */
 @media (hover:hover) and (pointer:fine){
   #pt-finder .pt-card:hover{
     transform:scale(1.02);box-shadow:var(--pt-shadow);border-color:var(--pt-brand);
@@ -342,15 +342,15 @@
   #pt-finder .pt-row:hover{border-color:var(--pt-brand);}
   #pt-finder .pt-crow:hover{border-color:var(--pt-brand);}
   #pt-finder select:hover,#pt-finder .pt-dd-btn:hover{border-color:var(--pt-brand);}
-  #pt-finder .pt-toggle:hover{border-color:var(--pt-brand);}
+  #pt-finder .pt-field.is-off select:hover,
+  #pt-finder .pt-field.is-off .pt-dd-btn:hover{border-color:var(--pt-line);}
+  #pt-finder .pt-toggle:not([disabled]):hover{border-color:var(--pt-brand);}
   #pt-finder .pt-dd-opt:hover{background:var(--pt-tint);}
   #pt-finder .pt-dd-opt[aria-selected="true"]:hover{background:var(--pt-brand);}
-  /* 主按鈕放大，次級只換底色 */
-  #pt-finder .pt-btn:hover{transform:scale(1.08);}
-  #pt-finder .pt-card .pt-btn:hover,
+  #pt-finder .pt-btn:not([disabled]):hover{transform:scale(1.08);}
+  #pt-finder .pt-card .pt-btn:not([disabled]):hover,
   #pt-finder .pt-shopwrap .pt-btn:hover{transform:none;filter:brightness(.94);}
-  #pt-finder .pt-btn--ghost:hover{transform:none;background:var(--pt-ink);color:var(--pt-paper);}
-  #pt-finder .pt-btn[disabled]:hover{transform:none;}
+  #pt-finder .pt-btn--ghost:not([disabled]):hover{transform:none;background:var(--pt-ink);color:var(--pt-paper);}
   #pt-finder .pt-pg:hover:not([disabled]){background:var(--pt-ink);color:var(--pt-paper);}
   #pt-finder .pt-tab:hover{color:var(--pt-ink);}
   #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);transform:scale(1.08);}
@@ -359,26 +359,24 @@
 @media (max-width:900px){
   #pt-finder .pt-fields{grid-template-columns:1fr;gap:10px;}
   #pt-finder .pt-or{padding:0;text-align:center;}
-  /* 窄畫面改成更寬的卡片、一頁少放幾張，標題可折兩行不截字 */
   #pt-finder .pt-grid{grid-template-columns:repeat(auto-fill,minmax(258px,1fr));}
   #pt-finder .pt-card .pt-name{
     white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
     min-height:2.8em;
   }
-}
-@media (max-width:900px){
-  /* 窄畫面狀態列只留筆數，條件靠展開「查詢」檢視 */
   #pt-finder .pt-pills{display:none;}
   #pt-finder .pt-limit{display:none;}
   #pt-finder .pt-tags{min-height:34px;gap:6px;}
   #pt-finder .pt-cthumb img{object-position:42% center;}
+}
+@media (min-width:760px){
+  #pt-finder #pt-results{margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px;}
 }
 @media (max-width:600px){
   #pt-finder{padding:12px 0;}
   
   #pt-finder .pt-rowmain{padding:9px 12px;}
   #pt-finder .pt-panel{padding:14px;}
-  #pt-finder .pt-grid{padding:6px 12px 12px 6px;}
   #pt-finder .pt-name{font-size:15px;}
   #pt-finder .pt-tag{font-size:12px;padding:5px 13px;}
   #pt-finder .pt-rowimg{width:108px;}
@@ -457,8 +455,6 @@
 <script>
 (function(){
 "use strict";
-
-/* ============ 資料區：維護商品時只需要改這一段 ============ */
 
 var IMG_PRODUCT = "https://img.shoplineapp.com/media/image_clips/6a99080cc56f76a2c55d592e/original.png?1788413963=&owner_id=6572a1b95ad192005192397e";
 var IMG_CERT_1  = "https://img.shoplineapp.com/media/image_clips/6a9907c921976070eec2dc49/original.jpg?1788413896=&owner_id=6572a1b95ad192005192397e";
@@ -571,14 +567,11 @@ var PRODUCTS = [
    certs:["cns","ce","lgtest","cns12707","aatcc","csa"]}
 ];
 
-/* ============ 資料區結束 ============ */
-
 var F={},C={},P={};
 FEATURES.forEach(function(x){F[x.id]=x;});
 CERTS.forEach(function(x){C[x.id]=x;});
 PRODUCTS.forEach(function(x){P[x.id]=x;});
 
-/* 認證與功能合併成同一組可選條件，前綴區分 */
 var OPTGROUPS=[
   {name:"認證", items:CERTS.map(function(c){return {key:"c:"+c.id,name:c.name,code:""};})},
   {name:"功能", items:FEATURES.map(function(f){return {key:"f:"+f.id,name:f.name,code:f.code};})}
@@ -612,29 +605,31 @@ function narrow(){ return W()<600; }
 function useCards(){ return W()>=760; }
 function maxCompare(){ return W()<600?2:(W()<900?3:4); }
 
-/* 橫向拖曳瀏覽；拖曳後 250ms 內不接受點按，避免誤觸展開 */
+var DRAG_UNTIL=0;
 function bindScrollX(el){
   markOvf(el);
   if(el.dataset.sx) return;
   el.dataset.sx="1";
-  var down=false,moved=false,x0=0,s0=0,until=0;
+  var id=null,moved=false,x0=0,s0=0;
   el.addEventListener("pointerdown",function(e){
-    if(el.scrollWidth-el.clientWidth<=2) return;
-    down=true;moved=false;x0=e.clientX;s0=el.scrollLeft;el.classList.add("is-drag");
+    if(e.pointerType!=="mouse") return;    if(el.scrollWidth-el.clientWidth<=2) return;
+    id=e.pointerId;moved=false;x0=e.clientX;s0=el.scrollLeft;
+    el.classList.add("is-drag");
+    try{ el.setPointerCapture(id); }catch(err){}
   });
   el.addEventListener("pointermove",function(e){
-    if(!down) return;
+    if(id===null||e.pointerId!==id) return;
     var d=e.clientX-x0;
     if(Math.abs(d)>3){ moved=true; el.scrollLeft=s0-d; e.preventDefault(); }
   });
-  function up(){
-    if(!down) return;
-    down=false; el.classList.remove("is-drag");
-    if(moved){ until=Date.now()+250; el.dataset.until=until; }
+  function up(e){
+    if(id===null) return;
+    try{ el.releasePointerCapture(id); }catch(err){}
+    id=null; el.classList.remove("is-drag");
+    if(moved) DRAG_UNTIL=Date.now()+250;
   }
   el.addEventListener("pointerup",up);
   el.addEventListener("pointercancel",up);
-  el.addEventListener("pointerleave",up);
   el.addEventListener("scroll",function(){ markOvf(el); },{passive:true});
 }
 function markOvf(el){
@@ -643,13 +638,9 @@ function markOvf(el){
   el.classList.toggle("is-fl", ovf && el.scrollLeft>2);
   el.classList.toggle("is-fr", ovf && el.scrollLeft<max-2);
 }
-function justDragged(node){
-  var el=node&&node.closest?node.closest(".pt-scrollx"):null;
-  return !!(el && el.dataset.until && Date.now()<+el.dataset.until);
-}
+function justDragged(){ return Date.now()<DRAG_UNTIL; }
 function bindAllScrollX(){ Array.prototype.forEach.call(root.querySelectorAll(".pt-scrollx"),bindScrollX); }
 
-/* ---------- 條件下拉（認證＋功能） ---------- */
 var CHECK='<svg viewBox="0 0 10 8" fill="none" aria-hidden="true"><path d="M1 4l2.8 2.8L9 1.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 DD.panel.innerHTML=OPTGROUPS.map(function(g){
   return '<div class="pt-dd-grp">'+esc(g.name)+'</div>'+g.items.map(function(o){
@@ -669,17 +660,18 @@ DD.panel.addEventListener("click",function(e){
   e.stopPropagation();
   var o=e.target.closest(".pt-dd-opt");
   if(!o) return;
-  var v=o.getAttribute("data-v"), i=pick.sel.indexOf(v);
+  if(elP.value){ elP.value=""; }  var v=o.getAttribute("data-v"), i=pick.sel.indexOf(v);
   if(i>=0) pick.sel.splice(i,1); else pick.sel.push(v);
   syncFields();
 });
 function closeDD(){ DD.panel.hidden=true; DD.btn.setAttribute("aria-expanded","false"); }
 document.addEventListener("click",closeDD);
+elP.addEventListener("mousedown",closeDD);
+elP.addEventListener("focus",closeDD);
 
 elP.innerHTML='<option value="">選擇鞋款</option>'+PRODUCTS.map(function(p){
   return '<option value="'+p.id+'">'+esc(p.name+"　"+p.id)+'</option>';}).join("");
 
-/* 名稱由新到舊排，欄寬放不下時把最舊的擠掉，計數不受影響 */
 function fitDDText(names){
   if(!names.length){ DD.txt.textContent="選擇認證與功能"; return; }
   var n=names.length;
@@ -705,7 +697,6 @@ function syncFields(){
   elLogic.classList.toggle("is-off",hasModel||pick.sel.length<2);
 }
 
-/* ---------- 篩選 ---------- */
 function has(p,key){
   return key.charAt(0)==="c" ? p.certs.indexOf(key.slice(2))>=0 : p.features.indexOf(key.slice(2))>=0;
 }
@@ -788,25 +779,50 @@ function tagStrip(p){
 function dimClass(id){
   return (compare.length>=maxCompare() && compare.indexOf(id)<0) ? " is-dim" : "";
 }
-function cardHTML(p){
-  return '<article class="pt-card'+dimClass(p.id)+'" data-open="'+p.id+'">'+
-    '<label class="pt-cchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較">比較</label>'+
+function cardInner(p){
+  return '<label class="pt-cchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較">比較</label>'+
     '<div class="pt-cthumb"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
     '<div class="pt-cbody">'+
       '<h4 class="pt-name">'+esc(p.name)+' <span class="pt-model">'+esc(p.id)+'</span></h4>'+
       tagStrip(p)+
       '<button type="button" class="pt-btn" data-open="'+p.id+'">展開</button>'+
-    '</div></article>';
+    '</div>';
 }
-function rowHTML(p){
-  return '<article class="pt-row'+dimClass(p.id)+'" data-open="'+p.id+'">'+
-    '<div class="pt-rowimg"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
+function rowInner(p){
+  return '<div class="pt-rowimg"><img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy"></div>'+
     '<div class="pt-rowmain">'+
       '<h4 class="pt-name">'+esc(p.name)+' <span class="pt-model">'+esc(p.id)+'</span></h4>'+
       tagStrip(p)+
     '</div>'+
-    '<label class="pt-rowchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較"></label>'+
-  '</article>';
+    '<label class="pt-rowchk"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?" checked":"")+(dimClass(p.id)?" disabled":"")+' aria-label="加入比較"></label>';
+}
+
+function paintItems(shown,pages,cards){
+  var cls=cards?"pt-grid":"pt-list", tag=cards?"pt-card":"pt-row", inner=cards?cardInner:rowInner;
+  var box=elRes.firstElementChild;
+  if(box&&box.classList.contains(cls)&&!box.classList.contains("pt-probe")){
+    while(box.children.length>shown.length) box.removeChild(box.lastElementChild);
+    while(box.children.length<shown.length) box.appendChild(document.createElement("article"));
+    for(var i=0;i<shown.length;i++){
+      var p=shown[i], el=box.children[i];
+      el.className=tag+dimClass(p.id);
+      el.setAttribute("data-open",p.id);
+      el.innerHTML=inner(p);
+    }
+    paintPager(page,pages);
+    return;
+  }
+  elRes.innerHTML='<div class="'+cls+'">'+shown.map(function(p){
+    return '<article class="'+tag+dimClass(p.id)+'" data-open="'+p.id+'">'+inner(p)+'</article>';
+  }).join("")+'</div>'+pagerHTML(page,pages);
+}
+function paintPager(pg,pages){
+  var el=elRes.querySelector(".pt-pager");
+  if(!el){ elRes.insertAdjacentHTML("beforeend",pagerHTML(pg,pages)); return; }
+  el.classList.toggle("is-off",pages<=1);
+  el.querySelector('[data-pg="prev"]').disabled=pg<=1;
+  el.querySelector('[data-pg="next"]').disabled=pg>=pages;
+  el.querySelector(".pt-pgnum").innerHTML='第 <b>'+pg+'</b> / '+pages+' 頁';
 }
 
 function renderCards(H){
@@ -818,12 +834,16 @@ function renderCards(H){
   var space=H-PAGER_H, per=0, cards=false;
 
   if(useCards()){
-    elRes.innerHTML='<div class="pt-grid">'+cardHTML(list[0])+'</div>';
-    var grid=elRes.firstChild, one=grid.firstElementChild;
-    var pad=18; /* 網格上下內距，留給放大與陰影 */
-    if(one.offsetHeight+pad<=space){
+    var grid=elRes.querySelector(".pt-grid:not(.pt-probe)"), one=grid&&grid.firstElementChild;
+    if(!one){
+      elRes.innerHTML='<div class="pt-grid pt-probe"><article class="pt-card">'+cardInner(list[0])+'</article></div>';
+      grid=elRes.firstElementChild; one=grid.firstElementChild;
+    }
+    var pad=16;    if(one.offsetHeight+pad<=space){
       var cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;
-      per=Math.min(CARDS_PER_PAGE, cols*Math.max(1,Math.floor((space-pad+GAP)/(one.offsetHeight+GAP))));
+      var fitRows=Math.max(1,Math.floor((space-pad+GAP)/(one.offsetHeight+GAP)));
+      var wantRows=Math.max(1,Math.round(CARDS_PER_PAGE/cols));
+      per=cols*Math.min(fitRows,wantRows);
       cards=true;
     }
   }
@@ -837,11 +857,7 @@ function renderCards(H){
   page=Math.min(Math.max(1,page),pages);
   var shown=list.slice((page-1)*per,(page-1)*per+per);
 
-  if(cards){
-    elRes.innerHTML='<div class="pt-grid">'+shown.map(cardHTML).join("")+'</div>'+pagerHTML(page,pages);
-  } else {
-    elRes.innerHTML='<div class="pt-list">'+shown.map(rowHTML).join("")+'</div>'+pagerHTML(page,pages);
-  }
+  paintItems(shown,pages,cards);
 }
 
 function renderDetail(H){
@@ -943,7 +959,6 @@ function renderCompare(H){
   while(paint(n)>avail && n>2 && guard++<24) n--;
 }
 
-/* ---------- 網址狀態 ---------- */
 function writeHash(){
   var parts=[];
   if(applied.product) parts.push("p="+applied.product);
@@ -974,7 +989,6 @@ function setCollapsed(v){
   elToggleLb.textContent = v ? "展開「查詢」" : "收起「查詢」";
 }
 
-/* ---------- 事件 ---------- */
 elForm.addEventListener("change",function(e){
   if(e.target===elP && elP.value){ pick.sel=[]; }
   syncFields();
@@ -987,8 +1001,7 @@ elForm.addEventListener("submit",function(e){
   applied.sel=elP.value?[]:pick.sel.slice();
   var r=elForm.querySelector('input[name="pt-mode"]:checked');
   applied.mode=r?r.value:"AND";
-  compare=[];                       /* 重新查詢就清掉上一輪的勾選 */
-  page=1;
+  compare=[];  page=1;
   if(applied.product){ view="detail"; detailId=applied.product; dTab="spec"; }
   else { view="cards"; detailId=""; }
   setCollapsed(true);
@@ -1013,12 +1026,11 @@ elToggle.addEventListener("click",function(){
 
 elView.addEventListener("click",function(){
   if(view==="cards"){ view="compare"; cTab="spec"; page=1; }
-  else { view="cards"; detailId=""; page=1; setCollapsed(false); }  /* 返回列表就打開查詢欄 */
-  render();
+  else { view="cards"; detailId=""; page=1; setCollapsed(false); }  render();
 });
 
 elPills.addEventListener("click",function(e){
-  if(justDragged(e.target)) return;
+  if(justDragged()) return;
   var b=e.target.closest("[data-rm]");
   if(!b) return;
   var kind=b.getAttribute("data-rm"), id=b.getAttribute("data-id");
@@ -1041,8 +1053,7 @@ elRes.addEventListener("click",function(e){
   var cert=e.target.closest("[data-cert]");
   if(cert){ var c=C[cert.getAttribute("data-cert")]; if(c){ elLbImg.src=c.img; elLbImg.alt=c.name; elLb.hidden=false; } return; }
 
-  if(justDragged(e.target)) return;                       /* 剛拖曳過膠囊，不當成點按 */
-  if(e.target.closest(".pt-cchk")||e.target.closest(".pt-rowchk")||e.target.closest("a")) return;
+  if(justDragged()) return;  if(e.target.closest(".pt-cchk")||e.target.closest(".pt-rowchk")||e.target.closest("a")) return;
   var t=e.target.closest("[data-open]");
   if(!t) return;
   if(t.classList.contains("is-dim") && !e.target.closest(".pt-btn")) return;
