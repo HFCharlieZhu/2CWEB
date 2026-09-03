@@ -365,13 +365,16 @@
   }
 }
 @media (max-width:900px){
+  /* 窄畫面狀態列只留筆數，條件靠展開「查詢」檢視 */
+  #pt-finder .pt-pills{display:none;}
   #pt-finder .pt-tags{min-height:34px;gap:6px;}
   #pt-finder .pt-cthumb img,#pt-finder .pt-rowimg img{object-position:42% center;}
+  #pt-finder .pt-rowimg img{object-position:34% center;}
 }
 @media (max-width:600px){
   #pt-finder{padding:12px 0;}
-  #pt-finder .pt-rowchk{padding:0 6px;}
-  #pt-finder .pt-rowmain{padding:9px 12px 9px 10px;}
+  #pt-finder .pt-rowchk{padding:0 4px;}
+  #pt-finder .pt-rowmain{padding:9px 12px 9px 8px;}
   #pt-finder .pt-panel{padding:14px;}
   #pt-finder .pt-grid{padding:6px 12px 12px 6px;}
   #pt-finder .pt-name{font-size:15px;}
