@@ -4,17 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PATRONI 安全鞋規格查詢</title>
-</head>
-<body style="margin:0;background:#eeeeee">
-
-<!-- ============================================================
-     ↓↓↓ 貼進 SHOPLINE 自訂 HTML 區塊，從這裡開始複製 ↓↓↓
-     ============================================================ -->
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700&display=swap">
+</head>
+<body style="margin:0;background:#ffffff">
 
 <style>
-/* 樣式全部鎖在 #pt-finder 底下，不會污染 SHOPLINE 佈景 */
+/* 樣式全部鎖在 #pt-finder 底下 */
 #pt-finder{
   --pt-brand:#f8b500;
   --pt-ink:#111111;
@@ -22,10 +17,9 @@
   --pt-muted:#9fa0a0;
   --pt-line:#b5b5b6;
   --pt-hair:#d8d6d0;
-  --pt-ground:#eeeeee;
+  --pt-ground:#ffffff;
   --pt-paper:#ffffff;
-  --pt-card:#f5f5f5;
-  --pt-media:#f0f0f0;
+  --pt-tint:#f5f5f5;
   --pt-r-card:14px;
   --pt-r-box:8px;
   --pt-sans:'Noto Sans','Noto Sans TC',system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;
@@ -36,53 +30,79 @@
   font-size:15px; line-height:1.8; letter-spacing:.03em;
   color:var(--pt-ink); background:var(--pt-ground);
   -webkit-font-smoothing:antialiased;
-  padding:clamp(20px,5vw,48px) clamp(16px,4vw,40px);
+  padding:clamp(20px,4vw,40px) clamp(16px,4vw,36px);
 }
 #pt-finder *,#pt-finder *::before,#pt-finder *::after{box-sizing:border-box;}
 #pt-finder .pt-wrap{max-width:1120px;margin:0 auto;}
 
 /* ---------- 標題 ---------- */
-#pt-finder .pt-head{margin:0 0 24px;}
+#pt-finder .pt-head{margin:0 0 22px;}
 #pt-finder .pt-head h2{font-size:clamp(22px,3.4vw,30px);font-weight:700;line-height:1.3;letter-spacing:-.01em;margin:0 0 6px;}
 #pt-finder .pt-head p{margin:0;color:var(--pt-body);font-size:14px;}
 
 /* ---------- 查詢面板 ---------- */
 #pt-finder .pt-panel{
   background:var(--pt-paper);border:1.2px solid var(--pt-line);
-  border-radius:var(--pt-r-box);padding:clamp(16px,3vw,24px);margin-bottom:20px;
+  border-radius:var(--pt-r-box);padding:clamp(16px,3vw,22px);margin-bottom:20px;
 }
-#pt-finder .pt-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-#pt-finder .pt-field label{
-  display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-  font-size:12px;font-weight:700;letter-spacing:.13em;
+#pt-finder .pt-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+#pt-finder .pt-field>label,#pt-finder .pt-field>span.pt-lab{
+  display:block;font-size:12px;font-weight:700;letter-spacing:.13em;
   color:var(--pt-muted);margin-bottom:8px;
 }
-#pt-finder .pt-cnt{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--pt-ink);}
-#pt-finder .pt-cnt:empty{display:none;}
-#pt-finder select{
+
+/* 三個欄位外觀一致：品項是原生 select，功能／證書是可多選的下拉 */
+#pt-finder select,#pt-finder .pt-dd-btn{
   width:100%;font-family:var(--pt-sans);font-size:14px;line-height:1.6;
   color:var(--pt-ink);background:var(--pt-paper);
   border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);
   padding:9px 11px;letter-spacing:.02em;
   outline:none;transition:border-color .2s ease;
 }
-#pt-finder select:focus,#pt-finder select:hover{border-color:var(--pt-ink);}
-#pt-finder select[multiple]{padding:6px;height:auto;}
-#pt-finder select[multiple] option{padding:6px 9px;border-radius:5px;cursor:pointer;}
-/* 選取狀態一律用品牌色，蓋掉瀏覽器的系統藍 */
-#pt-finder select[multiple] option:checked,
-#pt-finder select[multiple]:focus option:checked{
-  background:var(--pt-brand)!important;
-  background-image:linear-gradient(var(--pt-brand),var(--pt-brand))!important;
-  color:var(--pt-ink)!important;font-weight:700;
+#pt-finder select:hover,#pt-finder select:focus,
+#pt-finder .pt-dd-btn:hover,#pt-finder .pt-dd-btn[aria-expanded="true"]{border-color:var(--pt-ink);}
+
+#pt-finder .pt-dd{position:relative;}
+#pt-finder .pt-dd-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  text-align:left;cursor:pointer;
 }
-#pt-finder option:disabled{color:var(--pt-hair);}
-#pt-finder .pt-tip{font-size:11.5px;color:var(--pt-muted);margin-top:6px;letter-spacing:.02em;line-height:1.6;}
-#pt-finder .pt-tip b{color:var(--pt-body);font-weight:700;}
+#pt-finder .pt-dd-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#pt-finder .pt-dd-btn.is-empty .pt-dd-txt{color:var(--pt-body);}
+#pt-finder .pt-dd-caret{flex:0 0 auto;width:11px;height:7px;transition:transform .2s ease;}
+#pt-finder .pt-dd-btn[aria-expanded="true"] .pt-dd-caret{transform:rotate(180deg);}
+#pt-finder .pt-dd-panel{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
+  background:var(--pt-paper);border:1.2px solid var(--pt-ink);border-radius:var(--pt-r-box);
+  max-height:290px;overflow-y:auto;padding:5px;
+  box-shadow:0 10px 26px rgba(0,0,0,.13);
+}
+#pt-finder .pt-dd-panel[hidden]{display:none;}
+#pt-finder .pt-dd-opt{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:5px;cursor:pointer;font-size:14px;line-height:1.5;
+}
+#pt-finder .pt-dd-opt:hover{background:var(--pt-tint);}
+#pt-finder .pt-dd-opt[aria-selected="true"]{background:var(--pt-brand);font-weight:700;}
+#pt-finder .pt-dd-opt[aria-selected="true"]:hover{background:var(--pt-brand);}
+#pt-finder .pt-dd-opt[aria-disabled="true"]{color:var(--pt-hair);cursor:not-allowed;}
+#pt-finder .pt-dd-opt[aria-disabled="true"]:hover{background:transparent;}
+#pt-finder .pt-dd-box{
+  flex:0 0 auto;width:16px;height:16px;border:1.4px solid var(--pt-line);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;background:var(--pt-paper);
+}
+#pt-finder .pt-dd-box svg{width:10px;height:8px;opacity:0;}
+#pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-box{background:var(--pt-ink);border-color:var(--pt-ink);}
+#pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-box svg{opacity:1;}
+#pt-finder .pt-dd-opt[aria-disabled="true"] .pt-dd-box{border-color:var(--pt-hair);}
+#pt-finder .pt-dd-code{margin-left:auto;font-size:11px;color:var(--pt-muted);letter-spacing:.04em;}
+#pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-code{color:var(--pt-ink);}
+
+#pt-finder .pt-tip{font-size:11.5px;color:var(--pt-muted);margin:6px 0 0;letter-spacing:.02em;line-height:1.6;}
 
 #pt-finder .pt-foot{
   display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  margin-top:18px;padding-top:16px;border-top:1.2px solid var(--pt-hair);
+  margin-top:16px;padding-top:14px;border-top:1.2px solid var(--pt-hair);
 }
 #pt-finder .pt-logic{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
 #pt-finder .pt-radio{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;cursor:pointer;}
@@ -110,19 +130,18 @@
 #pt-finder .pt-count{font-size:13px;color:var(--pt-body);letter-spacing:.04em;}
 #pt-finder .pt-count b{font-size:20px;font-weight:700;color:var(--pt-ink);letter-spacing:0;}
 #pt-finder .pt-crit{font-size:12px;color:var(--pt-muted);letter-spacing:.02em;}
-#pt-finder .pt-crit em{font-style:normal;color:var(--pt-ink);font-weight:700;}
 
 /* ---------- 卡片 ---------- */
 #pt-finder .pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
 #pt-finder .pt-card{
-  position:relative;background:var(--pt-card);
+  position:relative;background:var(--pt-paper);
   border:1.2px solid var(--pt-line);border-radius:var(--pt-r-card);
   overflow:hidden;display:flex;flex-direction:column;
   transition:border-color .25s ease,box-shadow .25s ease;
 }
 #pt-finder .pt-card:hover{border-color:var(--pt-ink);box-shadow:0 4px 14px rgba(0,0,0,.07);}
 #pt-finder .pt-thumb{
-  position:relative;background:var(--pt-media);aspect-ratio:1/1;
+  position:relative;background:var(--pt-tint);aspect-ratio:4/3;max-height:210px;
   border:0;padding:0;width:100%;display:block;cursor:pointer;
 }
 #pt-finder .pt-thumb img{width:100%;height:100%;object-fit:contain;display:block;}
@@ -134,7 +153,7 @@
   letter-spacing:.04em;cursor:pointer;
 }
 #pt-finder .pt-cmp input{margin:0;accent-color:var(--pt-brand);width:14px;height:14px;}
-#pt-finder .pt-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1;background:var(--pt-paper);}
+#pt-finder .pt-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1;}
 #pt-finder .pt-model{font-size:11px;font-weight:700;letter-spacing:.13em;color:var(--pt-muted);}
 #pt-finder .pt-name{font-size:16px;font-weight:700;line-height:1.4;margin:0;letter-spacing:.02em;}
 #pt-finder .pt-blk{display:flex;flex-direction:column;gap:5px;}
@@ -142,136 +161,110 @@
 #pt-finder .pt-tags{display:flex;flex-wrap:wrap;gap:4px;}
 #pt-finder .pt-tag{
   font-size:11.5px;line-height:1.5;padding:3px 9px;border-radius:999px;
-  background:var(--pt-card);border:1px solid var(--pt-hair);color:var(--pt-body);
+  background:var(--pt-tint);border:1px solid var(--pt-hair);color:var(--pt-body);
   letter-spacing:.02em;white-space:nowrap;
 }
 #pt-finder .pt-tag.pt-hit{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);font-weight:700;}
+#pt-finder .pt-tag.pt-rest{background:transparent;border-style:dashed;color:var(--pt-muted);}
 #pt-finder .pt-card .pt-btn{margin-top:auto;width:100%;padding:11px 12px;}
+
+/* ---------- 分頁 ---------- */
+#pt-finder .pt-pager{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-top:18px;min-height:40px;
+}
+#pt-finder .pt-pg{
+  font-family:var(--pt-sans);font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1;
+  border:1.2px solid var(--pt-ink);background:transparent;color:var(--pt-ink);
+  border-radius:999px;padding:10px 20px;cursor:pointer;transition:.2s;
+}
+#pt-finder .pt-pg:hover:not([disabled]){background:var(--pt-ink);color:var(--pt-paper);}
+#pt-finder .pt-pg[disabled]{opacity:.28;cursor:not-allowed;}
+#pt-finder .pt-pgnum{font-size:13px;color:var(--pt-body);letter-spacing:.06em;min-width:8em;text-align:center;}
+#pt-finder .pt-pgnum b{color:var(--pt-ink);}
 
 #pt-finder .pt-empty{
   background:var(--pt-paper);border:1.2px dashed var(--pt-line);border-radius:var(--pt-r-box);
   padding:48px 24px;text-align:center;color:var(--pt-body);font-size:14px;
 }
 
-/* ---------- 比較表 ---------- */
+/* ---------- 表格（比較與單品明細共用） ---------- */
 #pt-finder .pt-tablewrap{overflow-x:auto;border:1.2px solid var(--pt-line);border-radius:var(--pt-r-box);background:var(--pt-paper);}
-#pt-finder table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+#pt-finder table{width:100%;border-collapse:collapse;font-size:13.5px;}
+#pt-finder .pt-tablewrap table{min-width:560px;}
 #pt-finder th,#pt-finder td{border-bottom:1px solid var(--pt-hair);padding:11px 14px;text-align:center;}
-#pt-finder tbody tr:last-child td{border-bottom:0;}
+#pt-finder tbody tr:last-child td,#pt-finder tbody tr:last-child th{border-bottom:0;}
 #pt-finder th:first-child,#pt-finder td:first-child{
   text-align:left;position:sticky;left:0;background:var(--pt-paper);
   font-weight:500;color:var(--pt-body);white-space:nowrap;
 }
-#pt-finder thead th{background:var(--pt-card);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pt-ink);}
-#pt-finder thead th:first-child{background:var(--pt-card);}
+#pt-finder thead th{background:var(--pt-tint);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pt-ink);}
+#pt-finder thead th:first-child{background:var(--pt-tint);}
 #pt-finder thead th span{display:block;font-weight:400;font-size:11px;color:var(--pt-body);letter-spacing:.02em;margin-top:2px;}
 #pt-finder tbody tr.pt-sec td{
-  background:var(--pt-card)!important;font-size:10.5px;font-weight:700;
+  background:var(--pt-tint)!important;font-size:10.5px;font-weight:700;
   letter-spacing:.13em;color:var(--pt-muted);text-align:left;
 }
 #pt-finder .pt-dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--pt-brand);}
 #pt-finder .pt-none{color:var(--pt-hair);}
 #pt-finder .pt-code{font-size:11px;color:var(--pt-muted);letter-spacing:.02em;}
 
-/* ---------- 底部抽屜（dock） ---------- */
-#pt-finder .pt-backdrop{
-  position:fixed;inset:0;z-index:99998;opacity:0;pointer-events:none;
-  background:rgba(20,18,14,.35);
-  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
-  transition:opacity .18s ease;
+/* ---------- 單品明細（原地展開，不是浮層） ---------- */
+#pt-finder .pt-detail{
+  border:1.2px solid var(--pt-line);border-radius:var(--pt-r-card);
+  background:var(--pt-paper);padding:clamp(18px,3vw,28px);
+  display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+  gap:clamp(20px,3vw,36px);align-items:start;
 }
-#pt-finder.is-dock-open .pt-backdrop{opacity:1;pointer-events:auto;transition:opacity .3s ease;}
-#pt-finder .pt-dock{
-  position:fixed;left:0;right:0;bottom:0;z-index:99999;
-  background:var(--pt-paper);
-  border-radius:10px 10px 0 0;
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  max-height:90vh;max-height:92dvh;
-  display:flex;flex-direction:column;
-  transform:translateY(101%);
-  transition:transform .35s cubic-bezier(.4,0,.2,1);
-  visibility:hidden;
-}
-#pt-finder.is-dock-open .pt-dock{transform:translateY(0);visibility:visible;}
-#pt-finder .pt-dock-close{
-  position:absolute;top:14px;right:16px;z-index:5;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.55);border:1.2px solid var(--pt-ink);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  font-size:22px;line-height:1;color:var(--pt-ink);font-family:var(--pt-sans);
-  transition:transform .3s ease;
-}
-#pt-finder .pt-dock-close:hover{transform:scale(1.08);}
-#pt-finder .pt-dock-scroll{
-  flex:1 1 auto;min-height:0;overflow-y:auto;
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-}
-#pt-finder .pt-dock-inner{
-  max-width:1100px;margin:0 auto;
-  padding:clamp(20px,5vw,40px) clamp(20px,6vw,40px) clamp(28px,6vw,48px);
-  display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:clamp(20px,4vw,40px);align-items:start;
-}
-#pt-finder .pt-dock-media{background:var(--pt-media);border-radius:var(--pt-r-card);overflow:hidden;aspect-ratio:1/1;}
-#pt-finder .pt-dock-media img{width:100%;height:100%;object-fit:contain;display:block;}
-#pt-finder .pt-dock-title{margin-bottom:22px;}
-#pt-finder .pt-dock-title .pt-model{margin-bottom:4px;}
-#pt-finder .pt-dock-title h3{font-size:clamp(20px,3vw,25px);font-weight:700;line-height:1.35;margin:0;letter-spacing:.02em;}
+#pt-finder .pt-detail-media{background:var(--pt-tint);border-radius:var(--pt-r-box);overflow:hidden;aspect-ratio:1/1;}
+#pt-finder .pt-detail-media img{width:100%;height:100%;object-fit:contain;display:block;}
+#pt-finder .pt-detail-title{margin-bottom:22px;}
+#pt-finder .pt-detail-title h3{font-size:clamp(20px,3vw,25px);font-weight:700;line-height:1.35;margin:2px 0 0;letter-spacing:.02em;}
+#pt-finder .pt-detail-title .pt-sub{font-size:13px;color:var(--pt-body);}
 #pt-finder .pt-dsec{margin-bottom:26px;}
+#pt-finder .pt-dsec:last-child{margin-bottom:0;}
 #pt-finder .pt-dsec-t{
   font-size:11px;font-weight:700;letter-spacing:.13em;color:var(--pt-muted);
   margin:0 0 12px;padding-bottom:8px;border-bottom:1.2px solid var(--pt-hair);
 }
-#pt-finder .pt-spec{width:100%;border-collapse:collapse;font-size:13.5px;min-width:0;}
 #pt-finder .pt-spec th,#pt-finder .pt-spec td{
   border-bottom:1px solid var(--pt-hair);padding:8px 0;text-align:left;position:static;background:none;
 }
 #pt-finder .pt-spec th{width:6.5em;font-weight:500;color:var(--pt-muted);font-size:12.5px;letter-spacing:.04em;}
 #pt-finder .pt-spec td{color:var(--pt-ink);}
-#pt-finder .pt-flist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 16px;}
+#pt-finder .pt-flist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px 14px;}
 #pt-finder .pt-flist li{display:flex;gap:9px;align-items:baseline;font-size:13.5px;}
 #pt-finder .pt-flist .pt-fc{
   flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-  padding:2px 7px;border-radius:4px;background:var(--pt-card);
+  padding:2px 7px;border-radius:4px;background:var(--pt-tint);
   border:1px solid var(--pt-hair);color:var(--pt-muted);
 }
 #pt-finder .pt-flist li.pt-hit .pt-fc{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);}
 #pt-finder .pt-flist li.pt-hit span:last-child{font-weight:700;}
-#pt-finder .pt-certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+#pt-finder .pt-certs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
 #pt-finder .pt-certcard{border:1.2px solid var(--pt-hair);border-radius:var(--pt-r-box);overflow:hidden;background:var(--pt-paper);}
 #pt-finder .pt-certcard.pt-hit{border-color:var(--pt-brand);}
-#pt-finder .pt-certimg{display:block;width:100%;aspect-ratio:4/3;background:var(--pt-media);border:0;padding:0;cursor:zoom-in;}
-#pt-finder .pt-certimg img{width:100%;height:100%;object-fit:cover;display:block;}
+#pt-finder .pt-certcard a{display:block;text-decoration:none;color:inherit;}
+#pt-finder .pt-certcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--pt-tint);}
 #pt-finder .pt-certmeta{padding:10px 12px 12px;}
 #pt-finder .pt-certmeta b{display:block;font-size:13.5px;font-weight:700;line-height:1.4;letter-spacing:.02em;}
 #pt-finder .pt-certmeta span{display:block;font-size:11.5px;color:var(--pt-muted);letter-spacing:.02em;line-height:1.6;margin-top:3px;}
-#pt-finder .pt-dock-link{display:inline-block;margin-top:4px;text-decoration:none;}
-
-/* ---------- 證書大圖 ---------- */
-#pt-finder .pt-lightbox{
-  position:fixed;inset:0;z-index:100000;display:none;
-  align-items:center;justify-content:center;padding:24px;
-  background:rgba(20,18,14,.85);
-}
-#pt-finder .pt-lightbox.is-on{display:flex;}
-#pt-finder .pt-lightbox img{max-width:min(880px,94vw);max-height:88vh;background:#fff;border-radius:var(--pt-r-box);}
-#pt-finder .pt-lightbox button{
-  position:absolute;top:18px;right:22px;width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.55);border:1.2px solid #fff;color:var(--pt-ink);
-  font-size:22px;line-height:1;cursor:pointer;font-family:var(--pt-sans);
-}
+#pt-finder .pt-shop{display:inline-block;margin-top:20px;text-decoration:none;}
 
 @media (max-width:900px){
   #pt-finder .pt-fields{grid-template-columns:1fr;}
-  #pt-finder select[multiple]{max-height:190px;}
-  #pt-finder .pt-dock-inner{grid-template-columns:1fr;}
-  #pt-finder .pt-dock-media{max-width:260px;}
+  #pt-finder .pt-detail{grid-template-columns:1fr;}
+  #pt-finder .pt-detail-media{max-width:220px;}
+}
+@media (max-width:700px){
+  /* 手機把說明字收掉，面板矮一點，嵌 iframe 時整體高度才穩 */
+  #pt-finder .pt-tip{display:none;}
+  #pt-finder .pt-fields{gap:10px;}
 }
 @media (max-width:600px){
   #pt-finder .pt-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
   #pt-finder .pt-acts{width:100%;}
   #pt-finder .pt-acts .pt-btn{flex:1 1 0;}
-  #pt-finder .pt-flist{grid-template-columns:1fr;}
 }
 </style>
 
@@ -285,19 +278,33 @@
     <form class="pt-panel" id="pt-form">
       <div class="pt-fields">
         <div class="pt-field">
-          <label for="pt-sel-product">品項<span class="pt-cnt" id="pt-cnt-p"></span></label>
+          <label for="pt-sel-product">品項</label>
           <select id="pt-sel-product"></select>
-          <p class="pt-tip">選了品項後，功能與證書會自動只留下這雙鞋有的項目。</p>
+          <p class="pt-tip">選了品項後，功能與證書只會留下這雙鞋有的項目。</p>
         </div>
+
         <div class="pt-field">
-          <label for="pt-sel-feature">功能<span class="pt-cnt" id="pt-cnt-f"></span></label>
-          <select id="pt-sel-feature" multiple size="7"></select>
-          <p class="pt-tip"><b>點一下選取，再點一下取消。</b>可以選多個。</p>
+          <span class="pt-lab">功能</span>
+          <div class="pt-dd" id="pt-dd-feature">
+            <button type="button" class="pt-dd-btn is-empty" aria-expanded="false" aria-haspopup="listbox">
+              <span class="pt-dd-txt">全部功能</span>
+              <svg class="pt-dd-caret" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+            <div class="pt-dd-panel" role="listbox" aria-multiselectable="true" hidden></div>
+          </div>
+          <p class="pt-tip">可以選多個，再點一次取消。</p>
         </div>
+
         <div class="pt-field">
-          <label for="pt-sel-cert">證書<span class="pt-cnt" id="pt-cnt-c"></span></label>
-          <select id="pt-sel-cert" multiple size="7"></select>
-          <p class="pt-tip">同樣點一下選取，可以選多個。</p>
+          <span class="pt-lab">證書</span>
+          <div class="pt-dd" id="pt-dd-cert">
+            <button type="button" class="pt-dd-btn is-empty" aria-expanded="false" aria-haspopup="listbox">
+              <span class="pt-dd-txt">全部證書</span>
+              <svg class="pt-dd-caret" viewBox="0 0 11 7" fill="none" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+            <div class="pt-dd-panel" role="listbox" aria-multiselectable="true" hidden></div>
+          </div>
+          <p class="pt-tip">可以選多個，再點一次取消。</p>
         </div>
       </div>
 
@@ -315,23 +322,15 @@
     </form>
 
     <div class="pt-bar">
-      <div class="pt-count">符合條件 <b id="pt-num">0</b> 項</div>
+      <div class="pt-count" id="pt-headline"></div>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <span class="pt-crit" id="pt-crit"></span>
-        <button type="button" class="pt-btn pt-btn--ghost" id="pt-cmpbtn" disabled>比較 (0)</button>
+        <button type="button" class="pt-btn pt-btn--ghost" id="pt-viewbtn" disabled>比較 (0)</button>
       </div>
     </div>
 
     <div id="pt-results"></div>
   </div>
-
-  <div class="pt-backdrop" id="pt-backdrop"></div>
-  <section class="pt-dock" id="pt-dock" role="dialog" aria-modal="true" aria-labelledby="pt-dock-name" hidden>
-    <button type="button" class="pt-dock-close" id="pt-dock-close" aria-label="關閉">&times;</button>
-    <div class="pt-dock-scroll"><div class="pt-dock-inner" id="pt-dock-inner"></div></div>
-  </section>
-
-  <div class="pt-lightbox" id="pt-lightbox"><button type="button" aria-label="關閉">&times;</button><img id="pt-lightbox-img" alt=""></div>
 </div>
 
 <script>
@@ -340,10 +339,6 @@
 
 /* =============================================================
    ①  資 料 區 ── 之後只要改這一段
-   -------------------------------------------------------------
-   FEATURES : 功能字典 {id, name, code}
-   CERTS    : 證書字典 {id, name, note, img}
-   PRODUCTS : 品項 {id, name, series, img, url, spec{}, features[], certs[]}
    ============================================================= */
 
 var IMG_PRODUCT = "https://img.shoplineapp.com/media/image_clips/6a99080cc56f76a2c55d592e/original.png?1788413963=&owner_id=6572a1b95ad192005192397e";
@@ -374,13 +369,13 @@ var FEATURES = [
 ];
 
 var CERTS = [
-  {id:"cns",      name:"CNS 20345:2015",        note:"台灣安全鞋標準",         img:IMG_CERT_1},
-  {id:"ce",       name:"CE EN ISO 20345:2022",  note:"歐盟安全鞋標準",         img:IMG_CERT_2},
-  {id:"csa",      name:"CSA Z195",              note:"加拿大絕緣標準",         img:IMG_CERT_3},
-  {id:"astm",     name:"ASTM F1671",            note:"防血液病毒滲透",         img:IMG_CERT_1},
-  {id:"aatcc",    name:"AATCC 100",             note:"抑菌測試",               img:IMG_CERT_2},
-  {id:"cns12707", name:"CNS 12707",             note:"耐酸鹼測試",             img:IMG_CERT_3},
-  {id:"lgtest",   name:"CE LG 爬梯測試",        note:"抓梯穩定性測試",         img:IMG_CERT_1}
+  {id:"cns",      name:"CNS 20345:2015",        note:"台灣安全鞋標準", img:IMG_CERT_1},
+  {id:"ce",       name:"CE EN ISO 20345:2022",  note:"歐盟安全鞋標準", img:IMG_CERT_2},
+  {id:"csa",      name:"CSA Z195",              note:"加拿大絕緣標準", img:IMG_CERT_3},
+  {id:"astm",     name:"ASTM F1671",            note:"防血液病毒滲透", img:IMG_CERT_1},
+  {id:"aatcc",    name:"AATCC 100",             note:"抑菌測試",       img:IMG_CERT_2},
+  {id:"cns12707", name:"CNS 12707",             note:"耐酸鹼測試",     img:IMG_CERT_3},
+  {id:"lgtest",   name:"CE LG 爬梯測試",        note:"抓梯穩定性測試", img:IMG_CERT_1}
 ];
 
 var PRODUCTS = [
@@ -468,77 +463,101 @@ PRODUCTS.forEach(function(x){P[x.id]=x;});
 
 var SPEC_ROWS=[["grade","安全等級"],["upper","鞋面材質"],["sole","大　　底"],["shaft","筒　　高"],["weight","重　　量"],["width","楦　　寬"],["size","鞋碼範圍"]];
 
-/* applied = 已送出的查詢條件；表單改動不會影響它，直到再次按查詢 */
-var applied={product:"",features:[],certs:[],mode:"AND"};
-var compare=[], view="cards";
+var applied={product:"",features:[],certs:[],mode:"AND"};  /* 已送出的條件 */
+var pick={feature:[],cert:[]};                              /* 面板上還沒送出的勾選 */
+var compare=[], view="cards", detailId="", page=1;
 
-var root=document.getElementById("pt-finder");
+/* 每頁筆數隨螢幕調整，讓整體高度在各裝置都差不多，嵌 iframe 時不會超出 */
+function pageSize(){
+  /* 讓每一頁都剛好兩列卡片，換頁時高度不會跳動 */
+  return (window.innerWidth||1024) < 900 ? 4 : 6;
+}
+
 var $=function(id){return document.getElementById(id);};
-var elForm=$("pt-form"), elP=$("pt-sel-product"), elF=$("pt-sel-feature"), elC=$("pt-sel-cert");
-var elNum=$("pt-num"), elCrit=$("pt-crit"), elRes=$("pt-results"), elCmp=$("pt-cmpbtn");
-var elCntP=$("pt-cnt-p"), elCntF=$("pt-cnt-f"), elCntC=$("pt-cnt-c"), elDirty=$("pt-dirty");
-var elDock=$("pt-dock"), elBack=$("pt-backdrop"), elDockIn=$("pt-dock-inner");
-var elLb=$("pt-lightbox"), elLbImg=$("pt-lightbox-img");
+var elForm=$("pt-form"), elP=$("pt-sel-product");
+var elHead=$("pt-headline"), elCrit=$("pt-crit"), elRes=$("pt-results"), elView=$("pt-viewbtn");
+var elDirty=$("pt-dirty");
+var DD={
+  feature:{root:$("pt-dd-feature"), list:FEATURES, empty:"全部功能"},
+  cert:   {root:$("pt-dd-cert"),    list:CERTS,    empty:"全部證書"}
+};
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function track(n,p){ if(window.gtag){ window.gtag("event",n,p||{}); } }
-function selected(sel){return Array.prototype.filter.call(sel.options,function(o){return o.selected;}).map(function(o){return o.value;});}
 
-/* ---- 建立選單 ---- */
-elP.innerHTML='<option value="">全部品項</option>'+PRODUCTS.map(function(p){
-  return '<option value="'+p.id+'">'+esc(p.id+"　"+p.name)+'</option>';}).join("");
-elF.innerHTML=FEATURES.map(function(f){
-  return '<option value="'+f.id+'">'+esc(f.name+(f.code?"（"+f.code+"）":""))+'</option>';}).join("");
-elC.innerHTML=CERTS.map(function(c){
-  return '<option value="'+c.id+'">'+esc(c.name)+'</option>';}).join("");
+/* ---- 多選下拉 ---- */
+var CHECK='<svg viewBox="0 0 10 8" fill="none" aria-hidden="true"><path d="M1 4l2.8 2.8L9 1.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-/* ---- 點一下選取、再點一下取消 ---- */
-function makeToggle(sel){
-  sel.addEventListener("mousedown",function(e){
-    var o=e.target;
-    if(!o||o.tagName!=="OPTION"||o.disabled) return;
-    e.preventDefault();
-    o.selected=!o.selected;
-    sel.focus();
-    sel.dispatchEvent(new Event("change",{bubbles:true}));
+Object.keys(DD).forEach(function(kind){
+  var d=DD[kind];
+  d.btn=d.root.querySelector(".pt-dd-btn");
+  d.txt=d.root.querySelector(".pt-dd-txt");
+  d.panel=d.root.querySelector(".pt-dd-panel");
+  d.panel.innerHTML=d.list.map(function(x){
+    return '<div class="pt-dd-opt" role="option" data-v="'+x.id+'" aria-selected="false">'+
+      '<span class="pt-dd-box">'+CHECK+'</span><span>'+esc(x.name)+'</span>'+
+      (x.code?'<span class="pt-dd-code">'+esc(x.code)+'</span>':'')+'</div>';
+  }).join("");
+
+  d.btn.addEventListener("click",function(e){
+    e.stopPropagation();
+    var open=d.panel.hidden;
+    closeAllDD();
+    if(open){ d.panel.hidden=false; d.btn.setAttribute("aria-expanded","true"); }
   });
-  /* 鍵盤操作：空白鍵切換 */
-  sel.addEventListener("keydown",function(e){
-    if(e.key!==" ") return;
-    e.preventDefault();
-    var o=sel.options[sel.selectedIndex>=0?sel.selectedIndex:0];
-    if(o&&!o.disabled){ o.selected=!o.selected; sel.dispatchEvent(new Event("change",{bubbles:true})); }
+  d.panel.addEventListener("click",function(e){
+    e.stopPropagation();
+    var o=e.target.closest(".pt-dd-opt");
+    if(!o||o.getAttribute("aria-disabled")==="true") return;
+    var v=o.getAttribute("data-v");
+    var i=pick[kind].indexOf(v);
+    if(i>=0) pick[kind].splice(i,1); else pick[kind].push(v);
+    syncFields();
+  });
+});
+function closeAllDD(){
+  Object.keys(DD).forEach(function(k){
+    DD[k].panel.hidden=true;
+    DD[k].btn.setAttribute("aria-expanded","false");
   });
 }
-makeToggle(elF); makeToggle(elC);
+document.addEventListener("click",closeAllDD);
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){ closeAllDD(); if(view!=="cards"){ backToCards(); } }
+});
 
-/* ---- 表單狀態：計數、品項連動反灰、未送出提示 ---- */
+/* ---- 品項選單 ---- */
+elP.innerHTML='<option value="">全部品項</option>'+PRODUCTS.map(function(p){
+  return '<option value="'+p.id+'">'+esc(p.id+"　"+p.name)+'</option>';}).join("");
+
+/* ---- 表單狀態 ---- */
 function syncFields(){
-  var pid=elP.value, p=pid?P[pid]:null;
+  var pid=elP.value, prod=pid?P[pid]:null;
 
-  Array.prototype.forEach.call(elF.options,function(o){
-    var off = p && p.features.indexOf(o.value)<0;
-    o.disabled=!!off;
-    if(off) o.selected=false;
-  });
-  Array.prototype.forEach.call(elC.options,function(o){
-    var off = p && p.certs.indexOf(o.value)<0;
-    o.disabled=!!off;
-    if(off) o.selected=false;
-  });
+  Object.keys(DD).forEach(function(kind){
+    var d=DD[kind];
+    var own = prod ? (kind==="feature"?prod.features:prod.certs) : null;
+    pick[kind]=pick[kind].filter(function(v){ return !own || own.indexOf(v)>=0; });
 
-  var nf=selected(elF).length, nc=selected(elC).length;
-  elCntP.textContent = pid?"已選 1":"";
-  elCntF.textContent = nf?("已選 "+nf):"";
-  elCntC.textContent = nc?("已選 "+nc):"";
+    Array.prototype.forEach.call(d.panel.children,function(o){
+      var v=o.getAttribute("data-v");
+      var off = own && own.indexOf(v)<0;
+      o.setAttribute("aria-disabled", off?"true":"false");
+      o.setAttribute("aria-selected", pick[kind].indexOf(v)>=0?"true":"false");
+    });
+
+    var names=pick[kind].map(function(v){
+      var x=(kind==="feature"?F:C)[v]; return x?x.name:v; });
+    d.txt.textContent = names.length ? (names.join("、")+"（"+names.length+"）") : d.empty;
+    d.btn.classList.toggle("is-empty",!names.length);
+  });
 
   var r=elForm.querySelector('input[name="pt-mode"]:checked');
   var srt=function(a){return a.slice().sort().join(",");};
-  var same = pid===applied.product
-    && srt(selected(elF))===srt(applied.features)
-    && srt(selected(elC))===srt(applied.certs)
+  elDirty.hidden = pid===applied.product
+    && srt(pick.feature)===srt(applied.features)
+    && srt(pick.cert)===srt(applied.certs)
     && (r?r.value:"AND")===applied.mode;
-  elDirty.hidden=same;
 }
 
 /* ---- 篩選 ---- */
@@ -562,48 +581,73 @@ function results(){ return PRODUCTS.filter(matches); }
 function isHitF(id){ return applied.features.indexOf(id)>=0; }
 function isHitC(id){ return applied.certs.indexOf(id)>=0; }
 
-/* ---- 結果 ---- */
+/* ---- 結果區 ---- */
 function critText(){
   var bits=[];
   if(applied.product) bits.push(esc(applied.product));
   applied.features.forEach(function(id){ if(F[id]) bits.push(esc(F[id].name)); });
   applied.certs.forEach(function(id){ if(C[id]) bits.push(esc(C[id].name)); });
   if(!bits.length) return "顯示全部品項";
-  var join = applied.mode==="AND" ? "　＋　" : "　或　";
-  return bits.join(join);
+  return bits.join(applied.mode==="AND"?"　＋　":"　或　");
 }
 
-function syncCmpBtn(){
-  if(view==="table"){
-    elCmp.innerHTML="&times;&nbsp; 關閉比較";
-    elCmp.disabled=false;
-    elCmp.classList.add("is-active");
-    elCmp.setAttribute("aria-label","關閉比較");
+function syncBar(){
+  var n=results().length;
+  if(view==="detail"){
+    var p=P[detailId];
+    elHead.innerHTML='品項明細　<b style="font-size:15px">'+esc(p?p.id:"")+'</b>';
+    elCrit.textContent="";
+    elView.innerHTML="&times;&nbsp; 返回列表";
+    elView.disabled=false; elView.classList.add("is-active");
+  } else if(view==="table"){
+    elHead.innerHTML='比較 <b>'+compare.length+'</b> 個品項';
+    elCrit.textContent="";
+    elView.innerHTML="&times;&nbsp; 關閉比較";
+    elView.disabled=false; elView.classList.add("is-active");
   } else {
-    elCmp.textContent="比較 ("+compare.length+")";
-    elCmp.disabled=compare.length<2;
-    elCmp.classList.remove("is-active");
-    elCmp.removeAttribute("aria-label");
+    elHead.innerHTML='符合條件 <b>'+n+'</b> 項';
+    elCrit.innerHTML=critText();
+    elView.textContent="比較 ("+compare.length+")";
+    elView.disabled=compare.length<2; elView.classList.remove("is-active");
   }
 }
 
-function renderResults(){
+function render(){
+  syncBar();
+  if(view==="detail"){ renderDetail(); return; }
+  if(view==="table"){ renderTable(); return; }
+  renderCards();
+}
+function backToCards(){ view="cards"; detailId=""; render(); }
+
+function renderCards(){
   var list=results();
-  elNum.textContent=list.length;
-  elCrit.innerHTML=critText();
-  syncCmpBtn();
-
-  if(view==="table" && compare.length>=2){ renderTable(); return; }
-
   if(!list.length){
     elRes.innerHTML='<div class="pt-empty">沒有同時符合這些條件的品項。<br>可以少選幾項，或改成「有其中一項就好」再查一次。</div>';
     return;
   }
-  elRes.innerHTML='<div class="pt-grid">'+list.map(function(p){
+  var per=pageSize(), pages=Math.max(1,Math.ceil(list.length/per));
+  if(page>pages) page=pages;
+  if(page<1) page=1;
+  var from=(page-1)*per, shown=list.slice(from,from+per);
+
+  var pager = pages>1
+    ? '<div class="pt-pager">'+
+        '<button type="button" class="pt-pg" data-pg="prev"'+(page<=1?' disabled':'')+'>← 上一頁</button>'+
+        '<span class="pt-pgnum">第 <b>'+page+'</b> / '+pages+' 頁</span>'+
+        '<button type="button" class="pt-pg" data-pg="next"'+(page>=pages?' disabled':'')+'>下一頁 →</button>'+
+      '</div>'
+    : '<div class="pt-pager"></div>';
+
+  elRes.innerHTML='<div class="pt-grid">'+shown.map(function(p){
+    /* 卡片上功能最多列 6 個，命中的排前面確保看得到；完整清單在明細頁 */
+    var CAP=6;
+    var fs=p.features.slice().sort(function(a,b){ return (isHitF(b)?1:0)-(isHitF(a)?1:0); });
     var certTags=p.certs.map(function(id){
       return '<span class="pt-tag'+(isHitC(id)?' pt-hit':'')+'">'+esc(C[id].name)+'</span>';}).join("");
-    var featTags=p.features.map(function(id){
-      return '<span class="pt-tag'+(isHitF(id)?' pt-hit':'')+'">'+esc(F[id].name)+'</span>';}).join("");
+    var featTags=fs.slice(0,CAP).map(function(id){
+      return '<span class="pt-tag'+(isHitF(id)?' pt-hit':'')+'">'+esc(F[id].name)+'</span>';}).join("")
+      + (fs.length>CAP ? '<span class="pt-tag pt-rest">＋'+(fs.length-CAP)+'</span>' : '');
     return '<article class="pt-card">'+
       '<label class="pt-cmp"><input type="checkbox" data-cmp="'+p.id+'"'+(compare.indexOf(p.id)>=0?' checked':'')+'>比較</label>'+
       '<button type="button" class="pt-thumb" data-open="'+p.id+'" aria-label="'+esc(p.name)+' 規格與證書">'+
@@ -616,7 +660,39 @@ function renderResults(){
         '<div class="pt-blk"><span class="pt-blk-t">功能</span><div class="pt-tags">'+featTags+'</div></div>'+
         '<button type="button" class="pt-btn" data-open="'+p.id+'">規格與證書</button>'+
       '</div></article>';
+  }).join("")+'</div>'+pager;
+}
+
+function renderDetail(){
+  var p=P[detailId]; if(!p){ backToCards(); return; }
+
+  var spec='<table class="pt-spec"><tbody>'+SPEC_ROWS.map(function(r){
+    return '<tr><th>'+esc(r[1])+'</th><td>'+esc(p.spec[r[0]]||"—")+'</td></tr>';}).join("")+'</tbody></table>';
+
+  var feats='<ul class="pt-flist">'+p.features.map(function(fid){
+    var f=F[fid]; if(!f) return "";
+    return '<li class="'+(isHitF(fid)?'pt-hit':'')+'"><span class="pt-fc">'+esc(f.code||"·")+'</span><span>'+esc(f.name)+'</span></li>';
+  }).join("")+'</ul>';
+
+  var certs='<div class="pt-certs">'+p.certs.map(function(cid){
+    var c=C[cid]; if(!c) return "";
+    return '<div class="pt-certcard'+(isHitC(cid)?' pt-hit':'')+'">'+
+      '<a href="'+esc(c.img)+'" target="_blank" rel="noopener" title="開新分頁看大圖">'+
+        '<img src="'+esc(c.img)+'" alt="'+esc(c.name)+'" loading="lazy">'+
+        '<div class="pt-certmeta"><b>'+esc(c.name)+'</b><span>'+esc(c.note)+'</span></div>'+
+      '</a></div>';
   }).join("")+'</div>';
+
+  elRes.innerHTML='<div class="pt-detail">'+
+    '<div class="pt-detail-media"><img src="'+esc(p.img)+'" alt="'+esc(p.id+" "+p.name)+'"></div>'+
+    '<div>'+
+      '<div class="pt-detail-title"><div class="pt-model">'+esc(p.id)+'</div>'+
+        '<h3>'+esc(p.name)+'</h3><div class="pt-sub">'+esc(p.series)+'</div></div>'+
+      '<div class="pt-dsec"><p class="pt-dsec-t">規格</p>'+spec+'</div>'+
+      '<div class="pt-dsec"><p class="pt-dsec-t">功能（'+p.features.length+'）</p>'+feats+'</div>'+
+      '<div class="pt-dsec"><p class="pt-dsec-t">證書（'+p.certs.length+'）　<span style="letter-spacing:.02em;font-weight:400">點證書可開新分頁看大圖</span></p>'+certs+'</div>'+
+      (p.url?'<a class="pt-btn pt-shop" href="'+esc(p.url)+'" target="_blank" rel="noopener">前往商品頁</a>':'')+
+    '</div></div>';
 }
 
 function renderTable(){
@@ -647,46 +723,6 @@ function renderTable(){
   elRes.innerHTML=h;
 }
 
-/* ---- 底部抽屜 ---- */
-function openDock(id){
-  var p=P[id]; if(!p) return;
-  var spec='<table class="pt-spec"><tbody>'+SPEC_ROWS.map(function(r){
-    return '<tr><th>'+esc(r[1])+'</th><td>'+esc(p.spec[r[0]]||"—")+'</td></tr>';}).join("")+'</tbody></table>';
-
-  var feats='<ul class="pt-flist">'+p.features.map(function(fid){
-    var f=F[fid]; if(!f) return "";
-    return '<li class="'+(isHitF(fid)?'pt-hit':'')+'"><span class="pt-fc">'+esc(f.code||"·")+'</span><span>'+esc(f.name)+'</span></li>';
-  }).join("")+'</ul>';
-
-  var certs='<div class="pt-certs">'+p.certs.map(function(cid){
-    var c=C[cid]; if(!c) return "";
-    return '<div class="pt-certcard'+(isHitC(cid)?' pt-hit':'')+'">'+
-      '<button type="button" class="pt-certimg" data-cert="'+c.id+'" aria-label="放大 '+esc(c.name)+'">'+
-        '<img src="'+esc(c.img)+'" alt="'+esc(c.name)+'" loading="lazy"></button>'+
-      '<div class="pt-certmeta"><b>'+esc(c.name)+'</b><span>'+esc(c.note)+'</span></div></div>';
-  }).join("")+'</div>';
-
-  elDockIn.innerHTML=
-    '<div class="pt-dock-media"><img src="'+esc(p.img)+'" alt="'+esc(p.id+" "+p.name)+'"></div>'+
-    '<div>'+
-      '<div class="pt-dock-title"><div class="pt-model">'+esc(p.id)+'</div>'+
-        '<h3 id="pt-dock-name">'+esc(p.name)+'</h3>'+
-        '<div class="pt-crit">'+esc(p.series)+'</div></div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">規格</p>'+spec+'</div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">功能（'+p.features.length+'）</p>'+feats+'</div>'+
-      '<div class="pt-dsec"><p class="pt-dsec-t">證書（'+p.certs.length+'）</p>'+certs+'</div>'+
-      (p.url?'<a class="pt-btn pt-dock-link" href="'+esc(p.url)+'" target="_blank" rel="noopener">前往商品頁</a>':'')+
-    '</div>';
-
-  elDock.hidden=false; elBack.hidden=false;
-  requestAnimationFrame(function(){ root.classList.add("is-dock-open"); });
-  track("product_detail_view",{item_id:p.id,item_name:p.name});
-}
-function closeDock(){
-  root.classList.remove("is-dock-open");
-  setTimeout(function(){ if(!root.classList.contains("is-dock-open")){ elDock.hidden=true; elBack.hidden=true; } },360);
-}
-
 /* ---- 網址狀態 ---- */
 function writeHash(){
   var parts=[];
@@ -710,8 +746,8 @@ function readHash(){
     if(k==="m"&&v==="or") applied.mode="OR";
   });
   elP.value=applied.product;
-  Array.prototype.forEach.call(elF.options,function(o){o.selected=applied.features.indexOf(o.value)>=0;});
-  Array.prototype.forEach.call(elC.options,function(o){o.selected=applied.certs.indexOf(o.value)>=0;});
+  pick.feature=applied.features.slice();
+  pick.cert=applied.certs.slice();
   var r=elForm.querySelector('input[name="pt-mode"][value="'+applied.mode+'"]'); if(r) r.checked=true;
 }
 
@@ -720,35 +756,55 @@ elForm.addEventListener("change",syncFields);
 
 elForm.addEventListener("submit",function(e){
   e.preventDefault();
+  closeAllDD();
   applied.product=elP.value;
-  applied.features=selected(elF);
-  applied.certs=selected(elC);
+  applied.features=pick.feature.slice();
+  applied.certs=pick.cert.slice();
   var r=elForm.querySelector('input[name="pt-mode"]:checked');
   applied.mode=r?r.value:"AND";
-  view="cards";
-  renderResults(); writeHash(); syncFields();
+  view="cards"; detailId=""; page=1;
+  render(); writeHash(); syncFields();
   track("filter_query",{product:applied.product||"all",features:applied.features.join("|"),certs:applied.certs.join("|"),mode:applied.mode});
 });
 
 $("pt-reset").addEventListener("click",function(){
-  elP.value="";
-  Array.prototype.forEach.call(elF.options,function(o){o.selected=false;});
-  Array.prototype.forEach.call(elC.options,function(o){o.selected=false;});
+  elP.value=""; pick={feature:[],cert:[]};
   var r=elForm.querySelector('input[name="pt-mode"][value="AND"]'); if(r) r.checked=true;
   applied={product:"",features:[],certs:[],mode:"AND"};
-  view="cards";
-  renderResults(); writeHash(); syncFields();
+  view="cards"; detailId=""; page=1;
+  render(); writeHash(); syncFields();
 });
 
-elCmp.addEventListener("click",function(){
-  view = view==="table" ? "cards" : "table";
-  if(view==="table") track("compare_open",{count:compare.length});
-  renderResults();
+/* 視窗寬度變了、每頁筆數跟著變，重畫一次 */
+var lastPer=pageSize(), rzT=null;
+window.addEventListener("resize",function(){
+  clearTimeout(rzT);
+  rzT=setTimeout(function(){
+    var per=pageSize();
+    if(per!==lastPer){ lastPer=per; page=1; if(view==="cards") render(); }
+  },180);
+});
+
+elView.addEventListener("click",function(){
+  if(view==="cards"){ view="table"; track("compare_open",{count:compare.length}); }
+  else { view="cards"; detailId=""; }
+  render();
 });
 
 elRes.addEventListener("click",function(e){
+  var pg=e.target.closest("[data-pg]");
+  if(pg && !pg.disabled){
+    page += (pg.getAttribute("data-pg")==="next" ? 1 : -1);
+    render();
+    return;
+  }
   var t=e.target.closest("[data-open]");
-  if(t){ openDock(t.getAttribute("data-open")); }
+  if(!t) return;
+  detailId=t.getAttribute("data-open");
+  view="detail";
+  render();
+  var p=P[detailId];
+  if(p) track("product_detail_view",{item_id:p.id,item_name:p.name});
 });
 elRes.addEventListener("change",function(e){
   var cb=e.target;
@@ -760,36 +816,14 @@ elRes.addEventListener("change",function(e){
   } else {
     compare=compare.filter(function(x){return x!==id;});
   }
-  if(compare.length<2 && view==="table"){ view="cards"; renderResults(); }
-  else syncCmpBtn();
-});
-
-elDockIn.addEventListener("click",function(e){
-  var t=e.target.closest("[data-cert]");
-  if(!t) return;
-  var c=C[t.getAttribute("data-cert")];
-  elLbImg.src=c.img; elLbImg.alt=c.name;
-  elLb.classList.add("is-on");
-  track("cert_view",{cert_id:c.id});
-});
-elLb.addEventListener("click",function(){ this.classList.remove("is-on"); });
-$("pt-dock-close").addEventListener("click",closeDock);
-elBack.addEventListener("click",closeDock);
-document.addEventListener("keydown",function(e){
-  if(e.key!=="Escape") return;
-  if(elLb.classList.contains("is-on")){ elLb.classList.remove("is-on"); return; }
-  if(root.classList.contains("is-dock-open")) closeDock();
+  syncBar();
 });
 
 readHash();
 syncFields();
-renderResults();
+render();
 })();
 </script>
-
-<!-- ============================================================
-     ↑↑↑ 複製到這裡結束 ↑↑↑
-     ============================================================ -->
 
 </body>
 </html>
