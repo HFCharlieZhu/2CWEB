@@ -727,7 +727,7 @@ function makeDD(id,ph,multi,groups){
 var MODEL=makeDD("pt-dd-model","選擇鞋款",false,[{name:"",items:PRODUCTS.map(function(p){
   return {key:p.id,name:p.name,code:p.id,full:p.name+"　"+p.id};
 })}]);
-var FEAT=makeDD("pt-dd-feature","選擇認證與功能",true,OPTGROUPS);
+var FEAT=makeDD("pt-dd-feature","選擇功能與認證",true,OPTGROUPS);
 document.addEventListener("click",closeDD);
 
 function fitDDText(d,names){
