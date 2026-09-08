@@ -370,11 +370,11 @@
   #pt-finder .pt-btn:not([disabled]):hover{transform:scale(1.08);}
   #pt-finder .pt-card .pt-btn:not([disabled]):hover,
   #pt-finder .pt-shopwrap .pt-btn:hover{transform:none;filter:brightness(.94);}
+  #pt-finder .pt-btn--ghost:not([disabled]):hover,
+  #pt-finder .pt-pg:not([disabled]):hover{background:var(--pt-ink);color:var(--pt-paper);}
   #pt-finder .pt-btn--ghost:not([disabled]):hover{transform:none;}
-  #pt-finder.is-collapsed .pt-btn--ghost:not([disabled]):hover,
-  #pt-finder.is-collapsed .pt-pg:not([disabled]):hover{background:var(--pt-ink);color:var(--pt-paper);}
-  #pt-finder:not(.is-collapsed) .pt-btn--ghost:not([disabled]):not(.is-active):hover,
-  #pt-finder:not(.is-collapsed) .pt-pg:not([disabled]):hover{border-color:var(--pt-brand);}
+  #pt-finder:not(.is-collapsed) .pt-bar .pt-btn--ghost:not([disabled]):not(.is-active):hover,
+  #pt-finder:not(.is-collapsed) .pt-pg:not([disabled]):hover{background:transparent;color:var(--pt-ink);border-color:var(--pt-brand);}
   #pt-finder .pt-tab:hover{color:var(--pt-ink);}
   #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);transform:scale(1.08);}
 }
