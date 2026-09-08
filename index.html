@@ -201,6 +201,10 @@
 #pt-finder #pt-results{overflow:hidden;margin-top:calc(var(--pt-hov) * -1);padding-top:var(--pt-hov);}
 
 #pt-finder .pt-probe{pointer-events:none;}
+#pt-finder .pt-card.is-dragsrc{transform:scale(1.02);box-shadow:var(--pt-shadow);border-color:var(--pt-brand);}
+#pt-finder .pt-row.is-dragsrc{border-color:var(--pt-brand);}
+#pt-finder.is-dragging .pt-card:hover:not(.is-dragsrc){transform:none;box-shadow:none;border-color:var(--pt-line);}
+#pt-finder.is-dragging .pt-row:hover:not(.is-dragsrc){border-color:var(--pt-line);}
 #pt-finder .pt-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
   gap:var(--pt-gap);align-content:start;grid-auto-rows:1fr;
@@ -274,7 +278,7 @@
   border:1px solid var(--pt-ink);background:transparent;color:var(--pt-ink);
   display:inline-flex;align-items:center;justify-content:center;
   height:var(--pt-h-m);border-radius:999px;padding:0 16px;cursor:pointer;
-  transition:background-color var(--pt-ease),color var(--pt-ease);
+  transition:background-color var(--pt-ease),color var(--pt-ease),border-color var(--pt-ease);
 }
 #pt-finder .pt-pg[disabled]{opacity:.25;cursor:not-allowed;}
 #pt-finder .pt-pgnum{font-size:13px;color:var(--pt-body);letter-spacing:.52px;min-width:6.5em;text-align:center;}
@@ -366,8 +370,11 @@
   #pt-finder .pt-btn:not([disabled]):hover{transform:scale(1.08);}
   #pt-finder .pt-card .pt-btn:not([disabled]):hover,
   #pt-finder .pt-shopwrap .pt-btn:hover{transform:none;filter:brightness(.94);}
-  #pt-finder .pt-btn--ghost:not([disabled]):hover{transform:none;background:var(--pt-ink);color:var(--pt-paper);}
-  #pt-finder .pt-pg:hover:not([disabled]){background:var(--pt-ink);color:var(--pt-paper);}
+  #pt-finder .pt-btn--ghost:not([disabled]):hover{transform:none;}
+  #pt-finder.is-collapsed .pt-btn--ghost:not([disabled]):hover,
+  #pt-finder.is-collapsed .pt-pg:not([disabled]):hover{background:var(--pt-ink);color:var(--pt-paper);}
+  #pt-finder:not(.is-collapsed) .pt-btn--ghost:not([disabled]):not(.is-active):hover,
+  #pt-finder:not(.is-collapsed) .pt-pg:not([disabled]):hover{border-color:var(--pt-brand);}
   #pt-finder .pt-tab:hover{color:var(--pt-ink);}
   #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);transform:scale(1.08);}
 }
@@ -601,8 +608,8 @@ CERTS.forEach(function(x){C[x.id]=x;});
 PRODUCTS.forEach(function(x){P[x.id]=x;});
 
 var OPTGROUPS=[
-  {name:"認證", items:CERTS.map(function(c){return {key:"c:"+c.id,name:c.name,code:""};})},
-  {name:"功能", items:FEATURES.map(function(f){return {key:"f:"+f.id,name:f.name,code:f.code};})}
+  {name:"功能", items:FEATURES.map(function(f){return {key:"f:"+f.id,name:f.name,code:f.code};})},
+  {name:"認證", items:CERTS.map(function(c){return {key:"c:"+c.id,name:c.name,code:""};})}
 ];
 var OPTMAP={};
 OPTGROUPS.forEach(function(g){g.items.forEach(function(o){OPTMAP[o.key]=o;});});
@@ -640,11 +647,15 @@ function bindScrollX(el){
   markOvf(el);
   if(el.dataset.sx) return;
   el.dataset.sx="1";
-  var id=null,moved=false,x0=0,s0=0;
+  var id=null,moved=false,x0=0,s0=0,src=null;
   el.addEventListener("pointerdown",function(e){
-    if(e.pointerType!=="mouse") return;    if(el.scrollWidth-el.clientWidth<=2) return;
+    if(e.pointerType!=="mouse") return;
+    if(el.scrollWidth-el.clientWidth<=2) return;
     id=e.pointerId;moved=false;x0=e.clientX;s0=el.scrollLeft;
     el.classList.add("is-drag");
+    src=el.closest(".pt-card,.pt-row");
+    if(src) src.classList.add("is-dragsrc");
+    root.classList.add("is-dragging");
     try{ el.setPointerCapture(id); }catch(err){}
   });
   el.addEventListener("pointermove",function(e){
@@ -652,14 +663,17 @@ function bindScrollX(el){
     var d=e.clientX-x0;
     if(Math.abs(d)>3){ moved=true; el.scrollLeft=s0-d; e.preventDefault(); }
   });
-  function up(e){
+  function up(){
     if(id===null) return;
     try{ el.releasePointerCapture(id); }catch(err){}
     id=null; el.classList.remove("is-drag");
+    if(src){ src.classList.remove("is-dragsrc"); src=null; }
+    root.classList.remove("is-dragging");
     if(moved) DRAG_UNTIL=Date.now()+250;
   }
   el.addEventListener("pointerup",up);
   el.addEventListener("pointercancel",up);
+  el.addEventListener("lostpointercapture",up);
   el.addEventListener("scroll",function(){ markOvf(el); },{passive:true});
 }
 function markOvf(el){
@@ -816,10 +830,10 @@ function tagStrip(p){
   var fs=p.features.slice().sort(function(a,b){return (isHitF(b)?1:0)-(isHitF(a)?1:0);});
   var cs=p.certs.slice().sort(function(a,b){return (isHitC(b)?1:0)-(isHitC(a)?1:0);});
   return '<div class="pt-tags pt-scrollx">'+
-      cs.map(function(id){ return '<span class="pt-tag pt-cert'+(isHitC(id)?" pt-hit":"")+'">'+esc(C[id].name)+'</span>';}).join("")+
+      fs.map(function(id){ return '<span class="pt-tag'+(isHitF(id)?" pt-hit":"")+'">'+esc(F[id].name)+'</span>';}).join("")+
     '</div>'+
     '<div class="pt-tags pt-scrollx">'+
-      fs.map(function(id){ return '<span class="pt-tag'+(isHitF(id)?" pt-hit":"")+'">'+esc(F[id].name)+'</span>';}).join("")+
+      cs.map(function(id){ return '<span class="pt-tag pt-cert'+(isHitC(id)?" pt-hit":"")+'">'+esc(C[id].name)+'</span>';}).join("")+
     '</div>';
 }
 function dimClass(id){
@@ -965,8 +979,8 @@ function renderCompare(H){
   var ps=compare.map(function(id){return P[id];}).filter(Boolean);
   elRes.innerHTML='<div class="pt-tabs" role="tablist">'+
       '<button type="button" class="pt-tab" data-ctab="spec" role="tab" aria-selected="'+(cTab==="spec")+'">規格</button>'+
-      '<button type="button" class="pt-tab" data-ctab="cert" role="tab" aria-selected="'+(cTab==="cert")+'">認證</button>'+
       '<button type="button" class="pt-tab" data-ctab="feat" role="tab" aria-selected="'+(cTab==="feat")+'">功能</button>'+
+      '<button type="button" class="pt-tab" data-ctab="cert" role="tab" aria-selected="'+(cTab==="cert")+'">認證</button>'+
     '</div><div id="pt-tabbody"></div>';
 
   var body=$("pt-tabbody");
@@ -1052,13 +1066,10 @@ elForm.addEventListener("submit",function(e){
 });
 
 $("pt-reset").addEventListener("click",function(){
+  closeDD();
   MODEL.sel=[]; FEAT.sel=[];
   var r=elForm.querySelector('input[name="pt-mode"][value="AND"]'); if(r) r.checked=true;
-  applied={product:"",sel:[],mode:"AND"};
-  compare=[];
-  view="cards"; detailId=""; page=1;
-  setCollapsed(false);
-  syncFields(); render(); writeHash();
+  syncFields();
 });
 
 elToggle.addEventListener("click",function(){
