@@ -244,14 +244,13 @@
 #pt-finder .pt-row:active{border-color:var(--pt-brand);}
 #pt-finder .pt-crow:active{border-color:var(--pt-brand);}
 #pt-finder .pt-cchk:active,#pt-finder .pt-rowchk:active{border-color:var(--pt-brand);}
-#pt-finder .pt-btn:not([disabled]):active{filter:brightness(.94);}
-#pt-finder .pt-btn--ghost:not([disabled]):active{filter:none;background:var(--pt-ink);color:var(--pt-paper);}
 #pt-finder .pt-toggle:not([disabled]):active,#pt-finder .pt-dd-btn:active{border-color:var(--pt-brand);}
-#pt-finder .pt-pg:not([disabled]):active{background:var(--pt-ink);color:var(--pt-paper);}
-#pt-finder .pt-dd-opt:active{background:var(--pt-tint);}
-#pt-finder .pt-dd-opt[aria-selected="true"]:active{background:var(--pt-brand);}
-#pt-finder .pt-tab:active{color:var(--pt-ink);}
-#pt-finder .pt-lbx:active{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);}
+#pt-finder .pt-card.is-touch,#pt-finder .pt-row.is-touch,#pt-finder .pt-crow.is-touch,
+#pt-finder .pt-cchk.is-touch,#pt-finder .pt-rowchk.is-touch,
+#pt-finder .pt-dd-btn.is-touch,#pt-finder .pt-toggle.is-touch,
+#pt-finder .pt-btn.is-touch,#pt-finder .pt-pg.is-touch{border-color:var(--pt-brand);}
+#pt-finder .pt-dd-opt.is-touch{background:var(--pt-tint);}
+#pt-finder .pt-dd-opt[aria-selected="true"].is-touch{background:var(--pt-brand);}
 #pt-finder .pt-rowchk{
   position:absolute;top:8px;left:8px;z-index:2;
   display:flex;align-items:center;height:var(--pt-h-m);padding:0 8px;line-height:1;
@@ -695,6 +694,30 @@ function markOvf(el){
   el.classList.toggle("is-fr", ovf && el.scrollLeft<max-2);
 }
 function justDragged(){ return Date.now()<DRAG_UNTIL; }
+
+var TOUCH_SEL=".pt-cchk,.pt-rowchk,.pt-dd-opt,.pt-dd-btn,.pt-toggle,.pt-btn,.pt-pg,.pt-crow,.pt-card,.pt-row";
+var touched=null;
+function setTouch(el){
+  if(touched===el) return;
+  if(touched) touched.classList.remove("is-touch");
+  touched=el;
+  if(touched) touched.classList.add("is-touch");
+}
+function touchTarget(e){
+  var t=e.touches&&e.touches[0];
+  if(!t) return null;
+  var el=document.elementFromPoint(t.clientX,t.clientY);
+  el=el&&el.closest(TOUCH_SEL);
+  return el&&!el.disabled ? el : null;
+}
+function bindTouch(){
+  var move=function(e){ setTouch(touchTarget(e)); };
+  var end=function(){ setTouch(null); };
+  root.addEventListener("touchstart",move,{passive:true});
+  root.addEventListener("touchmove",move,{passive:true});
+  root.addEventListener("touchend",end,{passive:true});
+  root.addEventListener("touchcancel",end,{passive:true});
+}
 function bindAllScrollX(){ Array.prototype.forEach.call(root.querySelectorAll(".pt-scrollx"),bindScrollX); }
 
 var CHECK='<svg viewBox="0 0 10 8" fill="none" aria-hidden="true"><path d="M1 4l2.8 2.8L9 1.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -1171,6 +1194,7 @@ window.addEventListener("resize",function(){
   },160);
 });
 
+bindTouch();
 readHash();
 setCollapsed(collapsed);
 syncFields();
