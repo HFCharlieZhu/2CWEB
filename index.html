@@ -127,6 +127,8 @@
 }
 #pt-finder .pt-dd-opt{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:var(--pt-r);cursor:pointer;font-size:14.5px;line-height:1.4;}
 #pt-finder .pt-dd-opt[aria-selected="true"]{background:var(--pt-brand);font-weight:700;}
+#pt-finder .pt-dd-opt.is-joinu{border-top-left-radius:0;border-top-right-radius:0;}
+#pt-finder .pt-dd-opt.is-joind{border-bottom-left-radius:0;border-bottom-right-radius:0;}
 #pt-finder .pt-dd-box{
   flex:0 0 auto;width:16px;height:16px;border:1px solid var(--pt-line);
   border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--pt-paper);
@@ -240,6 +242,16 @@
   overflow:hidden;cursor:pointer;transition:border-color var(--pt-ease);
 }
 #pt-finder .pt-row:active{border-color:var(--pt-brand);}
+#pt-finder .pt-crow:active{border-color:var(--pt-brand);}
+#pt-finder .pt-cchk:active,#pt-finder .pt-rowchk:active{border-color:var(--pt-brand);}
+#pt-finder .pt-btn:not([disabled]):active{filter:brightness(.94);}
+#pt-finder .pt-btn--ghost:not([disabled]):active{filter:none;background:var(--pt-ink);color:var(--pt-paper);}
+#pt-finder .pt-toggle:not([disabled]):active,#pt-finder .pt-dd-btn:active{border-color:var(--pt-brand);}
+#pt-finder .pt-pg:not([disabled]):active{background:var(--pt-ink);color:var(--pt-paper);}
+#pt-finder .pt-dd-opt:active{background:var(--pt-tint);}
+#pt-finder .pt-dd-opt[aria-selected="true"]:active{background:var(--pt-brand);}
+#pt-finder .pt-tab:active{color:var(--pt-ink);}
+#pt-finder .pt-lbx:active{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);}
 #pt-finder .pt-rowchk{
   position:absolute;top:8px;left:8px;z-index:2;
   display:flex;align-items:center;height:var(--pt-h-m);padding:0 8px;line-height:1;
@@ -740,13 +752,22 @@ function fitDDText(d,names){
   }
 }
 function paintDD(d){
-  Array.prototype.forEach.call(d.panel.querySelectorAll(".pt-dd-opt"),function(o){
+  var opts=d.panel.querySelectorAll(".pt-dd-opt");
+  Array.prototype.forEach.call(opts,function(o){
     o.setAttribute("aria-selected", d.sel.indexOf(o.getAttribute("data-v"))>=0 ? "true":"false");
+  });
+  Array.prototype.forEach.call(opts,function(o){
+    var on=o.getAttribute("aria-selected")==="true";
+    o.classList.toggle("is-joinu",on&&picked(o.previousElementSibling));
+    o.classList.toggle("is-joind",on&&picked(o.nextElementSibling));
   });
   var names=d.sel.slice().reverse().map(function(k){ var o=d.opt[k]; return o?(o.full||o.name):k; });
   if(d.num){ d.num.textContent=names.length||""; d.num.hidden=!names.length; }
   d.btn.classList.toggle("is-empty",!names.length);
   fitDDText(d,names);
+}
+function picked(el){
+  return !!el && el.classList.contains("pt-dd-opt") && el.getAttribute("aria-selected")==="true";
 }
 function syncFields(){
   paintDD(MODEL); paintDD(FEAT);
