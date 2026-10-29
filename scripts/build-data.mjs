@@ -229,6 +229,20 @@ for (const r of live) {
   });
 }
 
+// 型號排序：字首字母（SF、SH…）照順序分家族，數字段由大到小（年份新的在前），
+// 同型號不同顏色就維持試算表裡的先後，不去動你排好的顏色順序。
+products.forEach((p, i) => { p._row = i; });
+const idKey = (id) => {
+  const m = String(id).match(/^([A-Za-z]*)(\d*)([\s\S]*)$/);
+  return { pre: m[1].toUpperCase(), num: m[2] ? +m[2] : -1 };
+};
+products.sort((a, b) => {
+  const x = idKey(a.id), y = idKey(b.id);
+  return x.pre.localeCompare(y.pre) || y.num - x.num || a._row - b._row;
+});
+products.forEach((p) => { delete p._row; });
+console.log(`排序：${products.slice(0, 6).map((p) => p.id).join(" → ")} …（共 ${products.length} 款）`);
+
 // 商品圖網址欄：填「自動帶入」或留空 → 每次建置都重抓官網主圖（官網換圖會自動跟上）；
 // 填了網址 → 視為人工指定，永遠不覆蓋（例如官網主圖上有贈品，要改指到乾淨的那張）。
 const auto = products.filter((p) => !p.img || /自動帶入/.test(p.img));
