@@ -10,7 +10,10 @@ const SHEETS = {
   certs:    process.env.CSV_CERTS    || ""
 };
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// src/tool.html 是「只有程式、沒有資料」的原始檔，人工只改這一份。
+// index.html 是建置產物（程式 + 當下的試算表資料），只有這支腳本會寫它。
 const HTML = path.join(ROOT, "index.html");
+const TPL = path.join(ROOT, "src", "tool.html");
 const MARK_A = "/* DATA-START */";
 const MARK_B = "/* DATA-END */";
 const REFRESH_IMAGES = process.env.REFRESH_IMAGES === "true";
@@ -139,11 +142,12 @@ function hash6(s) {
 
 function die(msg) { console.error("\n✗ 建置中止：" + msg + "\n  index.html 未更動，線上維持舊資料。"); process.exit(1); }
 
-const raw = fs.readFileSync(HTML, "utf8");
+if (!fs.existsSync(TPL)) die(`找不到 src/tool.html。工具的程式碼要放在那裡，index.html 是這支腳本產生的，不要手動上傳。`);
+const raw = fs.readFileSync(TPL, "utf8");
 const a = raw.indexOf(MARK_A), b = raw.indexOf(MARK_B);
-if (a < 0 || b < 0) die(`index.html 裡找不到 ${MARK_A} / ${MARK_B} 標記`);
-const prevBlock = raw.slice(a + MARK_A.length, b);
-const prevCount = +((prevBlock.match(/var DATA_COUNT=(\d+)/) || [])[1] || 0);
+if (a < 0 || b < 0) die(`src/tool.html 裡找不到 ${MARK_A} / ${MARK_B} 標記`);
+const prev = fs.existsSync(HTML) ? fs.readFileSync(HTML, "utf8") : "";
+const prevCount = +((prev.match(/var DATA_COUNT=(\d+)/) || [])[1] || 0);
 
 console.log("讀取試算表…");
 const got = await Promise.all(["products", "features", "options", "certs"].map(grab));
@@ -280,12 +284,12 @@ var PRODUCTS=${j(products)};
 var DATA_BUILT=${j(new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC")};
 var DATA_COUNT=${products.length};
 `;
+const out = raw.slice(0, a + MARK_A.length) + block + raw.slice(b);
 const bare = (t) => t.replace(/var DATA_BUILT=[^;]*;/, "");
-const unchanged = bare(block) === bare(prevBlock);
-if (unchanged) {
-  console.log("資料與上次完全相同，index.html 不改寫（不會產生空提交）。");
+if (bare(out) === bare(prev)) {
+  console.log("程式與資料都跟上次相同，index.html 不改寫（不會產生空提交）。");
 } else {
-  fs.writeFileSync(HTML, raw.slice(0, a + MARK_A.length) + block + raw.slice(b));
+  fs.writeFileSync(HTML, out);
 }
 
 console.log(`\n✓ 完成`);
