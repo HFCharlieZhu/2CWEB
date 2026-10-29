@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       refresh_images:
-        description: "重新抓所有商品圖（官網換圖後勾選）"
+        description: "重新分析所有商品圖（同一網址換了圖片內容時勾選）"
         type: boolean
         default: false
 
@@ -26,6 +26,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      - name: 安裝圖片分析套件（少了這步就不會取色、不會量輪廓）
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 
       - name: 讀試算表、重建 index.html
         env:
