@@ -14,6 +14,7 @@ const HTML = path.join(ROOT, "index.html");
 const MARK_A = "/* DATA-START */";
 const MARK_B = "/* DATA-END */";
 const REFRESH_IMAGES = process.env.REFRESH_IMAGES === "true";
+const CI = !!process.env.GITHUB_ACTIONS;
 
 const CJK = "\\u2e80-\\u2eff\\u3400-\\u4dbf\\u4e00-\\u9fff\\uf900-\\ufaff\\u3005\\u3007";
 const RE_A = new RegExp(`([${CJK}])([A-Za-z0-9])`, "g");
@@ -95,12 +96,19 @@ async function grab(name) {
     return { name, rows, how };
   };
   if (!url) {
+    const V = "CSV_" + name.toUpperCase();
+    if (CI)
+      return { name, err: `沒有設定變數 ${V}，不會去讀試算表。`
+        + `　這種情況以前會改讀 repo 裡的 data/${name}.csv，也就是永遠停在舊資料、流程還是綠燈，所以現在直接中止。`
+        + `　請到 Settings → Secrets and variables → Actions → Variables 補上 ${V}。` };
     if (!fs.existsSync(local))
-      return { name, err: `沒有設定網址（變數 CSV_${name.toUpperCase()}），也找不到 data/${name}.csv` };
-    return check(toObjects(parseCSV(fs.readFileSync(local, "utf8"))), `本機 data/${name}.csv`);
+      return { name, err: `沒有設定網址（變數 ${V}），也找不到 data/${name}.csv` };
+    return check(toObjects(parseCSV(fs.readFileSync(local, "utf8"))), `本機 data/${name}.csv（僅限本機測試）`);
   }
   let res;
-  try { res = await fetch(url, { redirect: "follow" }); }
+  // 加上時間戳並要求不要用快取，否則 Google 的 CDN 可能回舊版 CSV
+  const bust = url + (url.includes("?") ? "&" : "?") + "_cb=" + Date.now();
+  try { res = await fetch(bust, { redirect: "follow", cache: "no-store", headers: { "Cache-Control": "no-cache", Pragma: "no-cache" } }); }
   catch (e) { return { name, err: `連不上：${e.message}` }; }
   if (!res.ok) return { name, err: `HTTP ${res.status}（網址是不是貼錯或沒發布？）` };
   const text = await res.text();
@@ -147,8 +155,12 @@ if (bad.length) {
   console.error("\n  index.html 未更動，線上維持舊資料。");
   process.exit(1);
 }
-for (const g of got) console.log(`  ✓ ${g.name}：${g.how}`);
+for (const g of got) console.log(`  ✓ ${g.name}：${g.how}（${g.rows.length} 筆）`);
 const [P, F, O, C] = got.map((g) => g.rows);
+{
+  const imgs = P.map((r) => (r["商品圖網址"] || "").trim()).join("|");
+  console.log(`  商品圖網址指紋 ${hash6(imgs)}（這串沒變就代表試算表的圖片網址一個字都沒動）`);
+}
 
 if (!P.length) die("products 一筆資料都沒有");
 const head = Object.keys(P[0]);
@@ -217,17 +229,25 @@ for (const r of live) {
   });
 }
 
-const needImg = products.filter((p) => !p.img || /自動帶入/.test(p.img) || REFRESH_IMAGES);
-if (needImg.length) {
-  console.log(`抓商品圖 ${needImg.length} 筆…`);
-  for (const p of needImg) {
-    if (!p.url) continue;
+// 商品圖網址欄：填「自動帶入」或留空 → 每次建置都重抓官網主圖（官網換圖會自動跟上）；
+// 填了網址 → 視為人工指定，永遠不覆蓋（例如官網主圖上有贈品，要改指到乾淨的那張）。
+const auto = products.filter((p) => !p.img || /自動帶入/.test(p.img));
+const pinned = products.filter((p) => p.img && !/自動帶入/.test(p.img));
+if (auto.length) {
+  console.log(`自動帶入商品圖 ${auto.length} 筆…`);
+  for (const p of auto) {
+    if (!p.url) { p.img = ""; console.warn(`  ! ${p.id} 沒有商品頁網址，抓不到圖`); continue; }
     const u = await ogImage(p.url);
     if (u) p.img = u;
-    else if (!p.img || /自動帶入/.test(p.img)) { p.img = ""; console.warn(`  ! ${p.id} 抓不到商品圖`); }
+    else { p.img = ""; console.warn(`  ! ${p.id} 抓不到商品圖`); }
   }
 }
-await sampleAll(products, path.join(ROOT, "data", "img-colors.json"), (m) => console.log(m));
+if (pinned.length) console.log(`人工指定商品圖 ${pinned.length} 筆（不覆蓋）：${pinned.map((p) => p.id).join("、")}`);
+const CACHE = path.join(ROOT, "data", "img-colors.json");
+if (REFRESH_IMAGES) {
+  try { fs.rmSync(CACHE); console.log("已清掉圖片分析快取，這次會重抓每一張圖。"); } catch {}
+}
+await sampleAll(products, CACHE, (m) => console.log(m));
 
 const noImg = products.filter((p) => !p.img);
 if (noImg.length > products.length * 0.5) die(`超過一半的商品沒有圖片（${noImg.length}/${products.length}）`);
@@ -246,7 +266,13 @@ var PRODUCTS=${j(products)};
 var DATA_BUILT=${j(new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC")};
 var DATA_COUNT=${products.length};
 `;
-fs.writeFileSync(HTML, raw.slice(0, a + MARK_A.length) + block + raw.slice(b));
+const bare = (t) => t.replace(/var DATA_BUILT=[^;]*;/, "");
+const unchanged = bare(block) === bare(prevBlock);
+if (unchanged) {
+  console.log("資料與上次完全相同，index.html 不改寫（不會產生空提交）。");
+} else {
+  fs.writeFileSync(HTML, raw.slice(0, a + MARK_A.length) + block + raw.slice(b));
+}
 
 console.log(`\n✓ 完成`);
 console.log(`  上架商品 ${products.length} 款（總筆數 ${P.length}，下架 ${P.length - live.length}）`);

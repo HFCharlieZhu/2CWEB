@@ -1,0 +1,52 @@
+name: 更新查詢工具資料
+
+on:
+  schedule:
+    - cron: "5 * * * *"
+  workflow_dispatch:
+    inputs:
+      refresh_images:
+        description: "重新分析所有商品圖（同一網址換了圖片內容時勾選）"
+        type: boolean
+        default: false
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 安裝圖片分析套件（少了這步就不會取色、不會量輪廓）
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: 讀試算表、重建 index.html
+        env:
+          CSV_PRODUCTS: ${{ vars.CSV_PRODUCTS }}
+          CSV_FEATURES: ${{ vars.CSV_FEATURES }}
+          CSV_OPTIONS:  ${{ vars.CSV_OPTIONS }}
+          CSV_CERTS:    ${{ vars.CSV_CERTS }}
+          REFRESH_IMAGES: ${{ inputs.refresh_images }}
+        run: node scripts/build-data.mjs
+
+      - name: 有變更才提交
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "資料沒有變動，不提交。"
+            exit 0
+          fi
+          git config user.name  "patroni-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html data/
+          git commit -m "資料更新 $(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M')"
+          git push
