@@ -74,23 +74,18 @@ export function contentBox(img, bgHex) {
   return { x: cx[0], w: cx[1], y: cy[0], h: cy[1] };
 }
 
-// 把內容框換算成「剛好填滿圖框」所需的縮放與位移。
-// 圖框比例固定 1020/600；回傳 f（縮放）、tx／ty（百分比，相對 img 自身寬高）。
-const FRAME_A = 1020 / 600;
+// 只回報「內容框在這張圖裡的相對位置」，與圖框比例無關。
+// cw／ch：內容佔圖寬／圖高的比例；dx／dy：內容中心偏離圖中心的比例；ia：圖片本身的長寬比。
+// 真正的縮放與位移交給前端按各個圖框的比例現算，所以同一組數字在卡片、列表、明細、手機版都成立。
 export function fitVars(img, bgHex) {
   const box = contentBox(img, bgHex);
   if (!box) return null;
-  const Hn = 1 / FRAME_A;
-  const s = Math.min(1 / img.w, Hn / img.h);
-  const fRaw = 1 / Math.max((box.w * s) / 1, (box.h * s) / Hn);
-  const f = Math.min(2.4, Math.max(1, fRaw));
-  const dx = box.x + box.w / 2 - img.w / 2;
-  const dy = box.y + box.h / 2 - img.h / 2;
   return {
-    f: +f.toFixed(3),
-    tx: +(-dx * s * f * 100).toFixed(2),
-    ty: +((-dy * s * f) / Hn * 100).toFixed(2),
-    cover: +Math.min(1, 1 / fRaw).toFixed(3)
+    cw: +(box.w / img.w).toFixed(4),
+    ch: +(box.h / img.h).toFixed(4),
+    dx: +((box.x + box.w / 2 - img.w / 2) / img.w).toFixed(4),
+    dy: +((box.y + box.h / 2 - img.h / 2) / img.h).toFixed(4),
+    ia: +(img.w / img.h).toFixed(4)
   };
 }
 
@@ -100,11 +95,14 @@ export async function sampleAll(products, cacheFile, log) {
   let cache = {};
   try { cache = JSON.parse(fs.readFileSync(cacheFile, "utf8")); } catch {}
   for (const k of Object.keys(cache)) if (typeof cache[k] === "string") cache[k] = { bg: cache[k] };  // 舊格式升級
-  const apply = (p, c) => { if (!p.bg) p.bg = c.bg || ""; if (c.f) { p.f = c.f; p.tx = c.tx; p.ty = c.ty; } };
+  const apply = (p, c) => {
+    if (!p.bg) p.bg = c.bg || "";
+    if (c.cw) { p.cw = c.cw; p.ch = c.ch; p.dx = c.dx; p.dy = c.dy; p.ia = c.ia; }
+  };
   let fetched = 0, failed = 0;
   for (const p of products) {
     if (!p.img) continue;
-    if (cache[p.img] && ("f" in cache[p.img] || cache[p.img].noFit)) { apply(p, cache[p.img]); continue; }
+    if (cache[p.img] && ("cw" in cache[p.img] || cache[p.img].noFit)) { apply(p, cache[p.img]); continue; }
     try {
       const res = await fetch(p.img);
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -121,6 +119,6 @@ export async function sampleAll(products, cacheFile, log) {
   fs.mkdirSync(path.dirname(cacheFile), { recursive: true });
   fs.writeFileSync(cacheFile, JSON.stringify(cache, null, 1));
   if (fetched || failed) log(`  圖片分析：新抓 ${fetched} 張、失敗 ${failed} 張、快取 ${Object.keys(cache).length} 筆`);
-  const zs = products.filter((p) => p.f).map((p) => `${p.id} ${p.f}×`);
-  if (zs.length) log("  自動縮放：" + zs.join("、"));
+  const zs = products.filter((p) => p.cw).map((p) => `${p.id} 佔幅 ${Math.round(p.cw * 100)}%×${Math.round(p.ch * 100)}%`);
+  if (zs.length) log("  輪廓量測：" + zs.join("、"));
 }
