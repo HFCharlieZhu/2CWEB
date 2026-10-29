@@ -1,1 +1,242 @@
-{}
+{
+ "https://img.shoplineapp.com/media/image_clips/6a3cd04b6656172dc4f781c7/original.png?1782370379=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.6693,
+  "ch": 0.46,
+  "dx": -0.012,
+  "dy": -0.0007,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6a4622460cad2fc751ce7336/original.png?1782981190=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.668,
+  "ch": 0.468,
+  "dx": -0.01,
+  "dy": -0.0047,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6a3c8ebbf687852a2ecce5ab/original.png?1782353595=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.7027,
+  "ch": 0.3467,
+  "dx": -0.0113,
+  "dy": 0.056,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6a46250b7b0ac4521cce7b65/original.png?1782981898=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.708,
+  "ch": 0.3467,
+  "dx": -0.0127,
+  "dy": 0.0573,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/68423fb0cacf32000d9484fe/original.jpg?1749172144": {
+  "bg": "#ffffff",
+  "cw": 0.7187,
+  "ch": 0.468,
+  "dx": -0.014,
+  "dy": -0.002,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/67860f2833e6e4000c5e24c9/original.jpg?1736838951": {
+  "bg": "#ffffff",
+  "cw": 0.6427,
+  "ch": 0.62,
+  "dx": -0.032,
+  "dy": -0.0033,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/690499579080fa001451acbb/original.jpg?1761909078=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.7307,
+  "ch": 0.3507,
+  "dx": -0.0133,
+  "dy": 0.0553,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6ae3039b96591350b9a06787/original.jpg?1793262490=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.548,
+  "ch": 0.7133,
+  "dx": -0.0033,
+  "dy": -0.01,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6ae3039b58cdb9263e84d2d3/original.jpg?1793262490=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.536,
+  "ch": 0.7547,
+  "dx": -0.0093,
+  "dy": -0.0267,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6ae3039b76fa311f9d8be371/original.jpg?1793262490=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.528,
+  "ch": 0.6693,
+  "dx": -0.0133,
+  "dy": 0.0107,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/67cfda75b03b435b1bb74502/original.jpg?1741675125": {
+  "bg": "#ffffff",
+  "cw": 0.6813,
+  "ch": 0.4333,
+  "dx": -0.0167,
+  "dy": 0.014,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/67cfd0cc3c1e1600102b7b50/original.jpg?1741672652": {
+  "bg": "#ffffff",
+  "cw": 0.6947,
+  "ch": 0.4347,
+  "dx": -0.01,
+  "dy": 0.0133,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/659cfbf7337ae4000113a59a/original.jpg?1704786935": {
+  "bg": "#ffffff",
+  "cw": 0.764,
+  "ch": 0.32,
+  "dx": 0.0047,
+  "dy": 0.0213,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/659cfbf7337ae4000113a596/original.jpg?1704786935": {
+  "bg": "#ffffff",
+  "cw": 0.7667,
+  "ch": 0.316,
+  "dx": 0.0033,
+  "dy": 0.0233,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/659cfbf7ba44ff000136d90d/original.jpg?1704786934": {
+  "bg": "#ffffff",
+  "cw": 0.7627,
+  "ch": 0.3227,
+  "dx": 0.0053,
+  "dy": 0.02,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6904983a7aeaef0010f7b737/original.jpg?1761908794=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.712,
+  "ch": 0.352,
+  "dx": -0.016,
+  "dy": 0.0507,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6904987917dbc50012ac11d6/original.jpg?1761908857=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.6827,
+  "ch": 0.3267,
+  "dx": -0.0173,
+  "dy": 0.07,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/69049774b4cf7e001690dc39/original.jpg?1761908596=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.7333,
+  "ch": 0.3507,
+  "dx": -0.0093,
+  "dy": 0.0527,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/67651b25b4f0d01fe6ab3038/original.jpg?1734679332": {
+  "bg": "#ffffff",
+  "cw": 0.6852,
+  "ch": 0.4508,
+  "dx": -0.0082,
+  "dy": 0.0006,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/67652100944eae000d78a47d/original.jpg?1734680832": {
+  "bg": "#ffffff",
+  "cw": 0.6784,
+  "ch": 0.438,
+  "dx": -0.012,
+  "dy": 0.0194,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/674b3689ede647000b662191/original.jpg?1732982408": {
+  "bg": "#ffffff",
+  "cw": 0.672,
+  "ch": 0.46,
+  "dx": -0.016,
+  "dy": 0.006,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/674b3623c63960000a7ba682/original.jpg?1732982306": {
+  "bg": "#ffffff",
+  "cw": 0.68,
+  "ch": 0.476,
+  "dx": -0.016,
+  "dy": 0.0113,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6ae303bcb8cc121a27f2e9bc/original.jpg?1793262524=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.7147,
+  "ch": 0.328,
+  "dx": -0.02,
+  "dy": 0.0507,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6581ad0864ca7e0014dca856/original.jpg?1702997255": {
+  "bg": "#ffffff",
+  "cw": 0.78,
+  "ch": 0.3733,
+  "dx": -0.0113,
+  "dy": -0.004,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/69049a19c3c65c000e694523/original.jpg?1761909272=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.68,
+  "ch": 0.3747,
+  "dx": -0.016,
+  "dy": 0.042,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/690498f00bafc0000c3dfce1/original.jpg?1761908976=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.6787,
+  "ch": 0.488,
+  "dx": -0.018,
+  "dy": -0.0133,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/690499beeff6e700120b5f56/original.jpg?1761909182=&owner_id=6572a1b95ad192005192397e": {
+  "bg": "#ffffff",
+  "cw": 0.6973,
+  "ch": 0.5107,
+  "dx": -0.026,
+  "dy": -0.0247,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/674927e04de52a000e370405/original.jpg?1732847583": {
+  "bg": "#ffffff",
+  "cw": 0.6707,
+  "ch": 0.4187,
+  "dx": -0.0167,
+  "dy": 0.0093,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6594cd16447e0500013b9aa9/original.jpg?1704250645": {
+  "bg": "#ffffff",
+  "cw": 0.7653,
+  "ch": 0.46,
+  "dx": -0.012,
+  "dy": -0.058,
+  "ia": 1
+ },
+ "https://img.shoplineapp.com/media/image_clips/6592b79bdd697b000152cddf/original.jpg?1704114075": {
+  "bg": "#ffffff",
+  "cw": 0.7627,
+  "ch": 0.3347,
+  "dx": -0.0107,
+  "dy": 0.022,
+  "ia": 1
+ }
+}
