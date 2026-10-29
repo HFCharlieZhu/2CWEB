@@ -136,6 +136,8 @@
 #pt-finder .pt-dd-box svg{width:9px;height:7px;opacity:0;}
 #pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-box{background:var(--pt-ink);border-color:var(--pt-ink);}
 #pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-box svg{opacity:1;}
+#pt-finder .pt-dd-ct{flex:0 0 auto;font-size:11.5px;color:var(--pt-muted);letter-spacing:.04em;}
+#pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-ct{color:var(--pt-ink);}
 #pt-finder .pt-dd-code{margin-left:auto;font-size:11.5px;color:var(--pt-muted);letter-spacing:.04em;flex:0 0 auto;}
 #pt-finder .pt-dd-opt[aria-selected="true"] .pt-dd-code{color:var(--pt-ink);}
 
@@ -242,10 +244,9 @@
   overflow:hidden;cursor:pointer;transition:border-color var(--pt-ease);
 }
 #pt-finder .pt-row:active{border-color:var(--pt-brand);}
-#pt-finder .pt-crow:active{border-color:var(--pt-brand);}
 #pt-finder .pt-cchk:active,#pt-finder .pt-rowchk:active{border-color:var(--pt-brand);}
 #pt-finder .pt-toggle:not([disabled]):active,#pt-finder .pt-dd-btn:active{border-color:var(--pt-brand);}
-#pt-finder .pt-card.is-touch,#pt-finder .pt-row.is-touch,#pt-finder .pt-crow.is-touch,
+#pt-finder .pt-card.is-touch,#pt-finder .pt-row.is-touch,
 #pt-finder .pt-cchk.is-touch,#pt-finder .pt-rowchk.is-touch,
 #pt-finder .pt-dd-btn.is-touch,#pt-finder .pt-toggle.is-touch,
 #pt-finder .pt-btn.is-touch,#pt-finder .pt-pg.is-touch{border-color:var(--pt-brand);}
@@ -337,33 +338,10 @@
   padding:0 11px;border-radius:999px;background:var(--pt-tint);
   border:1px solid var(--pt-line);color:var(--pt-body);
 }
-#pt-finder .pt-flist li.pt-hit .pt-fc{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);}
+#pt-finder .pt-plist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
+#pt-finder .pt-plist li{display:flex;align-items:center;}
+#pt-finder .pt-flist li.pt-hit .pt-fc,#pt-finder .pt-plist li.pt-hit .pt-fc{background:var(--pt-brand);border-color:var(--pt-brand);color:var(--pt-ink);}
 #pt-finder .pt-flist li.pt-hit>span:last-child{font-weight:700;}
-
-#pt-finder .pt-clist{display:flex;flex-direction:column;gap:8px;}
-#pt-finder .pt-crow{
-  display:flex;align-items:center;gap:12px;height:70px;width:100%;
-  border:var(--pt-bw) solid var(--pt-line);border-radius:var(--pt-r);overflow:hidden;
-  background:none;padding:0;cursor:zoom-in;text-align:left;font-family:var(--pt-sans);
-  transition:border-color var(--pt-ease);
-}
-#pt-finder .pt-crow img{flex:0 0 auto;width:94px;height:100%;object-fit:cover;background:var(--pt-media);}
-#pt-finder .pt-cmeta{min-width:0;}
-#pt-finder .pt-cmeta b{display:block;font-size:14px;font-weight:700;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--pt-ink);}
-#pt-finder .pt-cmeta span{display:block;font-size:12px;color:var(--pt-body);letter-spacing:.36px;}
-
-#pt-finder .pt-lb{
-  position:fixed;inset:0;z-index:200;display:flex;align-items:flex-start;justify-content:center;
-  background:var(--pt-paper);padding:64px 16px 16px;
-}
-#pt-finder .pt-lb[hidden]{display:none;}
-#pt-finder .pt-lb img{max-width:60%;max-height:60%;object-fit:contain;display:block;}
-#pt-finder .pt-lbx{
-  position:absolute;top:16px;right:16px;width:58px;height:58px;border-radius:50%;
-  background:var(--pt-tint);border:1px solid var(--pt-line);color:var(--pt-ink);
-  font-family:var(--pt-sans);font-size:30px;line-height:1;cursor:pointer;
-  transition:background-color var(--pt-ease),color var(--pt-ease),border-color var(--pt-ease),transform var(--pt-ease);
-}
 
 @media (hover:hover) and (pointer:fine){
   #pt-finder .pt-card:hover{
@@ -371,7 +349,6 @@
   }
   #pt-finder .pt-card.is-dim:hover{transform:none;box-shadow:none;border-color:var(--pt-line);}
   #pt-finder .pt-row:hover{border-color:var(--pt-brand);}
-  #pt-finder .pt-crow:hover{border-color:var(--pt-brand);}
   #pt-finder .pt-dd-btn:hover{border-color:var(--pt-brand);}
   #pt-finder .pt-field.is-off .pt-dd-btn:hover{border-color:var(--pt-line);}
   #pt-finder .pt-toggle:not([disabled]):hover{border-color:var(--pt-brand);}
@@ -387,7 +364,6 @@
   #pt-finder:not(.is-collapsed) .pt-bar .pt-btn--ghost:not([disabled]):not(.is-active):hover,
   #pt-finder:not(.is-collapsed) .pt-pg:not([disabled]):hover{background:transparent;color:var(--pt-ink);border-color:var(--pt-brand);}
   #pt-finder .pt-tab:hover{color:var(--pt-ink);}
-  #pt-finder .pt-lbx:hover{background:var(--pt-ink);color:var(--pt-paper);border-color:var(--pt-ink);transform:scale(1.08);}
 }
 
 @media (max-width:900px){
@@ -427,12 +403,10 @@
   #pt-finder .pt-fc,#pt-finder .pt-dd-n{padding:0 10px;}
   #pt-finder .pt-flist{grid-template-columns:1fr 1fr;gap:0 8px;}
   #pt-finder .pt-flist li{font-size:12.5px;gap:6px;height:34px;}
+  #pt-finder .pt-plist{gap:6px;}
   #pt-finder th,#pt-finder td{padding:0 6px;font-size:12px;height:36px;}
   #pt-finder .pt-cmpt th,#pt-finder .pt-cmpt td{padding:8px 6px;}
   #pt-finder .pt-spec th{width:5.2em;font-size:11.5px;}
-  #pt-finder .pt-crow{height:62px;gap:8px;}
-  #pt-finder .pt-crow img{width:80px;}
-  #pt-finder .pt-lb img{max-width:82%;max-height:60%;}
 }
 </style>
 
@@ -491,141 +465,39 @@
 
     <div id="pt-results"></div>
   </div>
-
-  <div class="pt-lb" id="pt-lb" hidden>
-    <button type="button" class="pt-lbx" id="pt-lbx" aria-label="關閉">&times;</button>
-    <img id="pt-lbimg" alt="">
-  </div>
 </div>
 
 <script>
 (function(){
 "use strict";
 
-var IMG_PRODUCT = "https://img.shoplineapp.com/media/image_clips/6a99080cc56f76a2c55d592e/original.png?1788413963=&owner_id=6572a1b95ad192005192397e";
-var IMG_CERT_1  = "https://img.shoplineapp.com/media/image_clips/6a9907c921976070eec2dc49/original.jpg?1788413896=&owner_id=6572a1b95ad192005192397e";
-var IMG_CERT_2  = "https://img.shoplineapp.com/media/image_clips/6a9907c9324646b8d906f983/original.jpg?1788413896=&owner_id=6572a1b95ad192005192397e";
-var IMG_CERT_3  = "https://img.shoplineapp.com/media/image_clips/6a9907c993b47ca612e4fb08/original.jpg?1788413896=&owner_id=6572a1b95ad192005192397e";
-
-var FEATURES = [
-  {id:"toe",   name:"保護頭 200J",   code:"SB"},
-  {id:"punc",  name:"防穿刺",        code:"PS/PL"},
-  {id:"slip",  name:"防滑",          code:"SR(SRC)"},
-  {id:"energy",name:"鞋跟緩震",      code:"E"},
-  {id:"oil",   name:"鞋底耐油",      code:"FO"},
-  {id:"heat",  name:"鞋底耐熱",      code:"HRO"},
-  {id:"wr",    name:"全鞋防水",      code:"WR"},
-  {id:"wpa",   name:"鞋面防水",      code:"WPA(WRU)"},
-  {id:"hi",    name:"鞋底隔熱",      code:"HI"},
-  {id:"ci",    name:"鞋底抗寒",      code:"CI"},
-  {id:"an",    name:"腳踝保護",      code:"AN"},
-  {id:"sc",    name:"鞋頭耐磨",      code:"SC"},
-  {id:"ins",   name:"絕緣",          code:"I.S."},
-  {id:"esd",   name:"抗靜電",        code:"A"},
-  {id:"lg",    name:"抓梯穩定",      code:"LG"},
-  {id:"blood", name:"防血液病毒滲透",code:"F1671"},
-  {id:"mf",    name:"全非金屬",      code:"Metal Free"},
-  {id:"dial",  name:"快旋鈕",        code:"ExpFit"},
-  {id:"sd",    name:"外翻車縫",      code:"Stitch Down"}
-];
-
-var CERTS = [
-  {id:"cns",      name:"CNS 20345:2015",        note:"台灣安全鞋標準", img:IMG_CERT_1},
-  {id:"ce",       name:"CE EN ISO 20345:2022",  note:"歐盟安全鞋標準", img:IMG_CERT_2},
-  {id:"csa",      name:"CSA Z195",              note:"加拿大絕緣標準", img:IMG_CERT_3},
-  {id:"astm",     name:"ASTM F1671",            note:"防血液病毒滲透", img:IMG_CERT_1},
-  {id:"aatcc",    name:"AATCC 100",             note:"抑菌測試",       img:IMG_CERT_2},
-  {id:"cns12707", name:"CNS 12707",             note:"耐酸鹼測試",     img:IMG_CERT_3},
-  {id:"lgtest",   name:"CE LG 爬梯測試",        note:"抓梯穩定性測試", img:IMG_CERT_1}
-];
-
-var PRODUCTS = [
-  {id:"SF2307BLK", name:"戰神靴", series:"SD防水快旋鈕抗靜電安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2307blk",
-   spec:{grade:"S7S",upper:"透氣天然頭層牛皮",sole:"頂級橡膠雙層密度",shaft:"19cm",weight:"720g (EUR41)",width:"2E",size:"EUR 36–48"},
-   features:["toe","punc","slip","wr","wpa","an","sc","oil","heat","esd","energy","blood","dial","sd"],
-   certs:["cns","ce","aatcc","astm"]},
-
-  {id:"SF2501BLK", name:"突破者", series:"SD防水透氣快旋鈕絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2501blk",
-   spec:{grade:"SBPS SR(SRC) E FO HRO WPA(WRU) WR HI CI AN SC",upper:"抗刮耐磨透氣網布",sole:"橡膠雙層密度",shaft:"19cm",weight:"690g (EUR41)",width:"2E",size:"EUR 36–48"},
-   features:["toe","punc","slip","wr","wpa","ins","sc","oil","heat","hi","ci","an","energy","mf","dial","sd"],
-   certs:["cns","ce","csa","aatcc","astm"]},
-
-  {id:"SF2205", name:"逆天靴", series:"SD防水快旋鈕抗靜電安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2205",
-   spec:{grade:"S7S SR E FO HRO WR WPA",upper:"超纖皮革",sole:"橡膠雙層密度",shaft:"19cm",weight:"580g (EUR41)",width:"2E",size:"EUR 36–48"},
-   features:["toe","punc","slip","wr","wpa","oil","heat","esd","energy","blood","mf","dial","sd"],
-   certs:["cns","ce","aatcc","astm"]},
-
-  {id:"SF2409BLK", name:"護神靴", series:"防水速旋鈕絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2409blk",
-   spec:{grade:"SBPS SR(SRC) E HRO WPA(WRU) WR HI CI AN SC",upper:"超纖皮革",sole:"橡膠雙層密度",shaft:"25cm",weight:"800g (EUR43)",width:"2E",size:"EUR 36–48"},
-   features:["toe","punc","slip","wr","wpa","ins","sc","oil","heat","hi","ci","an","energy","blood","dial"],
-   certs:["cns","ce","aatcc","astm"]},
-
-  {id:"SF2328BLK", name:"極潮靴", series:"鞋面防水快旋鈕絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2328blk",
-   spec:{grade:"SBPS SR(SRC) E FO HRO WPA(WRU)",upper:"超纖皮革",sole:"頂級橡膠雙層密度",shaft:"19cm",weight:"545g (EUR41)",width:"2E",size:"EUR 37–46"},
-   features:["toe","punc","slip","wpa","ins","oil","heat","energy"],
-   certs:["cns","csa","aatcc","ce"]},
-
-  {id:"SF2540BLK", name:"啟航者", series:"鞋面防水絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2540blk",
-   spec:{grade:"SBPS SR(SRC) E FO WPA(WRU)",upper:"透氣天然頭層牛皮",sole:"特製 PU 雙層密度",shaft:"12cm",weight:"650g±3% (EUR41)",width:"2E",size:"EUR 36–47"},
-   features:["toe","punc","slip","wpa","ins","oil","energy","mf"],
-   certs:["cns","csa","ce","aatcc"]},
-
-  {id:"SF2541BLK", name:"啟航靴", series:"鞋面防水絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2541blk",
-   spec:{grade:"SBPS SR(SRC) E FO WPA(WRU)",upper:"透氣天然頭層牛皮",sole:"特製 PU 雙層密度",shaft:"19cm",weight:"700g±3% (EUR41)",width:"2E",size:"EUR 36–47"},
-   features:["toe","punc","slip","wpa","ins","oil","energy","mf"],
-   certs:["cns","csa","aatcc","ce"]},
-
-  {id:"SH20033L", name:"守衛者 ExpEnergy", series:"鞋面防水旋鈕絕緣防滑安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-energy",
-   spec:{grade:"SBPL SR(SRC) E FO HRO WPA(WRU)",upper:"超纖皮革",sole:"頂級橡膠雙層密度",shaft:"10cm",weight:"450g (EUR41)",width:"2E",size:"EUR 36–48"},
-   features:["toe","punc","slip","wpa","ins","oil","heat","energy","dial"],
-   certs:["cns","csa","ce","aatcc"]},
-
-  {id:"SF2406", name:"縱橫者", series:"LG 快旋鈕抗靜電安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2406",
-   spec:{grade:"S1PL SR LG FO",upper:"KPU",sole:"IP（Injected Phylon）",shaft:"10cm",weight:"525g (EUR41)",width:"2E",size:"EUR 36–47"},
-   features:["toe","punc","slip","oil","esd","lg","energy","mf","dial"],
-   certs:["cns","ce","aatcc"]},
-
-  {id:"SF2319BLK", name:"梯行者", series:"LG 鞋面防水絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2319blk",
-   spec:{grade:"SBPL SR E FO WPA LG",upper:"抗刮耐磨透氣網布",sole:"IP（Injected Phylon）",shaft:"10cm",weight:"530g (EUR41)",width:"2E",size:"EUR 36–46"},
-   features:["toe","punc","slip","wpa","ins","oil","energy","lg","sd"],
-   certs:["cns","ce","csa","aatcc"]},
-
-  {id:"SF2306", name:"創造者", series:"SD鞋面防水絕緣安全鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2306",
-   spec:{grade:"SBPL SR E FO HRO WPA",upper:"超纖皮革",sole:"頂級橡膠雙層密度",shaft:"10cm",weight:"620g (EUR41)",width:"2E",size:"EUR 37–46"},
-   features:["toe","punc","slip","wpa","ins","sc","oil","heat","energy","sd"],
-   certs:["cns","csa","aatcc"]},
-
-  {id:"SF2380BLK", name:"極雨鞋", series:"極輕量抓梯絕緣安全雨鞋",
-   img:IMG_PRODUCT, url:"https://www.patroni.com.tw/products/patroni-sf2380",
-   spec:{grade:"—",upper:"Injected Phylon（IP）",sole:"Injected Phylon（IP）",shaft:"40cm",weight:"800g (EUR41)",width:"2E",size:"EUR 37–47"},
-   features:["toe","punc","slip","wr","ins","oil","energy","lg","mf"],
-   certs:["cns","ce","lgtest","cns12707","aatcc","csa"]}
-];
+/* DATA-START */
+var SPEC_ROWS=[["grade","安全等級"],["upper","鞋面材質"],["sole","大底"],["toe","護趾材質"],["shaft","筒高"],["weight","重量"],["width","楦寬"],["size","鞋碼範圍"]];
+var FEATURES=[{"id":"f1","name":"緩震","code":"E","menu":"E","full":"緩震 E","grp":"全鞋體"},{"id":"f2","name":"非金屬","code":"Metal Free","menu":"Metal Free","full":"非金屬 Metal Free","grp":"全鞋體"},{"id":"f3","name":"快旋鈕","code":"","menu":"","full":"快旋鈕","grp":"全鞋體"},{"id":"f4","name":"自動回線快旋鈕","code":"","menu":"","full":"自動回線快旋鈕","grp":"全鞋體"},{"id":"f5","name":"全鞋防水","code":"WR","menu":"WR","full":"全鞋防水 WR","grp":"全鞋體"},{"id":"f6","name":"絕緣","code":"I.S.","menu":"I.S.","full":"絕緣 I.S.","grp":"全鞋體"},{"id":"f7","name":"足踝保護","code":"AN","menu":"AN","full":"足踝保護 AN","grp":"全鞋體"},{"id":"f8","name":"鞋頭耐磨","code":"SC","menu":"SC","full":"鞋頭耐磨 SC","grp":"全鞋體"},{"id":"f9","name":"鞋體隔熱","code":"HI","menu":"HI","full":"鞋體隔熱 HI","grp":"全鞋體"},{"id":"f10","name":"鞋體抗寒","code":"CI","menu":"CI","full":"鞋體抗寒 CI","grp":"全鞋體"},{"id":"f11","name":"外翻車縫","code":"SD","menu":"SD","full":"外翻車縫 SD","grp":"全鞋體"},{"id":"f12","name":"防血液病毒滲透","code":"","menu":"","full":"防血液病毒滲透","grp":"全鞋體"},{"id":"f13","name":"鞋面防水","code":"WPA","menu":"WPA","full":"鞋面防水 WPA","grp":"鞋面"},{"id":"f14","name":"防滑","code":"SR","menu":"SR","full":"防滑 SR","grp":"鞋底"},{"id":"f15","name":"卡梯功能","code":"LG","menu":"LG","full":"卡梯功能 LG","grp":"鞋底"},{"id":"f16","name":"鞋底耐油","code":"FO","menu":"FO","full":"鞋底耐油 FO","grp":"鞋底"},{"id":"f17","name":"鞋底耐熱","code":"HRO","menu":"HRO","full":"鞋底耐熱 HRO","grp":"鞋底"},{"id":"o1","name":"塑鋼保護頭","code":"CAP C","menu":"CAP C","full":"塑鋼保護頭 CAP C","grp":"全鞋體"},{"id":"o2","name":"鋁合金保護頭","code":"CAP A","menu":"CAP A","full":"鋁合金保護頭 CAP A","grp":"全鞋體"},{"id":"o3","name":"鋼製保護頭","code":"CAP S","menu":"CAP S","full":"鋼製保護頭 CAP S","grp":"全鞋體"},{"id":"o4","name":"防穿刺細釘","code":"PS","menu":"PS","full":"防穿刺細釘 PS","grp":"全鞋體"},{"id":"o5","name":"防穿刺粗釘","code":"PL","menu":"PL","full":"防穿刺粗釘 PL","grp":"全鞋體"},{"id":"o6","name":"防靜電 A","code":"A","menu":"","full":"防靜電 A","grp":"全鞋體"},{"id":"o7","name":"防靜電 ESD","code":"ESD","menu":"","full":"防靜電 ESD","grp":"全鞋體"}];
+var CERTS=[{"id":"c1","name":"CNS 20345:2015"},{"id":"c2","name":"CE EN ISO 20345:2022"}];
+var PRODUCTS=[{"id":"SF2540DBR","name":"啟航者","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2540dbr","img":"https://img.shoplineapp.com/media/image_clips/6a3c8ebbf687852a2ecce5ab/original.png?1782353595=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"PU","toe":"塑鋼","shaft":"12cm","weight":"650g±3% (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f6","f13","f14","f16","o1","o4"],"certs":["c1"]},{"id":"SF2540BLK","name":"啟航者","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2540blk","img":"https://img.shoplineapp.com/media/image_clips/6a46250b7b0ac4521cce7b65/original.png?1782981898=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"PU","toe":"塑鋼","shaft":"12cm","weight":"650g±3% (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f6","f13","f14","f16","o1","o4"],"certs":["c1"]},{"id":"SF2541DBR","name":"啟航靴","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2541dbr","img":"https://img.shoplineapp.com/media/image_clips/6a3cd04b6656172dc4f781c7/original.png?1782370379=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"PU","toe":"塑鋼","shaft":"19cm","weight":"700g±3% (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f6","f13","f14","f16","o1","o4"],"certs":["c1"]},{"id":"SF2541BLK","name":"啟航靴","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2541blk","img":"https://img.shoplineapp.com/media/image_clips/6a4622460cad2fc751ce7336/original.png?1782981190=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"PU","toe":"塑鋼","shaft":"19cm","weight":"700g±3% (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f6","f13","f14","f16","o1","o4"],"certs":["c1"]},{"id":"SF2501BLK","name":"突破者","series":"SD 防水透氣快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2501blk","img":"https://img.shoplineapp.com/media/image_clips/68423fb0cacf32000d9484fe/original.jpg?1749172144","spec":{"grade":"SBPS","upper":"透氣網布","sole":"SD","toe":"塑鋼","shaft":"19cm","weight":"690g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f2","f3","f5","f6","f7","f8","f9","f10","f11","f12","f13","f14","f16","f17","o1","o4"],"certs":["c1"]},{"id":"SF2409BLK","name":"護神靴","series":"防水速旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2409blk","img":"https://img.shoplineapp.com/media/image_clips/67860f2833e6e4000c5e24c9/original.jpg?1736838951","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"CE","toe":"鋁合金","shaft":"25cm","weight":"800g (EUR43)","width":"2E","size":"36-48"},"features":["f1","f3","f4","f5","f6","f7","f8","f9","f10","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1"]},{"id":"SF2328RED","name":"極潮靴","series":"鞋面防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2328red","img":"https://img.shoplineapp.com/media/image_clips/67cfda75b03b435b1bb74502/original.jpg?1741675125","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"AF","toe":"鋁合金","shaft":"17cm","weight":"545g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f3","f6","f13","f14","f16","f17","o2","o4"],"certs":["c1"]},{"id":"SF2328BLK","name":"極潮靴","series":"鞋面防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2328blk","img":"https://img.shoplineapp.com/media/image_clips/67cfd0cc3c1e1600102b7b50/original.jpg?1741672652","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"AF","toe":"鋁合金","shaft":"17cm","weight":"545g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f3","f6","f13","f14","f16","f17","o2","o4"],"certs":["c1"]},{"id":"SF2307GRN","name":"戰神靴","series":"SD 防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2307grn","img":"https://img.shoplineapp.com/media/image_clips/67651b25b4f0d01fe6ab3038/original.jpg?1734679332","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"SD","toe":"鋁合金","shaft":"19cm","weight":"720g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f5","f6","f7","f8","f9","f10","f11","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1"]},{"id":"SF2307ORG","name":"戰神靴","series":"SD 防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2307org","img":"https://img.shoplineapp.com/media/image_clips/67652100944eae000d78a47d/original.jpg?1734680832","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"SD","toe":"鋁合金","shaft":"19cm","weight":"720g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f5","f6","f7","f8","f9","f10","f11","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1"]},{"id":"SF2380WHT","name":"極雨鞋","series":"極輕量抓梯絕緣安全雨鞋","url":"https://www.patroni.com.tw/products/patroni-sf2380wht","img":"https://img.shoplineapp.com/media/image_clips/674d1fed408abb000f101d8a/original.jpg?1733107693","spec":{"grade":"SBPS","upper":"IP","sole":"IP 一體成型","toe":"塑鋼","shaft":"40cm","weight":"800g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f2","f5","f6","f10","f11","f13","f14","f15","o1","o4"],"certs":["c1"]},{"id":"SF2380DGN","name":"極雨鞋","series":"極輕量抓梯絕緣安全雨鞋","url":"https://www.patroni.com.tw/products/patroni-sf2380dgn","img":"https://img.shoplineapp.com/media/image_clips/6748249b6d6a27000bf21755/original.jpg?1732781211","spec":{"grade":"SBPS","upper":"IP","sole":"IP 一體成型","toe":"塑鋼","shaft":"40cm","weight":"800g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f2","f5","f6","f10","f13","f14","f15","o1","o4"],"certs":["c1"]},{"id":"SH20074HCI","name":"霜降靴","series":"鞋面防水旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sh20074hci","img":"https://img.shoplineapp.com/media/image_clips/674927e04de52a000e370405/original.jpg?1732847583","spec":{"grade":"SBPL","upper":"超纖皮革","sole":"CE","toe":"塑鋼","shaft":"16cm","weight":"590g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f2","f3","f6","f10","f13","f14","f16","f17","o1","o5"],"certs":["c1"]},{"id":"SF2406","name":"縱橫者","series":"LG 快旋鈕抗靜電安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2406","img":"https://img.shoplineapp.com/media/image_clips/690499579080fa001451acbb/original.jpg?1761909078=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"S1PL","upper":"透氣網布","sole":"LG","toe":"塑鋼","shaft":"12cm","weight":"525g (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f3","f11","f14","f15","f16","o1","o5","o6"],"certs":["c1"]},{"id":"SF2316","name":"攀登者","series":"LG 鞋面防水抗靜電安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2316","img":"https://img.shoplineapp.com/media/image_clips/69049774b4cf7e001690dc39/original.jpg?1761908596=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"S3L","upper":"超纖皮革","sole":"LG","toe":"塑鋼","shaft":"12cm","weight":"513g (EUR41)","width":"2E","size":"36-47"},"features":["f1","f2","f11","f13","f14","f15","f16","o1","o5","o6"],"certs":["c1","c2"]},{"id":"SF2326WHT","name":"鬆板鞋","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2326wht","img":"https://img.shoplineapp.com/media/image_clips/659cfbf7337ae4000113a59a/original.jpg?1704786935","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"AF","toe":"鋁合金","shaft":"12cm","weight":"465g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f6","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SF2326BLK","name":"鬆板鞋","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2326blk","img":"https://img.shoplineapp.com/media/image_clips/659cfbf7337ae4000113a596/original.jpg?1704786935","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"AF","toe":"鋁合金","shaft":"12cm","weight":"465g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f6","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SF2326BLU","name":"鬆板鞋","series":"鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2326blu","img":"https://img.shoplineapp.com/media/image_clips/659cfbf7ba44ff000136d90d/original.jpg?1704786934","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"AF","toe":"鋁合金","shaft":"12cm","weight":"465g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f6","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SF2380BLK","name":"極雨鞋","series":"極輕量抓梯絕緣安全雨鞋","url":"https://www.patroni.com.tw/products/patroni-sf2380","img":"https://img.shoplineapp.com/media/image_clips/67482007b1e5f60ffefecf2f/original.jpg?1732780039","spec":{"grade":"SBPS","upper":"IP","sole":"IP 一體成型","toe":"塑鋼","shaft":"40cm","weight":"800g (EUR41)","width":"2E","size":"37-46"},"features":["f1","f2","f5","f6","f10","f13","f14","f15","o1","o4"],"certs":["c1"]},{"id":"SF2319BLK","name":"梯行者","series":"LG 鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2319blk","img":"https://img.shoplineapp.com/media/image_clips/6904983a7aeaef0010f7b737/original.jpg?1761908794=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPL","upper":"透氣網布","sole":"LG","toe":"鋁合金","shaft":"12cm","weight":"530g (EUR41)","width":"2E","size":"36-46"},"features":["f1","f6","f11","f13","f14","f15","f16","o2","o5"],"certs":["c1","c2"]},{"id":"SF2319RED","name":"梯行者","series":"LG 鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2319red","img":"https://img.shoplineapp.com/media/image_clips/6904987917dbc50012ac11d6/original.jpg?1761908857=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPL","upper":"透氣網布","sole":"LG","toe":"鋁合金","shaft":"12cm","weight":"530g (EUR41)","width":"2E","size":"36-46"},"features":["f1","f6","f11","f13","f14","f15","f16","o2","o5"],"certs":["c1","c2"]},{"id":"SF2306","name":"創造者","series":"SD 鞋面防水絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2306","img":"https://img.shoplineapp.com/media/image_clips/6581ad085444f9001ae78a72/original.jpg?1702997256","spec":{"grade":"SBPL","upper":"超纖皮革","sole":"SD","toe":"鋁合金","shaft":"12cm","weight":"620g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f6","f11","f13","f14","f16","f17","o2","o5"],"certs":["c1"]},{"id":"SF2307BLK","name":"戰神靴","series":"SD 防水快旋鈕抗靜電安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2307blk","img":"https://img.shoplineapp.com/media/image_clips/674b3689ede647000b662191/original.jpg?1732982408","spec":{"grade":"S7S","upper":"頂級牛皮","sole":"SD","toe":"塑鋼","shaft":"19cm","weight":"720g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f2","f3","f5","f7","f8","f9","f10","f11","f12","f13","f14","f16","f17","o1","o4","o7"],"certs":["c1","c2"]},{"id":"SF2307BRN","name":"戰神靴","series":"SD 防水快旋鈕抗靜電安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2307brn","img":"https://img.shoplineapp.com/media/image_clips/674b3623c63960000a7ba682/original.jpg?1732982306","spec":{"grade":"S7S","upper":"頂級牛皮","sole":"SD","toe":"塑鋼","shaft":"19cm","weight":"720g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f2","f3","f5","f7","f8","f9","f10","f11","f12","f13","f14","f16","f17","o1","o4","o7"],"certs":["c1","c2"]},{"id":"SF2205","name":"逆天靴","series":"SD 防水快旋鈕抗靜電安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2205","img":"https://img.shoplineapp.com/media/image_clips/690499beeff6e700120b5f56/original.jpg?1761909182=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"S7S","upper":"超纖皮革","sole":"SD","toe":"塑鋼","shaft":"19cm","weight":"580g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f2","f3","f5","f11","f12","f13","f14","f16","f17","o1","o4","o6"],"certs":["c1","c2"]},{"id":"SF2206","name":"絕地靴","series":"SD 防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2206","img":"https://img.shoplineapp.com/media/image_clips/690498f00bafc0000c3dfce1/original.jpg?1761908976=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"超纖皮革","sole":"SD","toe":"鋁合金","shaft":"19cm","weight":"580g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f5","f6","f11","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SF2207","name":"暗影靴","series":"SD 防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2207","img":"https://img.shoplineapp.com/media/image_clips/69049a19c3c65c000e694523/original.jpg?1761909272=&owner_id=6572a1b95ad192005192397e","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"SD","toe":"鋁合金","shaft":"15cm","weight":"670g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f5","f6","f11","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SF2208","name":"暗影鞋","series":"SD 防水快旋鈕絕緣安全鞋","url":"https://www.patroni.com.tw/products/patroni-sf2208","img":"https://img.shoplineapp.com/media/image_clips/6581ad0864ca7e0014dca856/original.jpg?1702997255","spec":{"grade":"SBPS","upper":"頂級牛皮","sole":"SD","toe":"鋁合金","shaft":"12cm","weight":"570g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f5","f6","f11","f12","f13","f14","f16","f17","o2","o4"],"certs":["c1","c2"]},{"id":"SH20033L","name":"守衛者 ExpEnergy","series":"鞋面防水旋鈕絕緣防滑安全鞋","url":"https://www.patroni.com.tw/products/patroni-energy","img":"https://img.shoplineapp.com/media/image_clips/6592b79bdd697b000152cddf/original.jpg?1704114075","spec":{"grade":"SBPL","upper":"超纖皮革","sole":"CE","toe":"鋁合金","shaft":"12cm","weight":"450g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f6","f13","f14","f16","f17","o2","o5"],"certs":["c1"]},{"id":"SH20074H","name":"開拓者 ExpSolid H","series":"鞋面防水旋鈕絕緣防滑安全鞋","url":"https://www.patroni.com.tw/products/patroni-expsolidh","img":"https://img.shoplineapp.com/media/image_clips/6594cd16447e0500013b9aa9/original.jpg?1704250645","spec":{"grade":"SBPL","upper":"超纖皮革","sole":"CE","toe":"鋁合金","shaft":"15cm","weight":"480g (EUR41)","width":"2E","size":"36-48"},"features":["f1","f3","f6","f13","f14","f16","f17","o2","o5"],"certs":["c1"]}];
+var DATA_BUILT="2026-10-29 04:39 UTC";
+/* DATA-END */
 
 var F={},C={},P={};
 FEATURES.forEach(function(x){F[x.id]=x;});
 CERTS.forEach(function(x){C[x.id]=x;});
 PRODUCTS.forEach(function(x){P[x.id]=x;});
 
+function tally(key){
+  var n=0;
+  for(var i=0;i<PRODUCTS.length;i++) if(has(PRODUCTS[i],key)) n++;
+  return n;
+}
 var OPTGROUPS=[
-  {name:"功能", items:FEATURES.map(function(f){return {key:"f:"+f.id,name:f.name,code:f.code};})},
-  {name:"認證", items:CERTS.map(function(c){return {key:"c:"+c.id,name:c.name,code:""};})}
+  {name:"功能", items:FEATURES.map(function(f){
+    return {key:"f:"+f.id,name:f.name,code:f.menu,full:fname(f),n:tally("f:"+f.id)};})},
+  {name:"認證", items:CERTS.map(function(c){
+    return {key:"c:"+c.id,name:c.name,code:"",full:c.name,n:tally("c:"+c.id)};})}
 ];
 var OPTMAP={};
 OPTGROUPS.forEach(function(g){g.items.forEach(function(o){OPTMAP[o.key]=o;});});
 
-var SPEC_ROWS=[["grade","安全等級"],["upper","鞋面材質"],["sole","大　　底"],["shaft","筒　　高"],["weight","重　　量"],["width","楦　　寬"],["size","鞋碼範圍"]];
 var CARDS_PER_PAGE=8;
 var M={};
 function readMetrics(){
@@ -645,8 +517,8 @@ var elHead=$("pt-headline"), elPills=$("pt-pills"), elRes=$("pt-results");
 var elView=$("pt-viewbtn"), elToggle=$("pt-toggle"), elToggleLb=$("pt-togglelabel");
 var elLimit=$("pt-limit"), elLogic=$("pt-logic");
 var elFieldModel=$("pt-field-model"), elFieldFeat=$("pt-field-feat");
-var elLb=$("pt-lb"), elLbImg=$("pt-lbimg");
 
+function fname(x){ return x ? (x.full||x.name) : ""; }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function W(){ return window.innerWidth||1024; }
 function narrow(){ return W()<600; }
@@ -695,7 +567,7 @@ function markOvf(el){
 }
 function justDragged(){ return Date.now()<DRAG_UNTIL; }
 
-var TOUCH_SEL=".pt-cchk,.pt-rowchk,.pt-dd-opt,.pt-dd-btn,.pt-toggle,.pt-btn,.pt-pg,.pt-crow,.pt-card,.pt-row";
+var TOUCH_SEL=".pt-cchk,.pt-rowchk,.pt-dd-opt,.pt-dd-btn,.pt-toggle,.pt-btn,.pt-pg,.pt-card,.pt-row";
 var touched=null;
 function setTouch(el){
   if(touched===el) return;
@@ -737,6 +609,7 @@ function makeDD(id,ph,multi,groups){
       d.opt[o.key]=o;
       return '<div class="pt-dd-opt" role="option" data-v="'+o.key+'" aria-selected="false">'+
         '<span class="pt-dd-box">'+CHECK+'</span><span>'+esc(o.name)+'</span>'+
+        (o.n===undefined?"":'<span class="pt-dd-ct">'+o.n+'</span>')+
         (o.code?'<span class="pt-dd-code">'+esc(o.code)+'</span>':"")+'</div>';
     }).join("");
   }).join("");
@@ -822,7 +695,7 @@ function syncBar(){
 
   var cs=[];
   if(applied.product) cs.push(['p','',P[applied.product]?P[applied.product].name+" "+applied.product:applied.product]);
-  applied.sel.forEach(function(k){ if(OPTMAP[k]) cs.push(['s',k,OPTMAP[k].name]); });
+  applied.sel.forEach(function(k){ if(OPTMAP[k]) cs.push(['s',k,OPTMAP[k].full]); });
   elPills.innerHTML = cs.length
     ? cs.map(function(x){
         return '<span class="pt-pill">'+esc(x[2])+'<button type="button" data-rm="'+x[0]+'" data-id="'+esc(x[1])+'" aria-label="移除">&times;</button></span>';
@@ -837,7 +710,7 @@ function syncBar(){
     elView.textContent = view==="detail" ? "返回列表" : "關閉比較";
     elView.disabled=false; elView.classList.add("is-active");
   } else {
-    elView.textContent = compare.length>=2 ? "比較 ("+compare.length+")" : "比較";
+    elView.textContent = compare.length>=2 ? "比較（"+compare.length+"）" : "比較";
     elView.disabled = compare.length<2; elView.classList.remove("is-active");
   }
 }
@@ -874,10 +747,10 @@ function tagStrip(p){
   var fs=p.features.slice().sort(function(a,b){return (isHitF(b)?1:0)-(isHitF(a)?1:0);});
   var cs=p.certs.slice().sort(function(a,b){return (isHitC(b)?1:0)-(isHitC(a)?1:0);});
   return '<div class="pt-tags pt-scrollx">'+
-      fs.map(function(id){ return '<span class="pt-tag'+(isHitF(id)?" pt-hit":"")+'">'+esc(F[id].name)+'</span>';}).join("")+
+      fs.map(function(id){ return '<span class="pt-tag'+(isHitF(id)?" pt-hit":"")+'">'+esc(fname(F[id]))+'</span>';}).join("")+
     '</div>'+
     '<div class="pt-tags pt-scrollx">'+
-      cs.map(function(id){ return '<span class="pt-tag pt-cert'+(isHitC(id)?" pt-hit":"")+'">'+esc(C[id].name)+'</span>';}).join("")+
+      cs.map(function(id){ return '<span class="pt-tag'+(isHitC(id)?" pt-hit":"")+'">'+esc(C[id].name)+'</span>';}).join("")+
     '</div>';
 }
 function dimClass(id){
@@ -1006,17 +879,18 @@ function renderDetail(H){
       }).join("")+'</ul>'+shopHTML(p)+pagerHTML(page,pagesF);
     return;
   }
-  var rowH=(narrow()?62:70)+8;
-  var perC=Math.max(1,Math.floor(avail/rowH));
-  var pagesC=Math.max(1,Math.ceil(p.certs.length/perC));
-  page=Math.min(Math.max(1,page),pagesC);
-  body.innerHTML='<div class="pt-clist">'+
-    p.certs.slice((page-1)*perC,(page-1)*perC+perC).map(function(cid){
-      var c=C[cid]; if(!c) return "";
-      return '<button type="button" class="pt-crow'+(isHitC(cid)?" pt-hit":"")+'" data-cert="'+c.id+'">'+
-        '<img src="'+esc(c.img)+'" alt="" loading="lazy">'+
-        '<span class="pt-cmeta"><b>'+esc(c.name)+'</b><span>'+esc(c.note)+'</span></span></button>';
-    }).join("")+'</div>'+shopHTML(p)+pagerHTML(page,pagesC);
+  function paintCerts(n){
+    var pg=Math.max(1,Math.ceil(p.certs.length/n));
+    page=Math.min(Math.max(1,page),pg);
+    body.innerHTML='<ul class="pt-plist">'+
+      p.certs.slice((page-1)*n,(page-1)*n+n).map(function(cid){
+        var c=C[cid]; if(!c) return "";
+        return '<li class="'+(isHitC(cid)?"pt-hit":"")+'"><span class="pt-fc">'+esc(c.name)+'</span></li>';
+      }).join("")+'</ul>'+shopHTML(p)+pagerHTML(page,pg);
+    return body.querySelector("ul").getBoundingClientRect().height;
+  }
+  var nC=p.certs.length, guard=0;
+  while(paintCerts(nC)>avail && nC>1 && guard++<24) nC--;
 }
 
 function renderCompare(H){
@@ -1049,7 +923,7 @@ function renderCompare(H){
   } else {
     rows=FEATURES.filter(function(f){return ps.some(function(p){return p.features.indexOf(f.id)>=0;});})
       .map(function(f){
-        return '<tr><td>'+esc(f.name)+'</td>'+ps.map(function(p){
+        return '<tr><td>'+esc(fname(f))+'</td>'+ps.map(function(p){
           return '<td>'+dot(p.features.indexOf(f.id)>=0)+'</td>';}).join("")+'</tr>';});
   }
   function paint(n){
@@ -1148,9 +1022,6 @@ elRes.addEventListener("click",function(e){
   var ct=e.target.closest("[data-ctab]");
   if(ct){ cTab=ct.getAttribute("data-ctab"); page=1; render(); return; }
 
-  var cert=e.target.closest("[data-cert]");
-  if(cert){ var c=C[cert.getAttribute("data-cert")]; if(c){ elLbImg.src=c.img; elLbImg.alt=c.name; elLb.hidden=false; } return; }
-
   if(justDragged()) return;  if(e.target.closest(".pt-cchk")||e.target.closest(".pt-rowchk")||e.target.closest("a")) return;
   var t=e.target.closest("[data-open]");
   if(!t) return;
@@ -1173,12 +1044,8 @@ elRes.addEventListener("change",function(e){
   if((compare.length>=maxCompare())!==wasFull) render(); else syncBar();
 });
 
-$("pt-lbx").addEventListener("click",function(e){ e.stopPropagation(); elLb.hidden=true; });
-elLb.addEventListener("click",function(){ elLb.hidden=true; });
-
 document.addEventListener("keydown",function(e){
   if(e.key!=="Escape") return;
-  if(!elLb.hidden){ elLb.hidden=true; return; }
   closeDD();
   if(view!=="cards"){ view="cards"; detailId=""; page=1; setCollapsed(false); render(); }
 });
