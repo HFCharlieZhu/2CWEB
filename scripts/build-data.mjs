@@ -62,6 +62,7 @@ function parseCSV(text) {
 }
 
 function toObjects(rows) {
+  if (!rows.length) return [];
   const head = rows[0].map((h) => fix(h));
   return rows.slice(1).map((r) => {
     const o = {};
@@ -85,7 +86,8 @@ async function grab(name) {
   const local = path.join(ROOT, "data", `${name}.csv`);
   const need = MUST_HAVE[name];
   const check = (rows, how) => {
-    const head = rows.length ? Object.keys(rows[0]) : [];
+    if (!rows.length) return { name, err: "這張表讀起來是空的（沒有標題列或沒有資料）。", how };
+    const head = Object.keys(rows[0]);
     const miss = need.filter((h) => !head.includes(h));
     if (miss.length)
       return { name, err: `讀到的不是 ${name} 這張表（缺少欄位 ${miss.join("、")}）。`
@@ -121,7 +123,11 @@ async function ogImage(pageUrl) {
   } catch { return ""; }
 }
 
-const slug = (s) => s.replace(/[^\w一-鿿]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+function hash6(s) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(36).slice(0, 6);
+}
 
 function die(msg) { console.error("\n✗ 建置中止：" + msg + "\n  index.html 未更動，線上維持舊資料。"); process.exit(1); }
 
@@ -129,7 +135,7 @@ const raw = fs.readFileSync(HTML, "utf8");
 const a = raw.indexOf(MARK_A), b = raw.indexOf(MARK_B);
 if (a < 0 || b < 0) die(`index.html 裡找不到 ${MARK_A} / ${MARK_B} 標記`);
 const prevBlock = raw.slice(a + MARK_A.length, b);
-const prevCount = (prevBlock.match(/\{id:"/g) || []).length;
+const prevCount = +((prevBlock.match(/var DATA_COUNT=(\d+)/) || [])[1] || 0);
 
 console.log("讀取試算表…");
 const got = await Promise.all(["products", "features", "options", "certs"].map(grab));
@@ -172,13 +178,13 @@ const SPEC_KEYS = [["grade","安全等級"],["upper","鞋面材質"],["sole","�
 
 const feats = [];
 featRows.forEach((r, i) => feats.push({
-  id: "f" + (i + 1), col: r["對應欄位"], name: r["中文名稱"], code: r["英文簡稱"] || "",
+  id: "f" + hash6(r["對應欄位"]), col: r["對應欄位"], name: r["中文名稱"], code: r["英文簡稱"] || "",
   grp: r["分類"] || "", ord: num(r["顯示順序"]) || i + 1, kind: "ox"
 }));
 O.forEach((r, i) => {
   const parent = multiRows.find((m) => m["對應欄位"] === r["對應欄位"]);
   feats.push({
-    id: "o" + (i + 1), col: r["對應欄位"], val: r["儲存格的值"], name: r["搜尋選單顯示"],
+    id: "o" + hash6(r["對應欄位"] + "\u0000" + r["儲存格的值"]), col: r["對應欄位"], val: r["儲存格的值"], name: r["搜尋選單顯示"],
     code: r["膠囊代碼"] || "", grp: (parent && parent["分類"]) || "全鞋體",
     ord: 1000 + (num(r["顯示順序"]) || i + 1), kind: "val"
   });
@@ -191,9 +197,13 @@ if (unknown.size) console.warn(`  ! 筆畫表沒收錄這些字，暫時排在�
 
 const certs = C.map((r, i) => {
   const name = r["認證名稱"] || r["對應欄位"];
-  return { id: "c" + (i + 1), col: r["對應欄位"], name,
+  return { id: "c" + hash6(r["對應欄位"]), col: r["對應欄位"], name,
            code: r["膠囊代碼"] || name.split(/[\s:]/)[0], ord: num(r["顯示順序"]) || i + 1 };
 }).sort((x, y) => x.ord - y.ord);
+
+const allIds = [...feats.map((f) => f.id), ...certs.map((c) => c.id)];
+const idDup = allIds.filter((x, i) => allIds.indexOf(x) !== i);
+if (idDup.length) die("功能／認證的識別碼撞號：" + [...new Set(idDup)].join("、"));
 
 const products = [];
 for (const r of live) {
@@ -234,6 +244,7 @@ var FEATURES=${j(feats.map((f) => { const L = label(f); return { id: f.id, name:
 var CERTS=${j(certs.map((c) => ({ id: c.id, name: c.name, code: c.code })))};
 var PRODUCTS=${j(products)};
 var DATA_BUILT=${j(new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC")};
+var DATA_COUNT=${products.length};
 `;
 fs.writeFileSync(HTML, raw.slice(0, a + MARK_A.length) + block + raw.slice(b));
 
